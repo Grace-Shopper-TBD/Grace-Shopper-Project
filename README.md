@@ -3,4 +3,5 @@
 
 Karalyn Ferrari
 Ali Ebner
+Shoshana Rosenfield
 
