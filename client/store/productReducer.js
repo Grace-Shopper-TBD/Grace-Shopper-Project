@@ -49,7 +49,7 @@ export const fetchProducts = () => async dispatch => {
 export default function(state = products, action) {
   switch (action.type) {
     case SET_PRODUCTS:
-      return action.productList
+      return {...state, list: action.productList, isLoading: false, gotError: false}
     case FILTER_PRODUCTS:
       return state.filter((product) => product[category].contains(action.filter))
     case LOADING_PRODUCTS:
