@@ -5,11 +5,16 @@ import axios from 'axios'
  */
 export const SET_PRODUCTS = 'SET_PRODUCTS'
 const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
-
+const LOADING_PRODUCTS = 'LOADING_PRODUCTS'
+const LOADING_PROBLEM = 'LOADING_PROBLEM'
 /**
  * INITIAL STATE
  */
-const products = []
+const products = {
+  list: [],
+  isLoading: false,
+  gotError: false
+}
 
 /**
  * ACTION CREATORS
@@ -47,6 +52,10 @@ export default function(state = products, action) {
       return action.productList
     case FILTER_PRODUCTS:
       return state.filter((product) => product[category].contains(action.filter))
+    case LOADING_PRODUCTS:
+      return {...state, isLoading: true}
+    case LOADING_PROBLEM:
+      return {...state, gotError: true}
     default:
       return state
   }
