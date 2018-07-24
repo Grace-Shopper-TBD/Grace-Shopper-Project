@@ -47,12 +47,13 @@ const categories = await Promise.all([
   Category.create({
   name: 'Family Vacation',
 })
+// console.log('categories',categories)
 ])
 
-// await Promise.all([
-//   products[0].setCategory(categories[0]),
-//   products[1].setCategory(categories[1])
-// ])
+await Promise.all([
+  products[0].addCategory(categories[0]),
+  products[1].addCategory(categories[1])
+])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
   console.log(`seeded ${users.length} users`)
