@@ -3,8 +3,8 @@ import axios from 'axios'
 /*
  * ACTION TYPES
  */
-const SET_PRODUCTS = 'SET_PRODUCTS'
-const FILTER_PRODCUTS = 'FILTER_PRODCUTS'
+export const SET_PRODUCTS = 'SET_PRODUCTS'
+const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
 
 /**
  * INITIAL STATE
@@ -14,15 +14,17 @@ const products = []
 /**
  * ACTION CREATORS
  */
-const setProducts = (products => {
+const setProducts = (productList => ({
   type: SET_PRODUCTS,
-  products
-})
+  productList
+}))
 
-export const filterProducts = (filter => {
-  type: FILTER_PRODCUTS,
+export const filterProducts = (filter => ({
+  type: FILTER_PRODUCTS,
   filter
-})
+}))
+
+
 /**
  * THUNK CREATORS
  */
@@ -42,9 +44,9 @@ export const fetchProducts = () => async dispatch => {
 export default function(state = products, action) {
   switch (action.type) {
     case SET_PRODUCTS:
-      return products
-    case FILTER_PRODCUTS:
-      return state.filter((product) => product[category].contains(filter))
+      return action.productList
+    case FILTER_PRODUCTS:
+      return state.filter((product) => product[category].contains(action.filter))
     default:
       return state
   }
