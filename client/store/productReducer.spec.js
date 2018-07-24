@@ -1,36 +1,36 @@
-import {expect} from 'chai'
-import {fetchProducts, filterProducts, SET_PRODUCTS} from './user'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
-import configureMockStore from 'redux-mock-store'
-import thunkMiddleware from 'redux-thunk'
+// import {expect} from 'chai'
+// import {fetchProducts, filterProducts, SET_PRODUCTS} from './user'
+// import axios from 'axios'
+// import MockAdapter from 'axios-mock-adapter'
+// import configureMockStore from 'redux-mock-store'
+// import thunkMiddleware from 'redux-thunk'
 
-const middlewares = [thunkMiddleware]
-const mockStore = configureMockStore(middlewares)
+// const middlewares = [thunkMiddleware]
+// const mockStore = configureMockStore(middlewares)
 
-describe('thunk creators', () => {
-  let store
-  let mockAxios
+// describe('thunk creators', () => {
+//   let store
+//   let mockAxios
 
-  const initialState = {product:[]}
+//   const initialState = {product:[]}
 
-  beforeEach(() => {
-    mockAxios = new MockAdapter(axios)
-    store = mockStore(initialState)
-  })
+//   beforeEach(() => {
+//     mockAxios = new MockAdapter(axios)
+//     store = mockStore(initialState)
+//   })
 
-  afterEach(() => {
-    mockAxios.restore()
-    store.clearActions()
-  })
+//   afterEach(() => {
+//     mockAxios.restore()
+//     store.clearActions()
+//   })
 
-  describe('FetchStudents', () => {
-    it('eventually dispatches the SET Students action', async () => {
-      const fakeProducts = ['working']
-      mockAxios.onGet('/api/products').replyOnce(200, fakeProducts)
-      await store.dispatch(fetchProducts())
-      const actions = store.getActions()
-      expect(actions[0].type).to.be.equal(SET_PRODUCTS)
-      expect(actions[0].products).to.be.deep.equal(fakeProducts)
-    })
-  })
+//   describe('FetchStudents', () => {
+//     it('eventually dispatches the SET Students action', async () => {
+//       const fakeProducts = ['working']
+//       mockAxios.onGet('/api/products').replyOnce(200, fakeProducts)
+//       await store.dispatch(fetchProducts())
+//       const actions = store.getActions()
+//       expect(actions[0].type).to.be.equal(SET_PRODUCTS)
+//       expect(actions[0].products).to.be.deep.equal(fakeProducts)
+//     })
+//   })
