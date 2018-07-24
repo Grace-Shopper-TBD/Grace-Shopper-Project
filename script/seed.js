@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Product, Category} = require('../server/db/models')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -24,9 +24,40 @@ async function seed() {
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'})
   ])
+  const products = await Promise.all([
+    Product.create({
+    title: 'Hawaii',
+    description: 'Lets get some sun!',
+    price: 2000,
+    quantity: 2,
+    availability: 'Available'
+  }),
+    Product.create({
+    title: 'Italy',
+    description: 'Lets eat some pasta!',
+    price: 1500,
+    quantity: 2,
+    availability: 'Available'
+  })
+])
+const categories = await Promise.all([
+  Category.create({
+  name: 'Romantic Getaway',
+}),
+  Category.create({
+  name: 'Family Vacation',
+})
+])
+
+// await Promise.all([
+//   products[0].setCategory(categories[0]),
+//   products[1].setCategory(categories[1])
+// ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${products.length} products`)
+  console.log(`seeded ${categories.length} categories`)
   console.log(`seeded successfully`)
 }
 
