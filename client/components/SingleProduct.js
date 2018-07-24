@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 // import potential thunks from the store
 
-
 class SingleProduct extends Component {
 
-    
+
     render(){
         return(
             <div>
