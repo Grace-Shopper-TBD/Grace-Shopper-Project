@@ -37,6 +37,7 @@ export const filterProducts = (filter => ({
 export const fetchProducts = () => async dispatch => {
   try {
     const res = await axios.get('/api/products/')
+    console.log("res data!!!", res.data)
     dispatch(setProducts(res.data))
   } catch (err) {
     console.error(err)
