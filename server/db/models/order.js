@@ -18,6 +18,10 @@ const Order = db.define('order', {
     },
     recipientAddress: {
         type: Sequelize.STRING
+    },
+    isCart: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     }
 })
 
