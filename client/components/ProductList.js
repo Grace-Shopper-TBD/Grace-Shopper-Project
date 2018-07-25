@@ -12,21 +12,22 @@ const ProductList = ({products}) => {
             </div>
         )
     }
-
+    
     return (
         <div>
+        <h1>All Vacations</h1>
             {
-                products.map((product) => {
-                    <ProductItem product={product}/>
-                })
+                products.map((product) => (
+                    <div key={product.id}>
+                        <ProductItem product={product}/>
+                    </div>
+                ))
             }
-            <h1>All Vacations</h1>
         </div>
     )
 }
 
 const mapState = (state) => {
-    console.log('this is the state for the component', state.product.list)
     return {
     products: state.product.list,
     isLoading: state.product.isLoading,
