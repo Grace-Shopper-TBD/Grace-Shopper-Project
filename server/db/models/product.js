@@ -20,6 +20,7 @@ const Product = db.define('product', {
     type: Sequelize.DECIMAL(10,2),
   },
   quantity: {
+    //min value
     type: Sequelize.INTEGER,
     defaultValue: 0
   },
