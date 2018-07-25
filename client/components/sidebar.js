@@ -25,17 +25,18 @@ import { fetchCategories } from '../store/categoryReducer'
 
 class Sidebar extends Component {
 
- constructor(){
- 	super()
- 	this.state = {
- 		categoryName : ''
- 	}
- 	this.handleChange = this.handleChange.bind(this)
- }
+	constructor(){
+	 	super()
+	 	this.state = {
+	 		categoryName : ''
+	 	}
+	 	this.handleChange = this.handleChange.bind(this)
+	 }
+
 	componentDidMount(){
 		this.props.fetchCategories()
 	}
-	
+
 	async handleChange(event){
 		event.persist()
 		await this.props.fetchProducts()
@@ -69,9 +70,9 @@ class Sidebar extends Component {
 			          ))
 			        }
 			      </select>
-    			</form>
+				</form>
 			)
-	}
+		}
 }
 
 const mapStateToProps = state => {
