@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import {fetchCategories, SET_CATEGORIES, } from './categoryReducer'
+import {fetchCategories, SET_CATEGORIES} from './categoryReducer'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import configureMockStore from 'redux-mock-store'
@@ -27,12 +27,12 @@ describe('thunk creators', () => {
   describe('Fetch Categories', () => {
     it('eventually dispatches the set categories action', async () => {
       const fakeCategories = ['working']
-      mockAxios.onGet('/api/categories/').replyOnce(200, fakeCategories)
+      mockAxios.onGet('/api/categories').replyOnce(200, fakeCategories)
       await store.dispatch(fetchCategories())
       const actions = store.getActions()
       console.log(actions)
       expect(actions[0].type).to.be.equal(SET_CATEGORIES)
-      expect(actions[0].productList).to.be.deep.equal(fakeCategories)
+      expect(actions[0].categoriesList).to.be.deep.equal(fakeCategories)
     })
   })
 })
