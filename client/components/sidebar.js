@@ -3,39 +3,20 @@ import { connect } from 'react-redux';
 import { filterProducts, fetchProducts } from '../store/productReducer'
 import { fetchCategories } from '../store/categoryReducer'
 
-// const Sidebar = (props) => {
-// 	return (
-// 			<div id='sidebar'>
-// 				<img />
-// 				<section>
-// 					<form>
-// 			      <label>Filter By Category</label>
-// 			      <select name='categoryName'>
-// 			        <option value='All'>All</option>
-// 			        	<option>Romantic</option>
-// 			        	<option>Family</option>
-// 			      </select>
-//     			</form>
-// 				</section>
-// 			</div>
-// 		)
-// }
-
-// export default Sidebar
-
 class Sidebar extends Component {
 
- constructor(){
- 	super()
- 	this.state = {
- 		categoryName : ''
- 	}
- 	this.handleChange = this.handleChange.bind(this)
- }
+	constructor(){
+	 	super()
+	 	this.state = {
+	 		categoryName : ''
+	 	}
+	 	this.handleChange = this.handleChange.bind(this)
+	 }
+
 	componentDidMount(){
 		this.props.fetchCategories()
 	}
-	
+
 	async handleChange(event){
 		event.persist()
 		await this.props.fetchProducts()
@@ -69,9 +50,9 @@ class Sidebar extends Component {
 			          ))
 			        }
 			      </select>
-    			</form>
+				</form>
 			)
-	}
+		}
 }
 
 const mapStateToProps = state => {
