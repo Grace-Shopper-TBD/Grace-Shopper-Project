@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 // import potential thunks from the store
 
-class SingleProduct extends Component {
+const SingleProduct = ({product}) => {
+    console.log('is SingleProduct even showing up?', product)
 
-
-    render(){
         return(
             <div>
+                <h1>{product.title}</h1>
             </div>
         )
-    }
+    
 }
 
 const mapState = (state, {match}) => ({
