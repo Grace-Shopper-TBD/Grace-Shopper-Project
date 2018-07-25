@@ -37,11 +37,11 @@ class Sidebar extends Component {
 	}
 	
 	async handleChange(event){
-		console.log(event.target.value)
+		event.persist()
+		await this.props.fetchProducts()
 		await this.setState({
 			categoryName: event.target.value
 		})
-		console.log(this.state)
 		this.state.categoryName === 'All' ? this.props.fetchProducts() : this.props.filterProducts(this.state.categoryName)
 	}
 
