@@ -17,6 +17,20 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/:id', async(req,res,next) => {
+  try {
+    const product = await Product.findById(req.params.id)
+    if(!product) {
+      const err = new Error('No product found!')
+      err.status = 404
+      return next(err)
+    }
+    res.json(product)
+  } catch(err){
+    next(err)
+  }
+})
+
 
 
 module.exports = router
