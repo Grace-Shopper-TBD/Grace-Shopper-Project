@@ -51,7 +51,14 @@ export default function(state = products, action) {
     case SET_PRODUCTS:
       return action.productList
     case FILTER_PRODUCTS:
-      return state.filter((product) => product[category].contains(action.filter))
+      return state.filter((product) => {
+        let cat = product.categories
+        for (let i =0; i< cat.length; i++){
+          if(cat[i].name === action.filter)
+            return true
+        }
+        return false
+        })
     case LOADING_PRODUCTS:
       return {...state, isLoading: true}
     case LOADING_PROBLEM:
