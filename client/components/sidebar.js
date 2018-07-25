@@ -3,26 +3,6 @@ import { connect } from 'react-redux';
 import { filterProducts, fetchProducts } from '../store/productReducer'
 import { fetchCategories } from '../store/categoryReducer'
 
-// const Sidebar = (props) => {
-// 	return (
-// 			<div id='sidebar'>
-// 				<img />
-// 				<section>
-// 					<form>
-// 			      <label>Filter By Category</label>
-// 			      <select name='categoryName'>
-// 			        <option value='All'>All</option>
-// 			        	<option>Romantic</option>
-// 			        	<option>Family</option>
-// 			      </select>
-//     			</form>
-// 				</section>
-// 			</div>
-// 		)
-// }
-
-// export default Sidebar
-
 class Sidebar extends Component {
 
 	constructor(){
