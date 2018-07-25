@@ -37,6 +37,7 @@ export const filterProducts = (filter => ({
 export const fetchProducts = () => async dispatch => {
   try {
     const res = await axios.get('/api/products/')
+    console.log("res data!!!", res.data)
     dispatch(setProducts(res.data))
   } catch (err) {
     console.error(err)
@@ -51,8 +52,10 @@ export default function(state = products, action) {
     case SET_PRODUCTS:
       return {...state, list: action.productList, isLoading: false, gotError: false}
     case FILTER_PRODUCTS:{
-      let newList = state.filter((product) => {
+      let newList = state.list.filter((product) => {
+        console.log("this is product!!!", product)
         let cat = product.categories
+        console.log("categories!!!!:", cat)
         for (let i =0; i< cat.length; i++){
           if(cat[i].name === action.filter)
             return true
