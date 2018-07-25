@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 const ProductItem = ({product}) => {
-    if(!product){
-        return null
-    }
+    console.log('this is a product going into ProductItem', product)
+    // if(!product){
+    //     return null
+    // }
     return (
         <div key={product.id}>
             <img src={product.photo} id='product-photo'/>

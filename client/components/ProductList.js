@@ -5,6 +5,7 @@ import ProductItem from './ProductItem';
 //make sure to import any thunks here! We may add a mapDispatch later
 
 const ProductList = ({products}) => {
+    console.log('these are the products going into ProductList', products)
     if(!products){
         return (
             <div>
@@ -12,21 +13,20 @@ const ProductList = ({products}) => {
             </div>
         )
     }
-
+    
     return (
         <div>
+        <h1>All Vacations</h1>
             {
-                products.map((product) => {
+                products.map((product) => (
                     <ProductItem product={product}/>
-                })
+                ))
             }
-            <h1>All Vacations</h1>
         </div>
     )
 }
 
 const mapState = (state) => {
-    console.log('this is the state for the component', state.product.list)
     return {
     products: state.product.list,
     isLoading: state.product.isLoading,
