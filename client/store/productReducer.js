@@ -4,7 +4,7 @@ import axios from 'axios'
  * ACTION TYPES
  */
 export const SET_PRODUCTS = 'SET_PRODUCTS'
-const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
+export const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
 const LOADING_PRODUCTS = 'LOADING_PRODUCTS'
 const LOADING_PROBLEM = 'LOADING_PROBLEM'
 /**
@@ -51,7 +51,7 @@ export default function(state = products, action) {
     case SET_PRODUCTS:
       return {...state, list: action.productList, isLoading: false, gotError: false}
     case FILTER_PRODUCTS:{
-      let newList = state.filter((product) => {
+      let newList = state.list.filter((product) => {
         let cat = product.categories
         for (let i =0; i< cat.length; i++){
           if(cat[i].name === action.filter)
