@@ -5,7 +5,6 @@ import ProductItem from './ProductItem';
 //make sure to import any thunks here! We may add a mapDispatch later
 
 const ProductList = ({products}) => {
-    console.log('these are the products going into ProductList', products)
     if(!products){
         return (
             <div>
@@ -19,7 +18,9 @@ const ProductList = ({products}) => {
         <h1>All Vacations</h1>
             {
                 products.map((product) => (
-                    <ProductItem product={product}/>
+                    <div key={product.id}>
+                        <ProductItem product={product}/>
+                    </div>
                 ))
             }
         </div>
