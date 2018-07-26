@@ -2,7 +2,7 @@ const router = require('express').Router()
 const { Product, Category } = require('../db/models')
 const authorize = require('./authorize')
 
-router.get('/', authorize, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({include: [{
       model: Category
@@ -18,7 +18,7 @@ router.get('/', authorize, async (req, res, next) => {
   }
 })
 
-router.get('/:id', authorize, async(req,res,next) => {
+router.get('/:id', async(req,res,next) => {
   try {
     const product = await Product.findById(req.params.id)
     if(!product) {
