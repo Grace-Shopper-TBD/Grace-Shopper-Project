@@ -22,7 +22,7 @@ export const setCategories = categoriesList => ({
 // THUNK CREATORS
 export const fetchCategories = () => async dispatch =>{
   try{
-    const {data} = await axios.get('/api/users')
+    const {data} = await axios.get('/api/categories')
     dispatch(setCategories(data))
   } catch (err) {
     console.error(err)
