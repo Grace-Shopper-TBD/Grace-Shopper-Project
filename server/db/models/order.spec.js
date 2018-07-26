@@ -51,7 +51,8 @@ describe('field definitions', function() {
         return product1Promise
             .then(product1 => {
                 return Order.create({
-                    
+                    status: CREATED,
+                    subtotal: ''
                 })
             })
     })
