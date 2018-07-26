@@ -10,6 +10,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <nav>
       <div>
         <Link to="/products">Trip Catalog</Link>
+        <Link to='/orders/cart'><img src="http://icons.iconarchive.com/icons/iconsmind/outline/32/Shopping-Cart-icon.png" /></Link>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
