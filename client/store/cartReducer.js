@@ -11,6 +11,11 @@ import history from '../history'
 
 //Initial State??
 //would need one for using isLoading and gotError
+const initialState = {
+    list: [],
+    orderId: 0,
+    productId: 0
+}
 
 // Action types
 const GET_CART_ITEMS = 'GET_CART_ITEMS'
@@ -55,7 +60,7 @@ export const addItemToCart = (cartItem) => {
 
 
 //Reducer
-export default function(state=lineItems, action){
+export default function(state=initialState, action){
     switch(action.type){
         case GET_CART_ITEMS: {
             return action.cartItems
