@@ -22,7 +22,14 @@ const mapState = (state, {match}) => {
     }
 }
 
-// there is no mapDispatch for now but can be added later for imported thunks
+const mapDispatch = (dispatch, ownProps) => {
+    return {
+        // here we can dispatch an action called handleClick that will take in
+        // an 'addToCart thunk
+        
+        //and then maybe an action called getCart to dispatch a getCart thunk
+    }
+}
 
 
-export default connect(mapState, null)(SingleProduct)
+export default connect(mapState, mapDispatch)(SingleProduct)
