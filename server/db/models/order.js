@@ -7,9 +7,6 @@ const Order = db.define('order', {
         defaultValue: 'CREATED',
         allowNull: false
     },
-    subTotal: {
-        type: Sequelize.VIRTUAL
-    },
     recipientName: {
         type: Sequelize.STRING
     },
