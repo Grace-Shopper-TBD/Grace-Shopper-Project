@@ -2,7 +2,7 @@ const router = require('express').Router()
 const { Product, Category } = require('../db/models')
 const authorize = require('./authorize')
 
-router.get('/', async (req, res, next) => {
+router.get('/', authorize, async (req, res, next) => {
   try {
     const products = await Product.findAll({include: [{
       model: Category
@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async(req,res,next) => {
+router.get('/:id', authorize, async(req,res,next) => {
   try {
     const product = await Product.findById(req.params.id)
     if(!product) {
@@ -33,7 +33,7 @@ router.get('/:id', async(req,res,next) => {
 })
 
 
-router.post('/', async (req, res, next) => {
+router.post('/',authorize, async (req, res, next) => {
 
   try {
     const thing = await Product.create(req.body)
@@ -44,7 +44,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.use('/:id', async (req, res, next) => {
+router.use('/:id',authorize, async (req, res, next) => {
   try {
     const prod = await Product.findById(req.params.id)
     req.prod = prod
@@ -55,7 +55,7 @@ router.use('/:id', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async(req, res, next) => {
+router.put('/:id',authorize, async(req, res, next) => {
   try {
     const prod = await req.prod.update(req.body)
     res.json(prod)
@@ -65,7 +65,7 @@ router.put('/:id', async(req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req,res,next) => {
+router.delete('/:id',authorize, async (req,res,next) => {
   try {
     const deleteProd = await Product.destroy({where: { id: req.params.id}})
   res.sendStatus(204)
