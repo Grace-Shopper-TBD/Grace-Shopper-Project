@@ -1,5 +1,5 @@
 import axios from 'axios'
-import history from '..history'
+import history from '../history'
 
 const getCartLocal = function(){
     if(localStorage.lineItems){
@@ -9,7 +9,8 @@ const getCartLocal = function(){
     }
 }
 
-//get carts that have iscart as true and match the user id of user logged in 
+//Initial State??
+
 
 // Action types
 const GET_CART_ITEMS = 'GET_CART_ITEMS'
@@ -31,6 +32,7 @@ const addToCart = (cartItem) => ({
 
 
 //Thunks
+//get carts that have iscart as true and match the user id of user logged in 
 export const fetchCart = () => {
     try {
         return async dispatch => {
@@ -42,7 +44,7 @@ export const fetchCart = () => {
     }  
 }
 
-export const addItemCart = (cartItem) => {
+export const addItemToCart = (cartItem) => {
     try{
         return async dispatch => {
             const { data } = await axios.put(`/api/orders/cart/${userId}`, cartItem);
@@ -61,7 +63,7 @@ export default function(state=lineItems, action){
             return action.cartItems
         }
         case ADD_TO_CART: {
-            
+            return {...state, }//after ...state, is it listItems: [...state, action.cartItem]?
         }
         default: 
             return state
