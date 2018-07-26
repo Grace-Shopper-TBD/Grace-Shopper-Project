@@ -42,5 +42,6 @@ module.exports = {
   User,
   Product,
   Category,
-  LineItem
+  LineItem,
+  Order
 }
