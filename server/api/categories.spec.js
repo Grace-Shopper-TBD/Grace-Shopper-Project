@@ -7,7 +7,7 @@ const app = require('../index')
 const Category = db.model('category')
 const agent = request(app)
 
-describe.only('Category routes', () => {
+describe('Category routes', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
