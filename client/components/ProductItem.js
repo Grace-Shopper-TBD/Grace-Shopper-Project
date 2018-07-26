@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 const ProductItem = ({product}) => {
-    console.log('this is a product going into ProductItem', product)
     if(!product){
         return null
     }
