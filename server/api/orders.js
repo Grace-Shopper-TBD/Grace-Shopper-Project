@@ -2,7 +2,7 @@ const router = require('express').Router()
 const { Product, User, Order, LineItem } = require('../db/models')
 const authorize = require('./authorize')
 
-router.get('/', async (req, res, next) => {
+router.get('/', authorize, async (req, res, next) => {
 	try {
 		const orders = await Order.findAll({
 			include: [{
@@ -22,28 +22,19 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
 	try {
-		console.log("user", req.user)
 		const product = await Product.findById(req.body.productId)
-		let order;
-		if (req.session.cart) {
-			order = await Order.findById(req.session.cart.id)
-		}
-		else {
-			order = await Order.create({
-				userId: req.user.id,
+		req.session.cart = req.session.cart ? await Order.findById(req.session.cart.id)
+		 : await Order.create({
+				userId: 1,
 				isCart: true
 			})
-		}
-		console.log(order)
-		req.session.cart = order
 		const newLineItem = await LineItem.create({
 			quantity: 1,
 			price: product.price,
 			productId: product.id,
-			orderId: order.id
+			orderId: req.session.cart.id
 		})
-
-		res.json(order)
+		res.json(req.session.cart)
 
 	} catch (err) {
 		next(err)
