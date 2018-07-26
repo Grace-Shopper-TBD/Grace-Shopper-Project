@@ -65,10 +65,9 @@ router.put('/:userId', async (req,res,next) => {
 // DELETE /api/users/:userId
 router.delete('/:userId', async (req,res,next) => {
   try {
-    console.log("DELETE", req.params.userId, typeof req.params.userId)
     const deleteUser = await User.destroy({
     where: {
-      id: +req.params.userId
+      id: req.params.userId
     }
   })
   res.sendStatus(204)
