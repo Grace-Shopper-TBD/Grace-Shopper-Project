@@ -15,8 +15,6 @@ import history from '../history'
 // Action types
 const GET_CART_ITEMS = 'GET_CART_ITEMS'
 const ADD_TO_CART = 'ADD_TO_CART'
-// const CLEAR_CART = 'CLEAR_CART'
-// const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 
 
 //Action creators
