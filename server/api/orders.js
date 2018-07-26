@@ -30,7 +30,7 @@ router.post('/', async (req, res, next) => {
 		}
 		else {
 			order = await Order.create({
-				userId: 2,
+				userId: req.user.id,
 				isCart: true
 			})
 		}
