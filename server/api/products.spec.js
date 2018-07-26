@@ -5,8 +5,9 @@ const request = require('supertest')
 const db = require('../db')
 const app = require('../index')
 const Product = db.model('product')
+const agent = request(app)
 
-describe('Product routes', () => {
+describe.only('Product routes', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
@@ -32,5 +33,33 @@ describe('Product routes', () => {
       expect(res.body[0].price).to.be.equal(price)
       expect(res.body[0].availability).to.be.equal(availability)
     })
-  }) // end describe('/api/users')
-}) // end describe('User routes')
+  })
+  describe('POST /api/products/', () => {
+    it('should create a new product', () => {
+      return agent.post('/api/products')
+      .send({title:'working', description:"hey"})
+      .expect(200)
+      .expect(res => {
+        expect(res.body.title).to.equal('working')
+      })
+    })
+  })
+  describe ('PUT /api/products/', () => {
+    let product;
+    beforeEach(()=> {
+      return Product.create({title: 'working', description:'hey'})
+     .then(createdCat => {
+      product=createdCat
+    })
+   })
+    it('should update a category', () => {
+      return agent
+      .put(`/api/products/${product.id}`)
+      .send({title:'works'})
+      .expect(200)
+      .expect(res => {
+        expect(res.body.title).to.equal('works')
+      })
+    })
+  })
+})
