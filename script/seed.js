@@ -23,10 +23,10 @@ async function seed() {
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'}),
-    User.create({email: 'karalyn.ferrari@gmail.com', password: 'abc123', isAdmin:true}),
-    User.create({email: 'bronwyneharris@gmail.com', password: '123', isAdmin:true}),
-    User.create({email: 'shoshanarosenfield@gmail.com', password: 'graceshoppertbd123', isAdmin:true}),
-    User.create({email: 'ebner.ali@gmail.com', password: 'tbd123', isAdmin:true})
+    User.create({email: 'karalyn.ferrari@email.com', password: 'abc123', isAdmin:true}),
+    User.create({email: 'bronwyneharris@email.com', password: '123', isAdmin:true}),
+    User.create({email: 'shoshanarosenfield@email.com', password: 'graceshoppertbd123', isAdmin:true}),
+    User.create({email: 'ebner.ali@email.com', password: 'tbd123', isAdmin:true})
 
   ])
   const products = await Promise.all([
