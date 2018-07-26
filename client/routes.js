@@ -11,13 +11,13 @@ import {fetchProducts} from './store/productReducer'
  */
 class Routes extends Component {
   componentDidMount() {
-    this.props.loadInitialData(),
+    this.props.loadInitialData()
     this.props.fetchProducts()
   }
 
   render() {
     const {isLoggedIn} = this.props
-
+    console.log('the singleproduct component',SingleProduct)
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
