@@ -23,6 +23,9 @@ Category.belongsToMany(Product, {through: 'product_categories'})
 
 Product.belongsToMany(Order, {through: LineItem})
 Order.belongsToMany(Product, {through: LineItem})
+
+Order.belongsTo(User)
+User.hasMany(Order)
  /*
 
  User.hasMany(Review)
@@ -31,8 +34,7 @@ Order.belongsToMany(Product, {through: LineItem})
 
 
 
- Order.belongsTo(User)
- User.hasMany(Order)
+ 
 
  Review.belongsTo(Product)
  Product.hasMany(Review)
@@ -41,5 +43,6 @@ module.exports = {
   User,
   Product,
   Category,
-  LineItem
+  LineItem,
+  Order
 }
