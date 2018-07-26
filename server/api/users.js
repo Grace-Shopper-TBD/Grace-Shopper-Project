@@ -1,3 +1,4 @@
+
 const router = require('express').Router()
 const {User} = require('../db/models')
 
@@ -10,7 +11,7 @@ router.get('/', async (req, res, next) => {
       // explicitly select only the id and email fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ['id', 'email']
+      attributes: ['id', 'email', 'isAdmin']
     })
     res.json(users)
   } catch (err) {
@@ -21,7 +22,7 @@ router.get('/', async (req, res, next) => {
 // POST /api/users
 router.post('/', async (req, res, next) => {
   try {
-    const student = await User.create(req.body)
+    const user = await User.create(req.body)
     res.sendStatus(201)
   } catch (error) {
     next(error)

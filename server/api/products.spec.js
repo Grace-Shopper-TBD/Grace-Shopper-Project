@@ -7,7 +7,7 @@ const app = require('../index')
 const Product = db.model('product')
 const agent = request(app)
 
-describe.only('Product routes', () => {
+describe('Product routes', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
