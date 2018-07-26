@@ -20,6 +20,20 @@ router.get('/', authorize, async (req, res, next) => {
 	}
 })
 
+router.get('/:orderId', authorize, async (req, res, next) => {
+	try {
+		const order = await Order.findById(req.params.orderId)
+		if (!order) {
+			const err = new Error('Order Not Found')
+			err.status = 404
+			return next(err)
+		}
+		res.json(order)
+	} catch (err) {
+		next(err)
+	}
+})
+
 router.post('/', async (req, res, next) => {
 	try {
 		const product = await Product.findById(req.body.productId)
