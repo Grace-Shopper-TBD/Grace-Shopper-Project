@@ -1,16 +1,16 @@
 import axios from 'axios'
 import history from '../history'
 
-const getCartLocal = function(){
-    if(localStorage.lineItems){
-        return JSON.parse(localStorage.lineItems)
-    } else {
-        return {}
-    }
-}
+// const getCartLocal = function(){
+//     if(localStorage.lineItems){
+//         return JSON.parse(localStorage.lineItems)
+//     } else {
+//         return {}
+//     }
+// }
 
 //Initial State??
-
+//would need one for using isLoading and gotError
 
 // Action types
 const GET_CART_ITEMS = 'GET_CART_ITEMS'
