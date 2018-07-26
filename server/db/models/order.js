@@ -7,9 +7,6 @@ const Order = db.define('order', {
         defaultValue: 'CREATED',
         allowNull: false
     },
-    subTotal: {
-        type: Sequelize.VIRTUAL
-    },
     recipientName: {
         type: Sequelize.STRING
     },
@@ -18,6 +15,10 @@ const Order = db.define('order', {
     },
     recipientAddress: {
         type: Sequelize.STRING
+    },
+    isCart: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     }
 })
 

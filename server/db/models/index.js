@@ -34,7 +34,7 @@ User.hasMany(Order)
 
 
 
- 
+
 
  Review.belongsTo(Product)
  Product.hasMany(Review)
