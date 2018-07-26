@@ -74,6 +74,6 @@ describe('User routes', () => {
     //       const deletedUser = await User.findById(userId)
     //       expect(deletedUser).to.be.an('undefined')
     //     })
-    // })
+    })
   })// end describe ('DELETE /api/users/:userId')
 }) // end describe('User routes')
