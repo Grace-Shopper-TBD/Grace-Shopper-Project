@@ -61,7 +61,7 @@ export default function(state=lineItems, action){
             return action.cartItems
         }
         case ADD_TO_CART: {
-            return {...state, }//after ...state, is it listItems: [...state, action.cartItem]?
+            return {...state, } //after ...state, is it listItems: [...state, action.cartItem]?
         }
         default: 
             return state

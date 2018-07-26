@@ -1,7 +1,11 @@
 'use strict'
 
 const db = require('../server/db')
+<<<<<<< HEAD
 const {User, Product, Category, Order} = require('../server/db/models')
+=======
+const {User, Product, Category, Review, Order, LineItem} = require('../server/db/models')
+>>>>>>> master
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -54,6 +58,7 @@ const categories = await Promise.all([
 })
 // console.log('categories',categories)
 ])
+<<<<<<< HEAD
 const orders = await Promise.all([
   Order.create({
     status: 'PROCESSING',
@@ -84,17 +89,42 @@ const orders = await Promise.all([
     isCart: true
   })
 ])
+=======
+const reviews = await Promise.all([
+  Review.create({
+    text: `I loved the hotel and entire trip!! I can't wait to go back!!`
+  }),
+  Review.create({
+    text: `It was an amazing week long trip!! I highly recommend to anyone looking into this destination!`
+  })
+])
+// console.log('REVIEWS',reviews[0])
+>>>>>>> master
 
 await Promise.all([
   products[0].addCategory(categories[0]),
   products[1].addCategory(categories[1])
+])
+
+await Promise.all([
+  reviews[0].setUser(users[0]),
+  reviews[1].setUser(users[1])
+])
+
+await Promise.all([
+  reviews[0].setProduct(products[0]),
+  reviews[1].setProduct(products[1])
 ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${categories.length} categories`)
+<<<<<<< HEAD
   console.log(`seeded ${orders.length} orders`)
+=======
+  console.log(`seeded ${reviews.length} reviews`)
+>>>>>>> master
   console.log(`seeded successfully`)
 }
 
