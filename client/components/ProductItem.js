@@ -6,14 +6,14 @@ const ProductItem = ({product}) => {
         return null
     }
     return (
-        <div>
+        <Link to={`/products/${product.id}`}>
             <img src={product.photo} id='product-photo'/>
             <div>
-                <Link to={`/products/${product.id}`}><h5>{product.title}</h5></Link>
-                <p>{product.price}</p>
-                <h3>{product.availability}</h3>
+                <h5>{product.title}</h5>
+                <p>${product.price}</p>
+                <h3>{product.quantity} Left</h3>
             </div>
-        </div>
+        </Link>
     )
 }
 
