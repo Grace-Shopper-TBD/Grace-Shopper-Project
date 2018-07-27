@@ -12,6 +12,7 @@ class SingleProduct extends Component {
     render(){
         const product = this.props.product
         if(product){
+            console.log('product reviews', product.reviews)
             return(
                 <div>
                     <h1>{product.title}</h1>
@@ -19,8 +20,15 @@ class SingleProduct extends Component {
                     <p>{product.price}</p>
                     <p>{product.description}</p>
                     <p>{product.availability}</p>
-                </div>
-            )
+                    <div>
+                        {
+                            product.reviews.map((review) => (                         
+                                <p>{review.text}</p>
+                            ))
+                        }
+                    </div>
+                </div>          
+        )
         } else {
             return (
                 <h1>...Loading</h1>
@@ -34,6 +42,7 @@ const mapState = (state, {match}) => {
 
     return {
         product: state.product.list.find(product => product.id === Number(match.params.id))
+        
     }
 }
 
