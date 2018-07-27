@@ -11,16 +11,22 @@ class SingleProduct extends Component {
     
     render(){
         const product = this.props.product
-        console.log('product going into SingleProduct',product)
-        return(
-            <div>
-                <h1>Title here</h1>
-                <img src=''/>
-                <p>price here</p>
-                <p>description here</p>
-                <p>availability</p>
-            </div>
-        )
+        if(product){
+            return(
+                <div>
+                    <h1>{product.title}</h1>
+                    <img src={product.photo}/>
+                    <p>{product.price}</p>
+                    <p>{product.description}</p>
+                    <p>{product.availability}</p>
+                </div>
+            )
+        } else {
+            return (
+                <h1>...Loading</h1>
+
+            )
+        }
     }
 }
 
