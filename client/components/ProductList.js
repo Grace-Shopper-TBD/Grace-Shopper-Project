@@ -5,6 +5,7 @@ import ProductItem from './ProductItem';
 //make sure to import any thunks here! We may add a mapDispatch later
 
 const ProductList = ({products}) => {
+    console.log('these are the products in ProductList', products)
     if(!products){
         return (
             <div>

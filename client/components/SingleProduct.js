@@ -1,35 +1,44 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-// import potential thunks from the store
+// import {fetchCart} from '../store'
 
 class SingleProduct extends Component {
+    constructor(props){
+        super(props)
+    }
+
     
     render(){
-        console.log('product going into SingleProduct',this.props.product)
+        const product = this.props.product
+        console.log('product going into SingleProduct',product)
         return(
             <div>
-                <h1>hello</h1>
+                <h1>Title here</h1>
+                <img src=''/>
+                <p>price here</p>
+                <p>description here</p>
+                <p>availability</p>
             </div>
         )
     }
 }
 
 const mapState = (state, {match}) => {
-    console.log('this is the match', match)
+
     return {
-        product: state.product.list.find(product => product.id === match.params.id)
+        product: state.product.list.find(product => product.id === Number(match.params.id))
     }
 }
 
-const mapDispatch = (dispatch, ownProps) => {
-    return {
-        // here we can dispatch an action called handleClick that will take in
-        // an 'addToCart thunk
-        
-        //and then maybe an action called getCart to dispatch a getCart thunk
-    }
-}
+// const mapDispatch = (dispatch, ownProps) => {
+//     return {
+//         getCart(){
+//             dispatch(fetchCart())
+//         }       
+//         //and then maybe an action called getCart to dispatch a getCart thunk
+//     }
+// }
 
 
-export default connect(mapState, mapDispatch)(SingleProduct)
+export default connect(mapState, null)(SingleProduct)
