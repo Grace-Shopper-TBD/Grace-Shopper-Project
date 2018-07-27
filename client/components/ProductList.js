@@ -5,14 +5,15 @@ import ProductItem from './ProductItem';
 //make sure to import any thunks here! We may add a mapDispatch later
 
 const ProductList = ({products}) => {
-    if(!products){
+    products = products.filter(pro=> pro.quantity>0)
+    if(!products.length){
         return (
             <div>
             <h2>There are no vacations available!</h2>
             </div>
         )
     }
-    
+
     return (
         <div>
         <h1>All Vacations</h1>

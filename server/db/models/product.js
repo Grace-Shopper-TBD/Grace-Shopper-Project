@@ -18,6 +18,9 @@ const Product = db.define('product', {
   },
   price: {
     type: Sequelize.DECIMAL(10,2),
+    validate: {
+      min: 0.00
+    }
   },
   quantity: {
     type: Sequelize.INTEGER,
@@ -30,9 +33,6 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     defaultValue: 'http://covermyfb.com/media/covers/9151-beach.jpg',
   },
-  availability: {
-    type: Sequelize.ENUM('Available', 'Currently Unavailable')
-  }
 
 })
 
@@ -47,6 +47,13 @@ Product.findByName = async function (title) {
     } catch (error){
       next(error)
   }
+}
+
+Product.prototype.isAvailable = () => {
+  if (this.quantity>0){
+    return true
+  }
+  return false
 }
 
 

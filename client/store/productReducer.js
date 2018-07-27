@@ -7,6 +7,8 @@ export const SET_PRODUCTS = 'SET_PRODUCTS'
 export const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
 const LOADING_PRODUCTS = 'LOADING_PRODUCTS'
 const LOADING_PROBLEM = 'LOADING_PROBLEM'
+const DELETE_PRODUCT = 'DELETE_PRODUCT'
+const ADD_PRODUCT = 'ADD_PRODUCT'
 /**
  * INITIAL STATE
  */
@@ -29,7 +31,15 @@ export const filterProducts = (filter => ({
   filter
 }))
 
+const deleteProduct = (id => ({
+  type:DELETE_PRODUCT,
+  id
+}))
 
+const addProduct =(product => ({
+  type:ADD_PRODUCT,
+  product
+}))
 /**
  * THUNK CREATORS
  */
@@ -43,6 +53,16 @@ export const fetchProducts = () => async dispatch => {
   }
 }
 
+export const changeProduct = (prod) => async dispatch => {
+  try{
+    const res = await axios.put(`api/products/${prod.id}`, prod)
+    dispatch(deleteProduct(prod.id))
+    dispatch(addProduct(res.data))
+  }
+  catch(err) {
+    console.error(err)
+  }
+}
 /**
  * REDUCER
  */
@@ -60,6 +80,9 @@ export default function(state = products, action) {
         return false
         })
       return {...state, list:newList}
+    }
+    case ADD_PRODUCT: {
+      return {...state, list:[...state.list, action.product]}
     }
     case LOADING_PRODUCTS:
       return {...state, isLoading: true}
