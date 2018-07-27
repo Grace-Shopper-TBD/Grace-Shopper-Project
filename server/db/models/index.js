@@ -47,6 +47,5 @@ module.exports = {
   Category,
   LineItem,
   Review,
-
   Order
 }
