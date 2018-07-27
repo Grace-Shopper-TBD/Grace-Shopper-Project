@@ -6,7 +6,7 @@ router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({include: [{
       model: Category
-    },{model:Review}]})
+    }]})
     if (!products) {
       const err = new Error('Products not found!')
       err.status = 404

@@ -1,17 +1,23 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-// import {fetchCart} from '../store'
+import { getProduct } from '../store';
 
 class SingleProduct extends Component {
+    
     constructor(props){
         super(props)
     }
 
+    componentDidMount(){
+        console.log('props in cdm',this.props)
+        this.props.singleProduct(+this.props.match.params.id)
+    }
+
     
     render(){
-        const product = this.props.product
-        if(product){
+        if(Object.keys(this.props.product).length){
+            const product = this.props.product
             console.log('product reviews', product.reviews)
             return(
                 <div>
@@ -39,21 +45,20 @@ class SingleProduct extends Component {
 }
 
 const mapState = (state, {match}) => {
-
+    console.log('singleProduct',state.product.singleProduct)
     return {
-        product: state.product.list.find(product => product.id === Number(match.params.id))
-        
+        product: state.product.singleProduct
+
     }
 }
 
-// const mapDispatch = (dispatch, ownProps) => {
-//     return {
-//         getCart(){
-//             dispatch(fetchCart())
-//         }       
-//         //and then maybe an action called getCart to dispatch a getCart thunk
-//     }
-// }
+const mapDispatch = (dispatch, ownProps) => {
+    return {
+        singleProduct(id){
+            dispatch(getProduct(id))
+        }
+    }
+}
 
 
-export default connect(mapState, null)(SingleProduct)
+export default connect(mapState, mapDispatch)(SingleProduct)

@@ -8,10 +8,10 @@ const Cart = (props) => {
 
     return (
         <div className='container'>
-            
+            <h1>This is the cart</h1>
         </div>
     )
     
-
-    //include promo input
 }
+
+export default Cart
