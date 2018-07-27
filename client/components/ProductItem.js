@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import Reviews from './Review'
 
 const ProductItem = ({product}) => {
     if(!product){
@@ -13,6 +14,9 @@ const ProductItem = ({product}) => {
                 <p>{product.price}</p>
                 <h3>{product.availability}</h3>
             </div>
+            <div>
+            <Reviews />
+        </div>
         </div>
     )
 }

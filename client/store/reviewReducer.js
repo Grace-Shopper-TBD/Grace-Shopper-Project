@@ -30,8 +30,9 @@ export const setReviews = (reviewList => ({
 
 export const fetchReviews = () => async dispatch => {
   try {
-    const res = await axios.get('/api/reviews/')
-    dispatch(setReviews(res.data))
+    const {data} = await axios.get('/api/reviews/')
+    dispatch(setReviews(data))
+    return data
   } catch (err) {
     console.error(err)
   }
