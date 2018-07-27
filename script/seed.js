@@ -1,7 +1,11 @@
 'use strict'
 
 const db = require('../server/db')
+<<<<<<< HEAD
+const {User, Product, Category, Order} = require('../server/db/models')
+=======
 const {User, Product, Category, Review, Order, LineItem} = require('../server/db/models')
+>>>>>>> master
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -54,6 +58,38 @@ const categories = await Promise.all([
 })
 // console.log('categories',categories)
 ])
+<<<<<<< HEAD
+const orders = await Promise.all([
+  Order.create({
+    status: 'PROCESSING',
+    recipientName: 'Cody',
+    confirmationEmail: 'cody@email.com',
+    recipientAddress: '23 Puppy Street',
+    isCart: false
+  }),
+  Order.create({
+    status: 'CREATED',
+    recipientName: 'Jack',
+    confirmationEmail: 'jack@isback.com',
+    recipientAddress: '56 Apple Street',
+    isCart: true
+  }),
+  Order.create({
+    status: 'CANCELLED',
+    recipientName: 'Patty',
+    confirmationEmail: 'patty@pat.com',
+    recipientAddress: '234 fiction road',
+    isCart: false
+  }),
+  Order.create({
+    status: 'COMPLETED',
+    recipientName: 'Patty',
+    confirmationEmail: 'patty@pat.com',
+    recipientAddress: '234 fiction road',
+    isCart: true
+  })
+])
+=======
 const reviews = await Promise.all([
   Review.create({
     text: `I loved the hotel and entire trip!! I can't wait to go back!!`,
@@ -64,6 +100,7 @@ const reviews = await Promise.all([
   })
 ])
 // console.log('REVIEWS',reviews[0])
+>>>>>>> master
 
 await Promise.all([
   products[0].addCategory(categories[0]),
@@ -84,7 +121,11 @@ await Promise.all([
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${categories.length} categories`)
+<<<<<<< HEAD
+  console.log(`seeded ${orders.length} orders`)
+=======
   console.log(`seeded ${reviews.length} reviews`)
+>>>>>>> master
   console.log(`seeded successfully`)
 }
 
