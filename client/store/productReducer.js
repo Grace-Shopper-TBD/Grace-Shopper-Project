@@ -5,6 +5,7 @@ import axios from 'axios'
  */
 export const SET_PRODUCTS = 'SET_PRODUCTS'
 export const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
+export const GET_PRODUCT = 'GET_PRODUCT'
 const LOADING_PRODUCTS = 'LOADING_PRODUCTS'
 const LOADING_PROBLEM = 'LOADING_PROBLEM'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
@@ -14,6 +15,7 @@ const ADD_PRODUCT = 'ADD_PRODUCT'
  */
 const products = {
   list: [],
+  singleProduct: {},
   isLoading: false,
   gotError: false
 }
@@ -36,6 +38,11 @@ const deleteProduct = (id => ({
   id
 }))
 
+export const oneProduct = (product) => ({
+  type: GET_PRODUCT,
+  product
+})
+
 const addProduct =(product => ({
   type:ADD_PRODUCT,
   product
@@ -53,6 +60,7 @@ export const fetchProducts = () => async dispatch => {
   }
 }
 
+
 export const changeProduct = (prod, props) => async dispatch => {
   try{
     const res = await axios.put(`/api/products/${prod.id}`, prod)
@@ -64,6 +72,15 @@ export const changeProduct = (prod, props) => async dispatch => {
     console.error(err)
   }
 }
+
+export const getProduct = (productId) => {
+  return async(dispatch) => {
+    const response = await axios.get(`/api/products/${productId}`)
+    const product = response.data
+    dispatch(oneProduct(product))
+  }
+}
+
 /**
  * REDUCER
  */
@@ -71,6 +88,9 @@ export default function(state = products, action) {
   switch (action.type) {
     case SET_PRODUCTS:
       return {...state, list: action.productList, isLoading: false, gotError: false}
+    case GET_PRODUCT: {
+      return {...state, singleProduct: action.product}
+    }
     case FILTER_PRODUCTS:{
       let newList = state.list.filter((product) => {
         let cat = product.categories

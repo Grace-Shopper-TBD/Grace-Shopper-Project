@@ -13,4 +13,5 @@ export {default as AdminUsers} from './AdminUsers'
 export {default as UserItem} from './UserBlock'
 export {default as AdminProducts} from './AdminProducts'
 export {default as UpdateProd} from './AdminUpdateForm'
+export {default as Cart} from './Cart'
 

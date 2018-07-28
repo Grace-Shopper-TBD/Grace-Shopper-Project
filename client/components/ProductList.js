@@ -5,8 +5,13 @@ import ProductItem from './ProductItem';
 //make sure to import any thunks here! We may add a mapDispatch later
 
 const ProductList = ({products}) => {
+<<<<<<< HEAD
     products = products.filter(pro=> pro.quantity>0)
     if(!products.length){
+=======
+    console.log('these are the products in ProductList', products)
+    if(!products){
+>>>>>>> 9f5be3d13cbdf2da91b4967ce946e1e75abe0892
         return (
             <div>
             <h2>There are no vacations available!</h2>
