@@ -81,6 +81,15 @@ export const getProduct = (productId) => {
   }
 }
 
+export const addNewProduct = (product, ownProps) => {
+  return async(dispatch) => {
+    const res = await axios.post('/api/products', product)
+    const prod = res.data
+    dispatch(addProduct(prod))
+    ownProps.history.push('/admin/products')
+  }
+}
+
 /**
  * REDUCER
  */

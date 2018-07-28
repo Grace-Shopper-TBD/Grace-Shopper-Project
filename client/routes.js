@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, ProductList, SingleProduct, AdminUsers, AdminProducts, UpdateProd, Cart} from './components'
+import {Login, Signup, UserHome, ProductList, SingleProduct, AdminUsers, AdminProducts, UpdateProd, Cart, NewProd} from './components'
 import {me} from './store'
 import {fetchProducts} from './store/productReducer'
 
@@ -32,8 +32,10 @@ class Routes extends Component {
             {isAdmin && (
               <Switch>
                 <Route path="/admin/users" component={AdminUsers} />
+                <Route path ="/admin/products/new" component={NewProd} />
                 <Route path ="/admin/products/:id" component={UpdateProd} />
                 <Route path ="/admin/products/" component={AdminProducts} />)
+
               </Switch>)}
 
           </Switch>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { fetchProducts } from '../store/productReducer'
 import AdminProductItem from './AdminProductMini'
-
+import {Link} from 'react-router-dom'
 class AdminProducts extends Component {
 
   constructor(){
@@ -18,7 +18,11 @@ class AdminProducts extends Component {
     return(
           <div>
            <h1>Product Info</h1>
-           {this.props.products.map(product=><AdminProductItem product = {product} key={product.id}/>)}
+           <Link to='/admin/products/new'>Add Product</Link>
+            <div>
+            {this.props.products.map(product=><AdminProductItem product = {product} key={product.id}/>)}
+            </div>
+
           </div>
 
            )

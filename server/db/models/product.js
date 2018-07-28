@@ -56,5 +56,11 @@ Product.prototype.isAvailable = () => {
   return false
 }
 
+Product.beforeCreate((prod) => {
+  if (prod.photo === '') {
+    prod.photo = 'http://covermyfb.com/media/covers/9151-beach.jpg'
+  }
+})
+
 
 module.exports = Product
