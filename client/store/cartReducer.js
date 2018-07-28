@@ -26,7 +26,7 @@ const cartError = () => ({
 	type: CART_ERROR
 })
 
-const loadingCart = () => ({
+export const loadingCart = () => ({
 	type: LOADING_CART
 })
 

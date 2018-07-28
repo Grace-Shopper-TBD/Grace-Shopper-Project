@@ -35,7 +35,11 @@ router.get('/cart', async (req, res, next) => {
 			if (!cart) {
 				return res.json([])
 			}
-			return res.json(cart)
+			console.log(cart)
+			if (!req.session.cart) {
+				req.session.cart = cart.products.map(product => product.lineItem)
+			}
+			return res.json(req.session.cart)
 		}
 	   if (req.session.cart) {
 		return res.json(req.session.cart)
