@@ -8,6 +8,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <h1>Totally Bomb Destinations (TBD)</h1>
     <nav>
+      <ul class='container'>
       <div>
         <Link to="/products">Trip Catalog</Link>
         <Link to='/orders/cart'><img src="http://icons.iconarchive.com/icons/iconsmind/outline/32/Shopping-Cart-icon.png" /></Link>
@@ -27,6 +28,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         </div>
       )}
       </div>
+      </ul>
     </nav>
     <hr />
   </div>

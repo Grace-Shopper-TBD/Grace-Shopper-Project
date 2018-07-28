@@ -10,9 +10,15 @@ label {
   display: block;
 }
 
+.container {
+  display: flex;
+  justify-content: center;
+}
+
 nav a {
   display: inline-block;
   margin: 1em;
+  /* flex: */
 }
 
 form div {
