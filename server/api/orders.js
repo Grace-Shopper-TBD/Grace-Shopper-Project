@@ -65,7 +65,6 @@ router.get('/:orderId', authorize, async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
 	//assuming req.body is product object
-	console.log(req.session)
 	try {
 		if (req.user) {
 			 const [ order, wasCreated ] = await Order.findOrCreate({
