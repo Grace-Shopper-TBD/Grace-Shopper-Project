@@ -6,8 +6,10 @@ import user from './user'
 import product from './productReducer'
 import category from './categoryReducer'
 import review from './reviewReducer'
+import cart from './cartReducer'
 
-const reducer = combineReducers({user, product, category, review})
+const reducer = combineReducers({user, product, category, cart, review})
+
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
