@@ -27,13 +27,14 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            {isAdmin && (<Route path="/admin/users" component={AdminUsers} />)}
-            {isAdmin && (<Route path ="/admin/products/:id" component={UpdateProd} />)}
-            {isAdmin && (<Route path ="/admin/products/" component={AdminProducts} />)}
-
-
-
             <Route exact path="/home" component={UserHome} />
+            {isAdmin && (
+              <Switch>
+                <Route path="/admin/users" component={AdminUsers} />
+                <Route path ="/admin/products/:id" component={UpdateProd} />
+                <Route path ="/admin/products/" component={AdminProducts} />)
+              </Switch>)}
+
           </Switch>
         )}
 

@@ -53,11 +53,12 @@ export const fetchProducts = () => async dispatch => {
   }
 }
 
-export const changeProduct = (prod) => async dispatch => {
+export const changeProduct = (prod, props) => async dispatch => {
   try{
-    const res = await axios.put(`api/products/${prod.id}`, prod)
+    const res = await axios.put(`/api/products/${prod.id}`, prod)
     dispatch(deleteProduct(prod.id))
     dispatch(addProduct(res.data))
+    props.history.push('/admin/products')
   }
   catch(err) {
     console.error(err)
@@ -80,6 +81,9 @@ export default function(state = products, action) {
         return false
         })
       return {...state, list:newList}
+    }
+    case DELETE_PRODUCT: {
+      return {...state, list: state.list.filter(prod=> prod.id!==action.id)}
     }
     case ADD_PRODUCT: {
       return {...state, list:[...state.list, action.product]}

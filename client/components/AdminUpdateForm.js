@@ -1,3 +1,9 @@
+//if we have time
+//update carts
+//edit categories on a product (what about combineing check boxes and lists with deletes?)
+//allow to come directly to this page
+
+
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {changeProduct} from '../store/productReducer'
