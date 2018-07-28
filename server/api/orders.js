@@ -22,10 +22,6 @@ router.get('/', authorize, async (req, res, next) => {
 
 router.get('/cart', async (req, res, next) => {
 	try {
-		if (req.session.cart) {
-			return res.json(req.session.cart)
-		}
-
 		if (req.user) {
 			const cart = await Order.findOne({
 				where: {
@@ -36,13 +32,16 @@ router.get('/cart', async (req, res, next) => {
 					model: Product
 				}]
 			})
-			console.log(cart)
 			if (!cart) {
-				return res.send('Cart is Empty')
-		}
+				return res.json([])
+			}
 			return res.json(cart)
 		}
-		res.json("Cart is Empty")
+	   if (req.session.cart) {
+		return res.json(req.session.cart)
+		}
+
+		res.json([])
 
 	} catch (err) {
 		next(err)
@@ -135,8 +134,9 @@ router.post('/checkout', async (req, res, next) => {
 				status: 'PROCESSING'
 			})
 		}
-			req.session.cart = null
-			res.sendStatus(204)
+
+		req.session.cart = null
+		res.sendStatus(204)
 
 	} catch (err) {
 		next(err)
@@ -147,8 +147,6 @@ router.post('/checkout', async (req, res, next) => {
 
 router.put('/cart/:productId', async (req, res, next) => {
 	//assuming req.body is the new quantity
-	console.log(req.body)
-	console.log(req.session)
 	try {
 		const entryToUpdate = req.session.cart.find(entry => entry.productId === +req.params.productId)
 		console.log(entryToUpdate)
@@ -188,9 +186,7 @@ router.put('/:orderId', authorize, async (req, res, next) => {
 
 router.delete('/cart/:productId', async (req, res, next) => {
 	try {
-		console.log(req.session)
 		const entryToDelete = req.session.cart.find(entry => entry.productId === +req.params.productId)
-		console.log(entryToDelete)
 		req.session.cart = req.session.cart.filter(entry => entry.productId !== +req.params.productId)
 
 		const lineItemToDelete = await LineItem.findOne({

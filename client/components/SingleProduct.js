@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { getProduct } from '../store';
+import AddToCart from './AddToCartButton.js'
 
 class SingleProduct extends Component {
     
@@ -26,6 +27,7 @@ class SingleProduct extends Component {
                     <p>{product.price}</p>
                     <p>{product.description}</p>
                     <p>{product.availability}</p>
+                    <AddToCart product={product} />
                     <div>
                         {
                             product.reviews.map((review) => (                         

@@ -3,10 +3,9 @@ import history from '../history'
 
 //Initial State
 const initialState = {
-    quantity: 0,
-    price: 0,
-    productId: 0,
-    orderId: 0
+    cart: [],
+    isLoading: false,
+    gotError: false
 }
 
 // Action types
@@ -14,6 +13,8 @@ const GET_CART_ITEMS = 'GET_CART_ITEMS'
 const ADD_TO_CART = 'ADD_TO_CART'
 const UPDATE_CART = 'UPDATE_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+const CART_ERROR = "CART_ERROR"
+const LOADING_CART = "LOADING_CART"
 
 //Action creators
 const getCartItems = (cartItems) => ({
@@ -21,9 +22,12 @@ const getCartItems = (cartItems) => ({
     cartItems
 })
 
-const addToCart = (cartItem) => ({
-    type: ADD_TO_CART,
-    cartItem
+const cartError = () => ({
+	type: CART_ERROR
+})
+
+const loadingCart = () => ({
+	type: LOADING_CART
 })
 
 const updateCart = (cart) => ({
@@ -31,53 +35,45 @@ const updateCart = (cart) => ({
     cart
 })
 
-const remove = (cartItem) => ({
+const remove = (productId) => ({
     type: REMOVE_FROM_CART,
-    cartItem
+    productId
 })
 
 //Thunks
 
-export const fetchCart = () => {
+export const fetchCart = () => async dispatch => { 
     try {
-        return async dispatch => {
         const res = await axios.get('/api/orders/cart')
         dispatch(getCartItems(res.data))
-        }
     } catch(err) {
         console.log(err)
     }  
 }
 
-export const addItemToCart = (cartItem) => {
-    try{
-        return async dispatch => {
-            const { data } = await axios.put(`/api/orders/cart/`, cartItem);
-            dispatch(addToCart(data))
-        }
-    } catch(err){
-        console.log(err)
-    }
-}
-
-export const changeQuantity = (productId, lineItem) => {
+export const addItemToCart = (cartItem) => async dispatch => {
     try {
-        return async(dispatch) => {
-            const response = await axios.put(`/api/orders/cart/${productId}`, lineItem)
-            const updated = response.data
-            dispatch(updateCart(updated))
-        }
+        const { data } = await axios.post(`/api/orders`, cartItem)
+        dispatch(updateCart(data))
     } catch(err){
         console.log(err)
     }
 }
 
-export const removeFromCart = (productId) => {
+export const changeQuantity = (productId, quantity) => async(dispatch) => {
+    try {
+        const response = await axios.put(`/api/orders/cart/${productId}`, quantity)
+        const updated = response.data
+        dispatch(updateCart(updated))
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+export const removeFromCart = (productId) => async(dispatch) => {
     try{
-        return async(dispatch) => {
-            return axios.delete(`/api/orders/cart/${productId}`)
-            dispatch(remove(productId))
-        }
+        await axios.delete(`/api/orders/cart/${productId}`)
+        dispatch(remove(productId))
     } catch(err){
         console.log(err)
     }
@@ -86,19 +82,21 @@ export const removeFromCart = (productId) => {
 
 //Reducer
 export default function(state=initialState, action){
-    switch(action.type){
+    switch(action.type) {
         case GET_CART_ITEMS: {
-            return action.cartItems
-        }
-        case ADD_TO_CART: {
-            return {...state, cart: [...state, action.cartItem]}
+            return {...state, cart:action.cartItems, isLoading: false, gotError: false }
         }
         case UPDATE_CART: {
-            state.map(product => product.id===action.product.id ? action.cart : cart)
-            // I don't think above is correct, perhaps cart where product is declared?
+            return {...state, cart: action.cart, isLoading: false, gotError: false}
         }
         case REMOVE_FROM_CART: {
-            state.filter(product => product.id !== action.product.id)
+            return {...state, cart: state.cart.filter(product => product.id !== action.productId), isLoading: false, gotError: false }
+        }
+        case CART_ERROR: {
+        	return {...state, gotError: true }
+        }
+        case LOADING_CART: {
+        	return {...state, isLoading: true }
         }
         default: 
             return state
