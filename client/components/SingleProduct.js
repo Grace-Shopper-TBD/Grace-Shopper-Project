@@ -29,6 +29,7 @@ class SingleProduct extends Component {
                     <p>{product.availability}</p>
                     <AddToCart product={product} />
                     <div>
+                        <h3>Reviews For {product.title}</h3>
                         {
                             product.reviews.map((review) => (                         
                                 <p>{review.text}</p>
