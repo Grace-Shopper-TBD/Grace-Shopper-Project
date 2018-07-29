@@ -7,8 +7,8 @@ const ProductItem = ({product}) => {
         return null
     }
     return (
-        <div className='row'>
-            <div>
+        <div className="col-md-4">
+            <div >
                 <div className="card mb-4 box-shadow">
                     <img src={product.photo} className="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"/>
                     <div className="card-body">
@@ -19,14 +19,14 @@ const ProductItem = ({product}) => {
                             <div className="btn-group">
                                     <AddToCart product={product} />                                                    
                                 <Link to={`/products/${product.id}`}>
-                                    <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
+                                    <button type="button" className="btn btn-block btn-sm btn-outline-secondary">View</button>
                                 </Link>
                                 </div>
                             </div>
                         </div>                        
                     </div>
                 </div>        
-            </div>
+            </div>        
         </div>
     )
 }
