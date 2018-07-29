@@ -12,13 +12,31 @@ label {
 
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-end;
+  background-color: turquoise;
+  height: 3em;
 }
 
-nav a {
+/* nav a {
   display: inline-block;
-  margin: 1em;
-  /* flex: */
+  margin: 1em
+} */
+
+.tripCatalogContainer {
+  display: flex;
+  /* justify-content: flex-start; */
+  /* width: 50% */
+}
+
+.preLogin {
+  display: flex;
+  align-content: space-between;
+  /* justify-content: space-between; */
+}
+
+#titleContainer{
+  text-align: center
 }
 
 form div {

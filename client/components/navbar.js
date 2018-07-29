@@ -6,32 +6,38 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>Totally Bomb Destinations (TBD)</h1>
-    <nav>
-      <ul class='container'>
-      <div>
+    <div id='titleContainer'>
+    <div id='title'>
+    <h1>Totally Bomb Destinations (TBD)</h1></div></div>
+      <ul className='container'>
+      <div className='tripCatalogContainer'>
+      <div className='tripCatalog'>
         <Link to="/products">Trip Catalog</Link>
-        <Link to='/orders/cart'><img src="http://icons.iconarchive.com/icons/iconsmind/outline/32/Shopping-Cart-icon.png" /></Link>
+        </div></div>
       {isLoggedIn ? (
-        <div>
+        <div className='postLogin'>
           {/* The navbar will show these links after you log in */}
+          <div className='cartImage'>
+        <Link to='/orders/cart'><img src="http://icons.iconarchive.com/icons/iconsmind/outline/32/Shopping-Cart-icon.png" /></Link></div>
           <Link to="/home">Home</Link>
           <a href="#" onClick={handleClick}>
             Logout
           </a>
-        </div>
+          </div>
       ) : (
-        <div>
+        <div className='preLogin'>
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
+          <div className='cartImage'>
+        <Link to='/orders/cart'><img src="http://icons.iconarchive.com/icons/iconsmind/outline/32/Shopping-Cart-icon.png" /></Link></div>
+          <div className='login'>
+          <Link to="/login">Login</Link></div>
+          <div className='signup'> <Link to="/signup">Sign Up</Link>
+        </div></div>
       )}
-      </div>
       </ul>
-    </nav>
-    <hr />
-  </div>
+      </div>
+    // <hr />
+  // </div>
 )
 
 /**
