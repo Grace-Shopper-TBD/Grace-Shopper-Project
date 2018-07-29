@@ -17,14 +17,20 @@ const ProductList = ({products}) => {
     
     return (
         <div>
-        <h1>All Vacations</h1>
-            {
-                products.map((product) => (
-                    <div key={product.id}>
-                        <ProductItem product={product}/>
-                    </div>
-                ))
-            }
+            <main role="main">
+                <div className="album py-5 bg-light">
+                    <div className='container'>
+                        <h1>All Vacations</h1>
+                        {
+                            products.map((product) => (
+                                <div key={product.id}>
+                                    <ProductItem product={product}/>
+                                </div>
+                            ))
+                        }
+                    </div>        
+                </div>       
+            </main>        
         </div>
     )
 }
