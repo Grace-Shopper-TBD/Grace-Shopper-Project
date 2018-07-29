@@ -90,6 +90,13 @@ export const addNewProduct = (product, ownProps) => {
   }
 }
 
+export const delProduct = (id) => {
+  return async(dispatch)=>{
+    await axios.delete(`/api/products/${id}`)
+    dispatch(deleteProduct(id))
+  }
+}
+
 /**
  * REDUCER
  */
