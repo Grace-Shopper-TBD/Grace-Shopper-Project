@@ -19,7 +19,7 @@ class SingleProduct extends Component {
     render(){
         if(Object.keys(this.props.product).length){
             const product = this.props.product
-            console.log('product reviews', product.reviews)
+            // const user = this.props.user
             return(
                 <div>
                     <h1>{product.title}</h1>
@@ -31,8 +31,11 @@ class SingleProduct extends Component {
                     <div>
                         <h3>Reviews For {product.title}</h3>
                         {
-                            product.reviews.map((review) => (                         
-                                <p>{review.text}</p>
+                            product.reviews.map((review) => (
+                                <div key={product.id}>
+                                   
+                                    <p>{review.text}</p>
+                                </div>                         
                             ))
                         }
                     </div>
@@ -48,10 +51,11 @@ class SingleProduct extends Component {
 }
 
 const mapState = (state, {match}) => {
-    console.log('singleProduct',state.product.singleProduct)
+    console.log('all users', state.user)
+    console.log('all products', state.product)
     return {
-        product: state.product.singleProduct
-
+        product: state.product.singleProduct,
+        // user: state.user.find(user => user.id === state.product.singleProduct.reviews.userId)
     }
 }
 
