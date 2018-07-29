@@ -85,6 +85,16 @@ const orders = await Promise.all([
   })
 ])
 
+const reviews = await Promise.all([
+  Review.create({
+    text: `I loved the hotel and entire trip!! I can't wait to go back!!`,
+    
+  }),
+  Review.create({
+    text: `It was an amazing week long trip!! I highly recommend to anyone looking into this destination!`
+  })
+])
+
 await Promise.all([
   products[0].addCategory(categories[0]),
   products[1].addCategory(categories[1])
@@ -105,6 +115,7 @@ await Promise.all([
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${categories.length} categories`)
   console.log(`seeded ${orders.length} orders`)
+  console.log(`seeded ${reviews.length} reviews`)
   console.log(`seeded successfully`)
 }
 
