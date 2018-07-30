@@ -56,6 +56,7 @@ const categories = await Promise.all([
 ])
 const orders = await Promise.all([
   Order.create({
+    userId:1,
     status: 'PROCESSING',
     recipientName: 'Cody',
     confirmationEmail: 'cody@email.com',
@@ -77,13 +78,21 @@ const orders = await Promise.all([
     isCart: false
   }),
   Order.create({
-    status: 'COMPLETED',
+    status: 'CREATED',
     recipientName: 'Patty',
     confirmationEmail: 'patty@pat.com',
     recipientAddress: '234 fiction road',
     isCart: true
   })
 ])
+
+const lineItems = await Promise.all([
+  LineItem.create({
+    orderId:2,
+    productId:1,
+    price: 15000,
+    quantity: 1
+  })])
 
 const reviews = await Promise.all([
   Review.create({
@@ -109,6 +118,7 @@ await Promise.all([
   reviews[0].setProduct(products[0]),
   reviews[1].setProduct(products[1])
 ])
+
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
   console.log(`seeded ${users.length} users`)
