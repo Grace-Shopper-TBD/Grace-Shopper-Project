@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { getProduct } from '../store';
+import { fetchCart } from '../store';
 import {fetchReviews} from '../store/reviewReducer'
 import AddToCart from './AddToCartButton.js'
 
@@ -13,7 +13,6 @@ class SingleProduct extends Component {
     }
 
     componentDidMount(){
-        this.props.singleProduct(+this.props.match.params.id)
         this.props.reviews(+this.props.match.params.id)
     }
     handleClick(event) {
@@ -25,8 +24,8 @@ class SingleProduct extends Component {
         event.preventDefault()
     }
     render(){
-        if(Object.keys(this.props.product).length){
-            const product = this.props.product
+        const product = this.props.product
+        if(product){
             const reviews = this.props.review.list
             return(
                 <div key={product.id}>
@@ -61,18 +60,17 @@ class SingleProduct extends Component {
 }
 
 const mapState = (state, {match}) => {
-    return {
-
-        
-        product: state.product.singleProduct,
+    console.log('coming into mapstate',state.product)
+    return {        
+        product: state.product.list.find(product => product.id === Number(match.params.id)),
         review: state.review
     }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
     return {
-        singleProduct: (id) => {
-            dispatch(getProduct(id))
+        getCart: () => {
+            dispatch(fetchCart())
         },
         reviews: (id) => {
             dispatch(fetchReviews(id))
