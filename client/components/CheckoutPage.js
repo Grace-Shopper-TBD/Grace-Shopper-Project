@@ -39,21 +39,15 @@ class CheckoutPage extends Component {
                       <span className="text-muted">Your cart</span>
                       <span className="badge badge-secondary badge-pill">{lineItems.quantity}</span>
                       </h4>
-                      {
-                        lineItems && lineItems.map((lineItem) => (
-                          <div key={lineItem.productId} className="info info-horizontal icon icon-primary">
-                            <ProductInCart product={products.find(product => product.id === lineItem.productId)} />
-                            <div className="material-icons">
+                      <ul className="list-group mb-3">
+                        {
+                          lineItems && lineItems.map((lineItem) => (
+                            <div key={lineItem.productId} className="info info-horizontal icon icon-primary">
+                              <ProductInCart product={products.find(product => product.id === lineItem.productId)} lineItem={lineItem}/> 
                             </div>
-
-                              <div className="description">
-                              <p>
-                                Quantity: {lineItem.quantity} <br />
-                              </p>
-                            </div>  
-                          </div>
-                        ))
-                      }
+                          ))
+                        }                      
+                      </ul>
                   </div>                
                 </div>
 
