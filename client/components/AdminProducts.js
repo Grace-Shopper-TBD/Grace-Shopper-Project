@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { fetchProducts } from '../store/productReducer'
 import AdminProductItem from './AdminProductMini'
 import {Link} from 'react-router-dom'
+
+
 class AdminProducts extends Component {
 
-  constructor(){
+  constructor() {
     super()
-
-   }
+  }
 
   componentDidMount(){
     this.props.fetch()

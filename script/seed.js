@@ -88,7 +88,7 @@ const orders = await Promise.all([
 const reviews = await Promise.all([
   Review.create({
     text: `I loved the hotel and entire trip!! I can't wait to go back!!`,
-    
+
   }),
   Review.create({
     text: `It was an amazing week long trip!! I highly recommend to anyone looking into this destination!`
