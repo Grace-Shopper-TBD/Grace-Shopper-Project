@@ -44,6 +44,12 @@ form div {
   display: inline-block;
 }
 
+.fa{
+  color: green;
+  font-size: 3em !important; 
+  margin: 0 auto;
+}
+
 /* css below from Bootstrap */
 
 .form-signin {
@@ -74,6 +80,11 @@ form div {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.g-signin2 {
+  display:block;
+  text-align:center;
 }
 
 :root {
