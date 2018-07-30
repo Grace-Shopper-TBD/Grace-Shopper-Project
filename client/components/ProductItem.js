@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import AddToCart from './AddToCartButton.js'
 
 const ProductItem = ({product}) => {
     if(!product){
@@ -10,8 +11,9 @@ const ProductItem = ({product}) => {
             <img src={product.photo} id='product-photo'/>
             <div>
                 <h5>{product.title}</h5>
-                <p>${product.price}</p>
-                <h3>{product.quantity} Left</h3>
+                <p>{product.price}</p>
+                <h3>{product.availability}</h3>
+                <AddToCart product={product} />
             </div>
         </Link>
     )

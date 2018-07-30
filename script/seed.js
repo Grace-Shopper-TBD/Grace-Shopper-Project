@@ -84,6 +84,7 @@ const orders = await Promise.all([
     isCart: true
   })
 ])
+
 const reviews = await Promise.all([
   Review.create({
     text: `I loved the hotel and entire trip!! I can't wait to go back!!`,
