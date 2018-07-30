@@ -14,6 +14,7 @@ export {default as UserItem} from './UserBlock'
 export {default as AdminProducts} from './AdminProducts'
 export {default as UpdateProd} from './AdminUpdateForm'
 export {default as Cart} from './Cart'
+export {default as Footer} from './footer'
 export {default as NewProd} from './AdminNewForm'
 export {default as AdminCategories} from './AdminCategories'
 

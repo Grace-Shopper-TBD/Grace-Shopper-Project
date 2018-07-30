@@ -14,10 +14,10 @@ class Cart extends Component {
 	}
 
 	render(){
-		console.log("Cart Props:", this.props)
-	    const lineItems = this.props.cart.cart
+		const lineItems = this.props.cart.cart
 	    const products = this.props.products
-	    console.log("Products:", products)
+		console.log('line item quantity', lineItems.quantity)
+		
 
 	    if (this.props.cart.isLoading) {
 	    	return (<h1>Loading...</h1>)
@@ -29,7 +29,7 @@ class Cart extends Component {
 
 	    return (
 	        <div className='container'>
-	            <h1>This is the cart</h1>
+	            <h1>Your orders</h1>
 	            <ul>
 	            { lineItems.map(lineItem => 
 	            	(

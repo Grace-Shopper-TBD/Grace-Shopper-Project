@@ -17,14 +17,17 @@ const ProductList = ({products}) => {
 
     return (
         <div>
-        <h1>All Vacations</h1>
-            {
-                products.map((product) => (
-                    <div key={product.id}>
-                        <ProductItem product={product}/>
+                <div className='container'>
+                    <div className='row mb-2'>
+                    {
+                        products.map((product) => (
+                            <div key={product.id}>
+                                <ProductItem product={product}/>
+                            </div>
+                        ))
+                    }
                     </div>
-                ))
-            }
+                </div>                                     
         </div>
     )
 }

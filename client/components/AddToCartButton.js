@@ -22,8 +22,8 @@ class AddToCartButton extends Component {
 	render(){
 		return (
 				<div>
-				<button type="button" onClick={(event) => this.handleClick(event, this.props.product)}>Add To Cart</button>
-				{ this.state.clicked && <h4>Added To Cart!</h4> }
+				<button type="button" className="btn btn-info" onClick={(event) => this.handleClick(event, this.props.product)}>Add To Cart</button>
+				{ this.state.clicked && <div className='cart-notif'>Added To Cart!</div> }
 				</div>
 			)
 	}

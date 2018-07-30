@@ -21,12 +21,12 @@ async function seed() {
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'}),
-    User.create({email: 'karalyn.ferrari@email.com', password: 'abc123', isAdmin:true}),
-    User.create({email: 'bronwyneharris@email.com', password: '123', isAdmin:true}),
-    User.create({email: 'shoshanarosenfield@email.com', password: 'graceshoppertbd123', isAdmin:true}),
-    User.create({email: 'ebner.ali@email.com', password: 'tbd123', isAdmin:true})
+    User.create({name: 'Cody', email: 'cody@email.com', password: '123'}),
+    User.create({name: 'Murphy', email: 'murphy@email.com', password: '123'}),
+    User.create({name: 'Karalyn', email: 'karalyn.ferrari@email.com', password: 'abc123', isAdmin:true}),
+    User.create({name: 'Bronwyn', email: 'bronwyneharris@email.com', password: '123', isAdmin:true}),
+    User.create({name: 'Shoshana', email: 'shoshanarosenfield@email.com', password: 'graceshoppertbd123', isAdmin:true}),
+    User.create({name: 'Ali', email: 'ebner.ali@email.com', password: 'tbd123', isAdmin:true})
 
   ])
   const products = await Promise.all([
