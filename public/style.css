@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  padding-bottom: 30px;
 }
 
 a {
@@ -34,9 +35,17 @@ nav a {
     bottom: 0;
     width: 100%;
     background-color: turquoise;
-    /* color: white; */
+    height: 26px;
     text-align: center;
     z-index: 100;
+    overflow: scroll;
+}
+
+.footerWrapper{
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto 22px;
 }
 
 form div {
@@ -46,7 +55,7 @@ form div {
 
 .fa{
   color: green;
-  font-size: 3em !important; 
+  font-size: 3em !important;
   margin: 0 auto;
 }
 

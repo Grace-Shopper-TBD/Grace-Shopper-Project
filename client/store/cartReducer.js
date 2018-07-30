@@ -10,7 +10,6 @@ const initialState = {
 
 // Action types
 const GET_CART_ITEMS = 'GET_CART_ITEMS'
-const ADD_TO_CART = 'ADD_TO_CART'
 const UPDATE_CART = 'UPDATE_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 const CART_ERROR = "CART_ERROR"
@@ -56,17 +55,17 @@ export const addItemToCart = (cartItem) => async dispatch => {
         const { data } = await axios.post(`/api/orders`, cartItem)
         dispatch(updateCart(data))
     } catch(err){
-        console.log(err)
+        dispatch(cartError())
     }
 }
 
 export const changeQuantity = (productId, quantity) => async(dispatch) => {
     try {
-        const response = await axios.put(`/api/orders/cart/${productId}`, quantity)
+        const response = await axios.put(`/api/orders/cart/${productId}`, { "quantity": quantity })
         const updated = response.data
         dispatch(updateCart(updated))
     } catch(err) {
-        console.log(err)
+        dispatch(cartError())
     }
 }
 
@@ -75,7 +74,7 @@ export const removeFromCart = (productId) => async(dispatch) => {
         await axios.delete(`/api/orders/cart/${productId}`)
         dispatch(remove(productId))
     } catch(err){
-        console.log(err)
+        dispatch(cartError())
     }
 }
 
