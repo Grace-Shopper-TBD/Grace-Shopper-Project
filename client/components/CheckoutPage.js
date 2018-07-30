@@ -46,7 +46,18 @@ class CheckoutPage extends Component {
                               <ProductInCart product={products.find(product => product.id === lineItem.productId)} lineItem={lineItem}/> 
                             </div>
                           ))
-                        }                      
+                        }
+                        
+                        <li className="list-group-item d-flex justify-content-between bg-light">
+                          <div className="text-success">
+                            <h6 className="my-0">Promo code</h6>
+                            <small>
+                            <input type="text" name="discount" className="form-control" placeholder="Discount"/>
+                            </small>
+                          </div>
+                          <span className="text-success">20% Off</span>
+                        </li>
+
                       </ul>
                   </div>                
                 </div>
