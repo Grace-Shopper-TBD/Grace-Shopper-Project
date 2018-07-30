@@ -75,25 +75,37 @@ export const changeProduct = (prod, props) => async dispatch => {
 
 export const getProduct = (productId) => {
   return async(dispatch) => {
-    const response = await axios.get(`/api/products/${productId}`)
-    const product = response.data
-    dispatch(oneProduct(product))
+    try{
+        const response = await axios.get(`/api/products/${productId}`)
+        const product = response.data
+        dispatch(oneProduct(product))
+      } catch(err){
+        console.error(err)
+      }
   }
 }
 
 export const addNewProduct = (product, ownProps) => {
   return async(dispatch) => {
-    const res = await axios.post('/api/products', product)
-    const prod = res.data
-    dispatch(addProduct(prod))
-    ownProps.history.push('/admin/products')
+    try{
+        const res = await axios.post('/api/products', product)
+        const prod = res.data
+        dispatch(addProduct(prod))
+        ownProps.history.push('/admin/products')
+      } catch (err){
+        console.error(err)
+      }
   }
 }
 
 export const delProduct = (id) => {
   return async(dispatch)=>{
-    await axios.delete(`/api/products/${id}`)
-    dispatch(deleteProduct(id))
+    try{
+        // await axios.delete(`/api/products/${id}`)
+        // dispatch(deleteProduct(id))
+      } catch(err){
+        console.error(err)
+      }
   }
 }
 
