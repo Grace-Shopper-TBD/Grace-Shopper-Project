@@ -19,16 +19,16 @@ const ProductItem = ({product}) => {
                             <h3>{product.quantity} Left</h3>
                             <div className="d-flex justify-content-between align-items-center">
                                 <div className="btn-group">
-                                    <AddToCart product={product} />                                                    
+                                    <AddToCart product={product} />
                                     <Link to={`/products/${product.id}`}>
                                         <button type="button" className="btn btn-dark">View</button>
                                     </Link>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
-                </div>        
-            </div>        
+                </div>
+            </div>
         </div>
     )
 }
