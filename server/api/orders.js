@@ -57,6 +57,23 @@ router.get('/cart', async (req, res, next) => {
 	}
 })
 
+router.get('/user/:userId', async (req, res, next) => {
+	try {
+		const orders = await Order.findAll({
+			where: {
+				userId: req.params.userId
+			}
+		})
+		if (!orders) {
+			const err = new Error('No Orders Found')
+			return next(err)
+		}
+		res.json(orders)
+	} catch (err) {
+		next(err)
+	}
+})
+
 router.get('/:orderId', authorize, async (req, res, next) => {
 	try {
 		const order = await Order.findById(req.params.orderId)
@@ -138,19 +155,23 @@ router.post('/', async (req, res, next) => {
 
 router.post('/checkout', async (req, res, next) => {
 	try {
-		//assuming req.body is an object with recipientName and recipientAddress
+		//assuming req.body is an object with recipientName and recipientAddress (and possibly confirmation email)
 		if (req.user) {
 			const order = await Order.findOne({
 				where: {
 					userId: req.user.id,
 					isCart: true
-				}
+				},
+				include: [{
+					model: Product
+				}]
 			})
 			await order.update({
 				recipientName: req.body.recipientName,
 				recipientAddress: req.body.recipientAddress,
 				status: 'PROCESSING'
 			})
+			req.session.cart = order.products.map(product => product.lineItem)
 		}
 		else {
 			const guestOrder = await Order.create({
@@ -165,6 +186,10 @@ router.post('/checkout', async (req, res, next) => {
 				productId: entry.productId
 			}))
 		}
+
+		req.session.cart.forEach(entry => {
+			Product.findById(entry.productId).then(product => product.decrement('quantity', { by: 1 })).catch()	
+		})
 
 		req.session.cart = null
 		res.sendStatus(204)
@@ -184,7 +209,6 @@ router.put('/cart/:productId', async (req, res, next) => {
 
 		const entryToUpdate = req.session.cart.find(entry => entry.productId === +req.params.productId)
 		entryToUpdate.quantity = +req.body.quantity
-		console.log("entry to update", entryToUpdate)
 		if (req.user) {
 			const lineItem = await LineItem.findOne({
 				where: {
@@ -235,6 +259,7 @@ router.delete('/cart/:productId', async (req, res, next) => {
 		next(err)
 	}
 })
+
 
 
 
