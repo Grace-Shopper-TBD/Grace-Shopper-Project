@@ -1,12 +1,18 @@
 const router = require('express').Router()
-const { Product, Order, LineItem } = require('../db/models')
+const { Product, Order, LineItem, Review } = require('../db/models')
 const authorize = require('./authorize')
 
 router.get('/', authorize, async (req, res, next) => {
 	try {
 		const orders = await Order.findAll({
+			where: {
+				isCart: false
+			},
 			include: [{
-				model: Product
+				model: Product,
+				include: [{
+						model: Review
+					}]
 			}]
 		})
 		if (!orders) {
@@ -35,7 +41,6 @@ router.get('/cart', async (req, res, next) => {
 			if (!cart) {
 				return res.json([])
 			}
-			console.log(cart)
 			if (!req.session.cart) {
 				req.session.cart = cart.products.map(product => product.lineItem)
 			}
@@ -66,32 +71,45 @@ router.get('/:orderId', authorize, async (req, res, next) => {
 	}
 })
 
-router.post('/', async (req, res, next) => {
-	//assuming req.body is product object
-	try {
-		if (req.user) {
-			 const [ order, wasCreated ] = await Order.findOrCreate({
+const userLineItem = async (userId, product) => {
+	const [ order, wasCreated ] = await Order.findOrCreate({
 					where: {
-						userId: req.user.id,
+						userId: userId,
 						isCart: true
 					},
 					defaults: 
 					{
-						userId: req.user.id,
+						userId: userId,
 						isCart: true
 					}})
 			let [ newLineItem, created ] = await LineItem.findOrCreate({
 					where: {
 						orderId: order.id,
-						productId: req.body.id
+						productId: product.id
 					},
 					defaults:
 					{
 					quantity: 1,
-					price: req.body.price,
-					productId: req.body.id,
+					price: product.price,
+					productId: product.id,
 					orderId: order.id
 				}})
+		return [ newLineItem, created ]
+}
+
+const sessionLineItem = product => {
+	return {
+		productId: product.id,
+		quantity: 1,
+		price: product.price
+	}
+}
+
+router.post('/', async (req, res, next) => {
+	//assuming req.body is product object
+	try {
+		if (req.user) {
+			let [ newLineItem, created ] = await userLineItem(req.user.id, req.body)
 			if (!created) {
 				newLineItem = await newLineItem.update({
 					quantity: newLineItem.quantity + 1
@@ -105,14 +123,10 @@ router.post('/', async (req, res, next) => {
 			let lineItem;
 			if (req.session.cart) {
 				lineItem = req.session.cart.find(entry => entry.productId === req.body.id)
-				lineItem.quantity++
+				if (lineItem) lineItem.quantity++
 			}
 			if (!lineItem) {
-				lineItem = {
-				productId: req.body.id,
-				quantity: 1,
-				price: req.body.price
-				}
+				lineItem = sessionLineItem(req.body)
 				req.session.cart ? req.session.cart.push(lineItem) : req.session.cart = [lineItem]
 			}
 		}
@@ -138,6 +152,19 @@ router.post('/checkout', async (req, res, next) => {
 				status: 'PROCESSING'
 			})
 		}
+		else {
+			const guestOrder = await Order.create({
+				recipientName: req.body.recipientName,
+				recipientAddress: req.body.recipientAddress,
+				confirmationEmail: req.body.confirmationEmail,
+				status: "PROCESSING"
+			})
+			await req.session.cart.forEach(entry => LineItem.create({
+				quantity: entry.quantity,
+				price: entry.price,
+				productId: entry.productId
+			}))
+		}
 
 		req.session.cart = null
 		res.sendStatus(204)
@@ -152,10 +179,12 @@ router.post('/checkout', async (req, res, next) => {
 router.put('/cart/:productId', async (req, res, next) => {
 	//assuming req.body is the new quantity
 	try {
-		const entryToUpdate = req.session.cart.find(entry => entry.productId === +req.params.productId)
-		console.log(entryToUpdate)
-		entryToUpdate.quantity = req.body.quantity
+		console.log("req body!!!!!!!!", req.body)
+		console.log("old cart", req.session.cart)
 
+		const entryToUpdate = req.session.cart.find(entry => entry.productId === +req.params.productId)
+		entryToUpdate.quantity = +req.body.quantity
+		console.log("entry to update", entryToUpdate)
 		if (req.user) {
 			const lineItem = await LineItem.findOne({
 				where: {
@@ -171,6 +200,7 @@ router.put('/cart/:productId', async (req, res, next) => {
 			}
 		}
 		req.session.cart = req.session.cart.filter(entry => entry.quantity > 0)
+		console.log("new cart", req.session.cart)
 		res.json(req.session.cart)
 
 	} catch (err) {
