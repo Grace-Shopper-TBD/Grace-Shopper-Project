@@ -4,9 +4,24 @@ const authorize = require('./authorize')
 
 router.get('/', async (req, res, next) => {
   try {
-    const products = await Product.findAll({include: [{
-      model: Category
-    }]})
+    let products
+    if(Object.keys(req.query).length>0){
+      let catId = req.query.category
+      products = await Product.findAll({
+        includes:[{
+          model:Category,
+          attributes:['id']
+        }],
+        where:{
+          id:catId
+        }
+      })
+    }
+    else{
+        products = await Product.findAll({include: [{
+          model: Category
+        }]})
+      }
     if (!products) {
       const err = new Error('Products not found!')
       err.status = 404
