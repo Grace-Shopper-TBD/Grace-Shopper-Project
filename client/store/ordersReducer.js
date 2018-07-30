@@ -8,6 +8,7 @@ const ORDER_LOADING = 'ORDER_LOADING'
 const GOT_ERROR = "GOT_ERROR"
 const GET_ORDERS = 'GET_ORDERS'
 const UPDATE_ORDER = 'UPDATE_ORDER'
+const CREATE_NEW_ORDER = 'CREATE_NEW_ORDER'
 /**
  * INITIAL STATE
  */
@@ -38,6 +39,11 @@ const updateOrder = (order) => ({
   order
 })
 
+const createNewOrder = order => ({ 
+  type: CREATE_NEW_ORDER, 
+  order 
+})
+
 /**
  * THUNK CREATORS
  */
@@ -59,6 +65,18 @@ export const updateOrderThunk = (order) => async(dispatch) => {
     console.error(err)
   }
 }
+
+export const makeNewOrder = (userId, order) => dispatch =>
+    axios.post('/api/users/' + userId + '/orders', order)
+      .then(res => {
+        dispatch(createNewOrder(res.data))
+        return axios.post('/api/email/sendCheckoutMail', {
+          order,
+          subtotal: order.items.reduce((acc, i) => i.quantity * i.price + acc, 0),
+          to: order.confirmationEmail
+        })
+      })
+      .catch(err => console.err(err))
 
 /**
  * REDUCER
