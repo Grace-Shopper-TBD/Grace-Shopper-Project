@@ -50,9 +50,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         </ul>
       </ul>
       </div>
-    </nav>
-    <hr />
-  </div>
+      </nav>
+      <hr />
+      </div>
 )
 
 /**
