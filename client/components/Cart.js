@@ -30,7 +30,7 @@ class Cart extends Component {
 	    return (
 	        <div className='container'>
 				<h1>Your orders</h1>
-				<Link to='/checkout'>
+				<Link to='/orders/checkout'>
 					<button type="button" class="btn btn-info">Proceed To Checkout</button>
 				</Link>
 	            <ul>
