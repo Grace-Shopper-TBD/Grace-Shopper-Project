@@ -37,18 +37,22 @@ class ProductForm extends Component {
 
     return (
           <form id="productForm" onSubmit={this.handleSubmit}>
-            <label>Title</label>
-            <input type='text' name='title' value={this.state.title} onChange={this.handleChange}/>
-            <label>Description</label>
-            <input type='text' name='description' value={this.state.description} onChange={this.handleChange} />
-            <label>Quantity</label>
-            <input type='text' name='quantity' value={this.state.quantity} onChange={this.handleChange} />
-            <label>Price</label>
-            <input type='text' name='price' value={
-              this.state.price} onChange={this.handleChange} />
-            <label>image Url</label>
-            <input type='text' name='photo' value={this.state.photo} onChange={this.handleChange}/>
-            <button type='submit'>Submit</button>
+            <div className="form-group">
+              <label>Title</label>
+              <input type='text' name='title' className="form-control" value={this.state.title} onChange={this.handleChange} placeholder="Enter Title"/>
+              <label>Description</label>
+              <input type='text' name='description' className="form-control" value={this.state.description} onChange={this.handleChange} placeholder="Enter A Description"/>
+              <label>Quantity</label>
+              <input type='text' name='quantity' className="form-control" value={this.state.quantity} onChange={this.handleChange}/>
+              <label>Price</label>
+              <input type='text' name='price' className="form-control" value={
+                this.state.price} onChange={this.handleChange} />
+              <label>image Url</label>
+              <input type='text' name='photo' vclassName="form-control" alue={this.state.photo} onChange={this.handleChange}/>
+              <div className="container">
+                <button type='submit' className="btn btn-primary">Submit</button>                          
+              </div>
+            </div>
           </form>
 
             )
