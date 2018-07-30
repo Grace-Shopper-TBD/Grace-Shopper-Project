@@ -109,8 +109,8 @@ const mapDispatch = (dispatch) => {
         handleSubmit(evt, userid, cart){
             evt.preventDefault()
             //submit cart data into the user's orders
-            let {recipientName, confirmationEmail, recipientAddress, recipientPhone, specialInstructions} = evt.target;
-            [recipientName, confirmationEmail, recipientAddress, recipientPhone, specialInstructions] = [recipientName, confirmationEmail, recipientAddress, recipientPhone, specialInstructions].map(x => x.value)
+            let {recipientName, confirmationEmail, recipientAddress} = evt.target;
+            [recipientName, confirmationEmail, recipientAddress] = [recipientName, confirmationEmail, recipientAddress].map(x => x.value)
             let order = {
                 status: 'CREATED', 
                 isCart: false,
