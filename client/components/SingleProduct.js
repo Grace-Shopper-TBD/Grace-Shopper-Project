@@ -62,6 +62,8 @@ class SingleProduct extends Component {
 
 const mapState = (state, {match}) => {
     return {
+
+        
         product: state.product.singleProduct,
         review: state.review
     }

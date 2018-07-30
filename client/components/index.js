@@ -16,6 +16,7 @@ export {default as UpdateProd} from './AdminUpdateForm'
 export {default as Cart} from './Cart'
 export {default as Footer} from './footer'
 export {default as NewProd} from './AdminNewForm'
+export {default as CheckoutPage} from './CheckoutPage'
+export {default as ProductInCart} from './ProductInCart'
 export {default as AdminCategories} from './AdminCategories'
 export {default as AdminOrders} from './AdminOrders'
-

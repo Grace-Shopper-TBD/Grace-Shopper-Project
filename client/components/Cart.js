@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import ProductItem from './ProductItem';
 import { fetchCart, loadingCart, changeQuantity } from '../store/cartReducer'
 import { fetchProducts } from '../store/productReducer'
-//import any thunks
 
 class Cart extends Component {
 	constructor(){
@@ -39,7 +38,10 @@ class Cart extends Component {
 
 	    return (
 	        <div className='container'>
-	            <h1>Your orders</h1>
+				<h1>Your orders</h1>
+				<Link to='/orders/checkout'>
+					<button type="button" className="btn btn-info">Proceed To Checkout</button>
+				</Link>
 	            <ul>
 	            { lineItems.map(lineItem => 
 	            	(
@@ -52,7 +54,7 @@ class Cart extends Component {
 					        {
 					          [...Array(products.find(product => product.id === lineItem.productId).quantity+1).keys()].map(num => <option key={num} value={num}>{num}</option>)
 					        }
-					      </select>
+						  </select>						  
 						</form>
 	            		</div>
 
