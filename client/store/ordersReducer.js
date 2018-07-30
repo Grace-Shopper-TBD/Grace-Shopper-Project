@@ -72,7 +72,6 @@ export const makeNewOrder = (userId, order) => dispatch =>
         dispatch(createNewOrder(res.data))
         return axios.post('/api/email/sendCheckoutMail', {
           order,
-          subtotal: order.items.reduce((acc, i) => i.quantity * i.price + acc, 0),
           to: order.confirmationEmail
         })
       })
@@ -92,6 +91,10 @@ export default function(state = initialState, action) {
     case UPDATE_ORDER:
       let deletes = state.list.filter((thing)=> action.order.id !== thing.id)
       return {...state, list:[...deletes, action.order]}
+    case CREATE_NEW_ORDER:
+      const newState = state
+      newState.list.push(action.order)
+      return newState
     default:
       return state
   }

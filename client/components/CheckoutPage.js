@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import {fetchCart, loadingCart} from '../store/cartReducer'
 import { fetchProducts } from '../store/productReducer'
+import {makeNewOrder} from '../store/ordersReducer'
 // import thunks for new order and clear cart
 // we also need to invoke handleSubmit within the form
 import Checkout from './Checkout';
@@ -106,7 +107,7 @@ class CheckoutPage extends Component {
 
 const mapDispatch = (dispatch) => {
     return {
-        handleSubmit(evt, userid, cart){
+        handleSubmit(evt, userid, lineItems){
             evt.preventDefault()
             //submit cart data into the user's orders
             let {recipientName, confirmationEmail, recipientAddress} = evt.target;
@@ -116,7 +117,7 @@ const mapDispatch = (dispatch) => {
                 isCart: false,
                 recipientName, confirmationEmail, recipientAddress
             }
-            // dispatch(makeNewOrder(userid, order)) we need the thunk for a creating a new order before we can invoke handleSubmit
+            dispatch(makeNewOrder(userid, order)) //we need the thunk for a creating a new order before we can invoke handleSubmit
             // we used to clear cart here but now going to only do it at the stripe success callback
         },
         fetchCart(){
