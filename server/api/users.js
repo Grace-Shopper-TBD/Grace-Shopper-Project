@@ -1,3 +1,4 @@
+
 const router = require('express').Router()
 const {User} = require('../db/models')
 
@@ -16,9 +17,10 @@ router.use('/:userId', (req,res,next)=> {
 // GET /api/users
 router.get('/', async (req, res, next) => {
   try {
+
     if(req.user.isAdmin){
       const users = await User.findAll({
-        attributes: ['id', 'email']
+        attributes: ['id', 'email', 'isAdmin']
       })
       res.json(users)
     }
@@ -27,6 +29,7 @@ router.get('/', async (req, res, next) => {
       err.status = 401
       return next(err)
     }
+
   } catch (err) {
     next(err)
   }

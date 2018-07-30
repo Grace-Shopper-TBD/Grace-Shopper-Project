@@ -23,7 +23,6 @@ export const setCategories = categoriesList => ({
 export const fetchCategories = () => async dispatch =>{
   try{
     const {data} = await axios.get('/api/categories')
-    console.log('')
     dispatch(setCategories(data))
   } catch (err) {
     console.error(err)
@@ -32,7 +31,6 @@ export const fetchCategories = () => async dispatch =>{
 
 // REDUCER
 export default function (state = categories, action) {
-  console.log('ACTION', action.type)
   switch(action.type){
     case SET_CATEGORIES: {
       return {...state, list: action.categoriesList, isLoading: false, gotError: false}
