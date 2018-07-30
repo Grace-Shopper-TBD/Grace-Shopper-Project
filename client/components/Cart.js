@@ -30,8 +30,8 @@ class Cart extends Component {
 	    return (
 	        <div className='container'>
 				<h1>Your orders</h1>
-				<Link to='/checkout'>
-					<button type="button" class="btn btn-info">Proceed To Checkout</button>
+				<Link to='/orders/checkout'>
+					<button type="button" className="btn btn-info">Proceed To Checkout</button>
 				</Link>
 	            <ul>
 	            { lineItems.map(lineItem => 
