@@ -126,7 +126,7 @@ export const getFilteredProducts = categoryId => {
   return async (dispatch) => {
     try {
       dispatch(loadProduct())
-      const { data } = await axios.get(`/api/products?${categoryId}`)
+      const { data } = await axios.get(`/api/products?category=${categoryId}`)
       dispatch(filterProducts(data))
     } catch (err) {
       dispatch(gotError())

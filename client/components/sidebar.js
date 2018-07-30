@@ -17,7 +17,7 @@ class Sidebar extends Component {
 
 	async handleChange(event){
 		event.persist()
-		await event.target.value === 'All' ? this.props.fetchProducts() : this.props.getFilteredProducts(event.target.value)
+		await event.target.value === 'All' ? this.props.fetchProducts() : this.props.filterProducts(event.target.value)
 		this.props.history.push(`/products?category=${event.target.value}`)
 	}
 
@@ -59,7 +59,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
 		return {
 			fetchCategories: () => dispatch(fetchCategories()),
-			filterProducts: (categoryName) => dispatch(getFilteredProducts(categoryName)),
+			filterProducts: (categoryId) => dispatch(getFilteredProducts(categoryId)),
 			fetchProducts: () => dispatch(fetchProducts())
 		}
 }
