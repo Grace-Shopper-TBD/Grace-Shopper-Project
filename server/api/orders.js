@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Product, Order, LineItem, Review } = require('../db/models')
+const { Product, Order, LineItem, Review, User } = require('../db/models')
 const authorize = require('./authorize')
 
 router.get('/', authorize, async (req, res, next) => {
@@ -10,10 +10,9 @@ router.get('/', authorize, async (req, res, next) => {
 			},
 			include: [{
 				model: Product,
-				include: [{
-						model: Review
-					}]
-			}]
+			},{
+				model: User,
+				attributes: ['name', 'email']}]
 		})
 		if (!orders) {
 			const err = new Error('Orders Not Found')
@@ -94,7 +93,7 @@ const userLineItem = async (userId, product) => {
 						userId: userId,
 						isCart: true
 					},
-					defaults: 
+					defaults:
 					{
 						userId: userId,
 						isCart: true
@@ -262,5 +261,5 @@ router.delete('/cart/:productId', async (req, res, next) => {
 
 
 
-
 module.exports = router
+
