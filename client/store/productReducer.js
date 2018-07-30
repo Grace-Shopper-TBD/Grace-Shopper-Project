@@ -8,6 +8,8 @@ export const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
 export const GET_PRODUCT = 'GET_PRODUCT'
 const LOADING_PRODUCTS = 'LOADING_PRODUCTS'
 const LOADING_PROBLEM = 'LOADING_PROBLEM'
+const DELETE_PRODUCT = 'DELETE_PRODUCT'
+const ADD_PRODUCT = 'ADD_PRODUCT'
 /**
  * INITIAL STATE
  */
@@ -31,12 +33,20 @@ export const filterProducts = (filter => ({
   filter
 }))
 
+const deleteProduct = (id => ({
+  type:DELETE_PRODUCT,
+  id
+}))
+
 export const oneProduct = (product) => ({
   type: GET_PRODUCT,
   product
 })
 
-
+const addProduct =(product => ({
+  type:ADD_PRODUCT,
+  product
+}))
 /**
  * THUNK CREATORS
  */
@@ -44,9 +54,21 @@ export const oneProduct = (product) => ({
 export const fetchProducts = () => async dispatch => {
   try {
     const res = await axios.get('/api/products/')
-    console.log("res data!!!", res.data)
     dispatch(setProducts(res.data))
   } catch (err) {
+    console.error(err)
+  }
+}
+
+
+export const changeProduct = (prod, props) => async dispatch => {
+  try{
+    const res = await axios.put(`/api/products/${prod.id}`, prod)
+    dispatch(deleteProduct(prod.id))
+    dispatch(addProduct(res.data))
+    props.history.push('/admin/products')
+  }
+  catch(err) {
     console.error(err)
   }
 }
@@ -56,6 +78,15 @@ export const getProduct = (productId) => {
     const response = await axios.get(`/api/products/${productId}`)
     const product = response.data
     dispatch(oneProduct(product))
+  }
+}
+
+export const addNewProduct = (product, ownProps) => {
+  return async(dispatch) => {
+    const res = await axios.post('/api/products', product)
+    const prod = res.data
+    dispatch(addProduct(prod))
+    ownProps.history.push('/admin/products')
   }
 }
 
@@ -79,6 +110,12 @@ export default function(state = products, action) {
         return false
         })
       return {...state, list:newList}
+    }
+    case DELETE_PRODUCT: {
+      return {...state, list: state.list.filter(prod=> prod.id!==action.id)}
+    }
+    case ADD_PRODUCT: {
+      return {...state, list:[...state.list, action.product]}
     }
     case LOADING_PRODUCTS:
       return {...state, isLoading: true}

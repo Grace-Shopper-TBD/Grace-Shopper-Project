@@ -1,11 +1,13 @@
 const router = require('express').Router()
-const { Review } = require('../db/models')
+const { User, Review } = require('../db/models')
 
 
 // GET /api/reviews
 router.get('/', async(req,res,next) => {
   try{
-    const reviews = await Review.findAll()
+    const reviews = await Review.findAll({
+      include: [User]
+    })
     res.json(reviews)
   }catch(error){
     next(error)
@@ -15,7 +17,9 @@ router.get('/', async(req,res,next) => {
 // GET /api/reviews/:reviewId
 router.get('/:id', async(req,res,next) => {
   try {
-    const review = await Review.findById(req.params.id)
+    const review = await Review.findById(req.params.id, {
+      include: [User]
+    })
     if(!review) {
       const err = new Error('No review found!')
       err.status = 404
@@ -30,7 +34,13 @@ router.get('/:id', async(req,res,next) => {
 // POST /api/reviews
 router.post('/', async (req, res, next) => {
   try {
-    await Review.create(req.body)
+    const updatedBody = {
+      text: req.body.text,
+      productId: req.body.productId,
+      userId: req.user ? +req.user.id : null,
+    }
+    console.log(updatedBody)
+    await Review.create(updatedBody)
     res.sendStatus(201)
   } catch (error) {
     next(error)

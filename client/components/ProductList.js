@@ -2,28 +2,32 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import ProductItem from './ProductItem';
+
 //make sure to import any thunks here! We may add a mapDispatch later
 
 const ProductList = ({products}) => {
-    console.log('these are the products in ProductList', products)
-    if(!products){
+    products = products.filter(pro=> pro.quantity>0)
+    if(!products.length){
         return (
             <div>
             <h2>There are no vacations available!</h2>
             </div>
         )
     }
-    
+
     return (
         <div>
-        <h1>All Vacations</h1>
-            {
-                products.map((product) => (
-                    <div key={product.id}>
-                        <ProductItem product={product}/>
+                <div className='container'>
+                    <div className='row mb-2'>
+                    {
+                        products.map((product) => (
+                            <div key={product.id}>
+                                <ProductItem product={product}/>
+                            </div>
+                        ))
+                    }
                     </div>
-                ))
-            }
+                </div>                                     
         </div>
     )
 }
