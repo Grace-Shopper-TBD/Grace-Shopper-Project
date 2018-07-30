@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import ProductItem from './ProductItem';
 import { fetchCart, loadingCart } from '../store/cartReducer'
 import { fetchProducts } from '../store/productReducer'
-//import any thunks
 
 class Cart extends Component {
 	componentDidMount(){
