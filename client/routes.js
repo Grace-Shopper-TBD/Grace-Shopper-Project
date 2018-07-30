@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, ProductList, SingleProduct, AdminUsers, AdminProducts, UpdateProd, Cart, NewProd, AdminCategories, AdminOrders} from './components'
 import {me} from './store'
 import {fetchProducts} from './store/productReducer'
+import ReviewForm from './components/ReviewForm';
 
 /**
  * COMPONENT
@@ -23,6 +24,7 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products" component={ProductList} />
+        <Route path='/products/:id/addReview' component={ReviewForm} />
         <Route path="/products/:id" component={SingleProduct}/>
         <Route path='/orders/cart' component={Cart}/>
         {isLoggedIn && (

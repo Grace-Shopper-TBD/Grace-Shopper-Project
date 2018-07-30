@@ -31,7 +31,7 @@ User.hasMany(Order)
 User.hasMany(Review)
 Review.belongsTo(User)
 
-Review.belongsTo(Product)
+Review.belongsTo(Product, { onDelete: 'cascade' })
 Product.hasMany(Review)
 
 
