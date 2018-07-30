@@ -24,6 +24,10 @@ export const setReviews = (reviewList => ({
   reviewList
 }))
 
+export const loadingReviews = () => ({
+	type: LOADING_REVIEWS
+})
+
 export const gotNewReviewFromServer = newReviewAdded => ({
   type: GOT_NEW_REVIEW_FROM_SERVER,
   newReviewAdded
@@ -36,7 +40,7 @@ export const gotNewReviewFromServer = newReviewAdded => ({
 export const fetchReviews = (productId) => async dispatch => {
   try {
     const id = +productId
-    const {data} = await axios.get('/api/reviews')
+    const { data } = await axios.get('/api/reviews')
     const productReviews = data.filter(review=>review.productId===id)
     dispatch(setReviews(productReviews))
     return data
@@ -47,13 +51,17 @@ export const fetchReviews = (productId) => async dispatch => {
 
 export const addReview = newReview => async dispatch => {
   try{
-    console.log('TEST',newReview)
-    const id=newReview.productId
-    const {data} = await axios.post('/api/reviews', newReview)
+    const { data } = await axios.post('/api/reviews', newReview)
     dispatch(gotNewReviewFromServer(data))
-    // console.log('DATA',data)
-    // const productReviews = data.filter(review=>review.productId===id)
-    // dispatch(setReviews(productReviews))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const deleteReviewThunk = review => async dispatch => {
+  try{
+    console.log('ID!',review)
+    const { data } = await axios.delete(`/api/reviews/${review.id}`,review)
   } catch (error) {
     console.error(error)
   }

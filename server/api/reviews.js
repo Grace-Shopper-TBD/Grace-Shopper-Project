@@ -14,7 +14,7 @@ router.get('/', async(req,res,next) => {
   }
 })
 
-// GET /api/reviews/:reviewId
+// GET /api/reviews/:id
 router.get('/:id', async(req,res,next) => {
   try {
     const review = await Review.findById(req.params.id, {
@@ -39,7 +39,6 @@ router.post('/', async (req, res, next) => {
       productId: req.body.productId,
       userId: req.user ? +req.user.id : null,
     }
-    console.log(updatedBody)
     await Review.create(updatedBody)
     res.sendStatus(201)
   } catch (error) {
@@ -47,10 +46,10 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-// PUT /api/reviews/:reviewId
-router.put('/:reviewId', async (req,res,next) => {
+// PUT /api/reviews/:id
+router.put('/:id', async (req,res,next) => {
   try {
-    const findReview = await Review.findById(req.params.reviewId)
+    const findReview = await Review.findById(req.params.id)
     const updatedReview = await findReview.update(req.body)
     res.status(200).json(updatedReview)
   } catch (error) {
@@ -58,15 +57,19 @@ router.put('/:reviewId', async (req,res,next) => {
   }
 })
 
-// DELETE /api/reviews/:reviewId
-router.delete('/:reviewId', async (req,res,next) => {
+// DELETE /api/reviews/:id
+router.delete('/:id', async (req,res,next) => {
   try {
-    const deleteReview = await Review.destroy({
-    where: {
-      id: req.params.reviewId
-    }
-  })
-  res.sendStatus(204)
+    console.log('req.body', req.body)
+    // if(req.user && (req.user.id===+req.body.user.id)){
+      const deleteReview = await Review.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+    res.sendStatus(204)
+    // }
+    // else res.sendStatus(401)
 } catch (error) {
   next (error)
 }

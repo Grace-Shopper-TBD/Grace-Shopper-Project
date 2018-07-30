@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { getProduct } from '../store';
-import {fetchReviews} from '../store/reviewReducer'
+import { fetchReviews, deleteReviewThunk } from '../store/reviewReducer'
 import AddToCart from './AddToCartButton.js'
 
 class SingleProduct extends Component {
@@ -16,15 +16,24 @@ class SingleProduct extends Component {
         this.props.singleProduct(+this.props.match.params.id)
         this.props.reviews(+this.props.match.params.id)
     }
-    handleClick(event) {
+    async handleClick(event) {
         event.preventDefault()
+        await this.props.reviews(+this.props.match.params.id)
         this.props.history.push(`/products/${this.props.match.params.id}/addReview`)
     }
 
-    handleDelete (event) {
+    async handleDelete (event) {
         event.preventDefault()
+        const reviewId=event.target.value
+        const reviews=this.props.review.list;
+        const rev=reviews.filter(review=>+reviewId===+review.id)[0]
+        await this.props.deleteReview(rev)
+        await this.props.reviews(+this.props.match.params.id)
+        this.props.history.push(`/products/${this.props.product.id}`)
+
     }
     render(){
+        console.log("USER",this.props)
         if(Object.keys(this.props.product).length){
             const product = this.props.product
             const reviews = this.props.review.list
@@ -43,7 +52,7 @@ class SingleProduct extends Component {
                                 <div key={review.id}>
                                     <p>{review.text}</p>
                                     {(!review.user) ? <p>Submitted By: Anonymous </p>: <p>Submitted By: {review.user.name}</p>}
-                                    <button type='button' className='btn btn-danger' onClick={this.handleDelete}>Remove Review</button>
+                                    {((!!Object.keys(this.props.user) && review.user) && (this.props.user.id === review.user.id)) ? <button type='button' className='btn btn-danger' value={review.id} onClick={this.handleDelete}>Remove Review</button> : ''}
                                 </div>
                             ))
                         }
@@ -54,7 +63,6 @@ class SingleProduct extends Component {
         } else {
             return (
                 <h1>...Loading</h1>
-
             )
         }
     }
@@ -62,10 +70,9 @@ class SingleProduct extends Component {
 
 const mapState = (state, {match}) => {
     return {
-
-        
         product: state.product.singleProduct,
-        review: state.review
+        review: state.review,
+        user: state.user
     }
 }
 
@@ -76,6 +83,9 @@ const mapDispatch = (dispatch, ownProps) => {
         },
         reviews: (id) => {
             dispatch(fetchReviews(id))
+        },
+        deleteReview: (reviewToBeDeleted) => {
+            dispatch(deleteReviewThunk(reviewToBeDeleted))
         }
     }
 }
