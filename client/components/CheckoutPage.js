@@ -13,69 +13,78 @@ const CheckoutPage = (props) => {
     //find method for getting particular products
 
     return (
-        <div className="container">
-            <div className="py-5 text-center">
-                <h2>Checkout form</h2>
-            </div>
-
+        <div className="contact-page" style={{ backgroundImage: "url('../resources/assets/img/bg7.jpg')", backgroundSize: 'cover', backgroundPosition: 'top center' }}>
+        <div id="contactUsMap" className="big-map"></div>
+  
+        <div className="main main-raised contact-content">
+          <div className="container">
+            <h2 className="title">Complete Your Order</h2>
             <div className="row">
-                <div className="col-md-4 order-md-2 mb-4">
-                    <h4 className="d-flex justify-content-between align-items-center mb-3">
-                    <span className="text-muted">Your cart</span>
-                    <span className="badge badge-secondary badge-pill">3</span>
-                    </h4>
-
-                        <ul className="list-group mb-3">
-                            <li className="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <h6 className="my-0">Product name</h6>
-                                <small className="text-muted">Brief description</small>
-                            </div>
-                            <span className="text-muted">$12</span>
-                            </li>
-                            <li className="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <h6 className="my-0">Second product</h6>
-                                <small className="text-muted">Brief description</small>
-                            </div>
-                            <span className="text-muted">$8</span>
-                            </li>
-                            <li className="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <h6 className="my-0">Third item</h6>
-                                <small className="text-muted">Brief description</small>
-                            </div>
-                            <span className="text-muted">$5</span>
-                            </li>
-                            <li className="list-group-item d-flex justify-content-between bg-light">
-                            <div className="text-success">
-                                <h6 className="my-0">Promo code</h6>
-                                <small>EXAMPLECODE</small>
-                            </div>
-                            <span className="text-success">-$5</span>
-                            </li>
-                            <li className="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <strong>$20</strong>
-                            </li>
-                        </ul>
-
-                        <form className="card p-2">
-                            <div className="input-group">
-                            <input type="text" className="form-control" placeholder="Promo code"/>
-                            <div className="input-group-append">
-                                <button type="submit" className="btn btn-secondary">Redeem</button>
-                            </div>
-                            </div>
-                        </form>
-
-
-                        
-                </div>
-
-
+  
+              <div className="col-md-4">
+                {props.cart.length && props.cart.map((element, index) => (
+  
+                  <div key={element.id} className="info info-horizontal icon icon-primary" >
+                    <div className="material-icons">
+                      <img src={element.product.photos[0]} alt="..." width="150" />
+                    </div>
+                    <div className="description">
+                      <h4 className="info-title">{element.product.name}</h4>
+                      <p>
+                        Breeder: {element.product.breeder} <br />
+                        Breed: {element.product.breed} <br />
+                        Quantity: {element.quantity} <br />
+                        Subtotal: ${element.product.price * element.quantity}
+                      </p>
+                    </div>
+                  </div>
+  
+                ))}
+  
+              </div>
+  
+              <div className="col-md-6 col-md-offset-2">
+                <p className="description">Enter your details below! We'll deliver your puppies right away.<br />
+                </p>
+                <form onSubmit={e => handleSubmit(e, props.user.id, props.cart)} role="form" id="contact-form" method="post">
+                  <div className="form-group label-floating">
+                    <label className="control-label">Recipient Name</label>
+                    <input type="text" name="recipientName" className="form-control" />
+                  </div>
+                  <div className="form-group label-floating">
+                    <label className="control-label">Confirmation Email</label>
+                    <input type="email" name="confirmationEmail" className="form-control" />
+                  </div>
+                  <br />
+                  <div className="form-group label-floating">
+                    <label className="control-label">Recipient Address</label>
+                    <input type="text" name="recipientAddress" className="form-control" />
+                  </div>
+                  <div className="form-group label-floating">
+                    <label className="control-label">Recipient Phone</label>
+                    <input type="text" name="recipientPhone" className="form-control" />
+                  </div>
+                  <br />
+                  <div className="form-group label-floating">
+                    <label className="control-label">Special Instructions</label>
+                    <textarea name="specialInstructions" className="form-control" id="message" rows="3"></textarea>
+                  </div>
+                  <br />
+                  {/*<div className="submit text-center">
+                    <input type="submit" className="btn btn-primary btn-raised btn-round" value="Submit" />
+                  </div>*/}
+                  <Checkout
+                    name={'Confirm purchase'}
+                    description={"This is only a test page, enter 4242 4242 4242 4242 for credit card"}
+                    amount={props.cart.map(el => el.product.price * el.quantity).reduce((a,b) => a+b, 0)}
+                    successPayment={successPayment}
+                  />
+                </form>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
 
     )
 
@@ -90,12 +99,8 @@ const mapDispatch = (dispatch) => {
             [recipientName, confirmationEmail, recipientAddress, recipientPhone, specialInstructions] = [recipientName, confirmationEmail, recipientAddress, recipientPhone, specialInstructions].map(x => x.value)
             let order = {
                 status: 'CREATED', 
-                items: cart.map((element, index) => ({
-                    product: element.product, 
-                    quantity: element.quantity, 
-                    price: element.product.price
-                })),
-                recipientName, confirmationEmail, recipientAddress, recipientPhone, specialInstructions
+                isCart: false,
+                recipientName, confirmationEmail, recipientAddress
             }
             // dispatch(makeNewOrder(userid, order)) or whatever the thunk is called for making a new order
         },
@@ -109,8 +114,9 @@ const mapDispatch = (dispatch) => {
 const mapState = state => {
 	return {
 		cart: state.cart,
-		products: state.product.list
+        products: state.product.list,
+        user: state.user
 	}
 }
 
-export default connect(mapState, null)(CheckoutPage)
+export default connect(mapState, mapDispatch)(CheckoutPage)
