@@ -101,8 +101,9 @@ export const addNewProduct = (product, ownProps) => {
 export const delProduct = (id) => {
   return async(dispatch)=>{
     try{
-        // await axios.delete(`/api/products/${id}`)
-        // dispatch(deleteProduct(id))
+         await axios.delete(`/api/products/${id}`)
+         dispatch(deleteProduct(id))
+        console.log("don't get mad")
       } catch(err){
         console.error(err)
       }
