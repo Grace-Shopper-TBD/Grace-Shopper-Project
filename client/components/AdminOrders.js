@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getAllOrders, updateOrderThunk} from '../store/ordersReducer'
+import {getAllOrders} from '../store/ordersReducer'
 import Order from './Order'
 
-class Categories extends Component {
+class AdminOrders extends Component {
   constructor(){
     super()
   }
@@ -32,8 +32,7 @@ const mapState = (state)=>{
 const mapDispatch = dispatch => {
   return {
     fetch: ()=> dispatch(getAllOrders()),
-    update: (order)=>dispatch(updateOrderThunk(order))
   }
 }
 
-export default connect(mapState, mapDispatch)(Categories)
+export default connect(mapState, mapDispatch)(AdminOrders)

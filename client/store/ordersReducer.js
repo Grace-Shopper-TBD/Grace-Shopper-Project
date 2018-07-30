@@ -47,14 +47,14 @@ export const getAllOrders = () => async(dispatch) => {
         const {data} = await axios.get(`/api/orders/`)
         dispatch(getOrders(data))
     } catch(err) {
-        console.err(err)
+        console.error(err)
     }
 }
 
-export const updateOrderThunk = () => async(dispatch) => {
+export const updateOrderThunk = (order) => async(dispatch) => {
   try {
-    const {data} = await axios.put(`/api/order/${id}`)
-    dispatch(updateOrder(data))
+    const {data} = await axios.put(`/api/orders/${order.id}`, order)
+    //dispatch(updateOrder(data))
   } catch(err) {
     console.error(err)
   }
@@ -73,7 +73,7 @@ export default function(state = initialState, action) {
       return {...state, list: action.orders}
     case UPDATE_ORDER:
       let deletes = state.list.filter((thing)=> action.order.id !== thing.id)
-      return {...state, list:[...deletes, order]}
+      return {...state, list:[...deletes, action.order]}
     default:
       return state
   }
