@@ -11,7 +11,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       <div className='navbar-header'>
       <a className='navbar-brand' href='#'>Totally Bomb Destinations (TBD)</a></div>
         <ul className="nav navbar-nav">
-        <li class='active'>
+        <li className='active'>
         <Link className="navbar-link" to="/products">Trip Catalog</Link>
         </li>
         </ul>
