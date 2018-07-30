@@ -9,7 +9,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <nav id='navbar' className="navbar navbar-default navbar-fixed-top">
       <div className='container-fluid'>
       <div className='navbar-header'>
-      <a className='navbar-brand' href='#'>Totally Bomb Destinations (TBD)</a></div>
+      <a className='navbar-brand' href='/'>Totally Bomb Destinations (TBD)</a></div>
         <ul className="nav navbar-nav">
         <li class='active'>
         <Link className="navbar-link" to="/products">Trip Catalog</Link>
