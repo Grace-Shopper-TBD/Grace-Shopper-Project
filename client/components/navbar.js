@@ -6,26 +6,49 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>Totally Bomb Destinations (TBD)</h1>
-    <nav>
-      <div>
-        <Link to="/products">Trip Catalog</Link>
-        <Link to='/orders/cart'><img src="http://icons.iconarchive.com/icons/iconsmind/outline/32/Shopping-Cart-icon.png" /></Link>
+    <nav id='navbar' className="navbar navbar-default navbar-fixed-top">
+      <div className='container-fluid'>
+      <div className='navbar-header'>
+      <a className='navbar-brand' href='#'>Totally Bomb Destinations (TBD)</a></div>
+        <ul className="nav navbar-nav">
+        <li class='active'>
+        <Link className="navbar-link" to="/products">Trip Catalog</Link>
+        </li>
+        </ul>
+        <ul className= "nav navbar-nav navbar-right">
       {isLoggedIn ? (
-        <div>
+        <span>
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
+          <ul>
+          <li>
+          <Link className="navbar-link" to="/home">Home</Link>
+          </li>
+          <li>
+          <a className="navbar-link" href="#" onClick={handleClick}>
             Logout
           </a>
-        </div>
+          </li>
+          </ul>
+        </span>
       ) : (
-        <div>
+        <span>
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
+          <ul className= "nav navbar-nav navbar-right">
+          <li>
+          <Link className="navbar-link" to="/login">Login</Link>
+          </li>
+          <li>
+          <Link className="navbar-link" to="/signup">Sign Up</Link>
+          </li>
+          </ul>
+        </span>
       )}
+      <ul className= "nav navbar-nav navbar-right">
+      <li>
+        <Link  className="navbar-link" to='/orders/cart'><img src="http://icons.iconarchive.com/icons/iconsmind/outline/32/Shopping-Cart-icon.png" /></Link>
+        </li>
+        </ul>
+      </ul>
       </div>
       </nav>
       <hr />

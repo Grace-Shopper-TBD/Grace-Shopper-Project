@@ -18,9 +18,24 @@ label {
   display: block;
 }
 
+
 nav a {
   display: inline-block;
-  margin: 1em;
+  /* margin: 1em; */
+}
+
+#navbar {
+  background-color: turquoise;
+  }
+
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: turquoise;
+    /* color: white; */
+    text-align: center;
 }
 
 form div {
