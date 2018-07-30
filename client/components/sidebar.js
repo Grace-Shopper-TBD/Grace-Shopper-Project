@@ -12,7 +12,6 @@ class Sidebar extends Component {
 	 }
 
 	componentDidMount(){
-		console.log("sidebar Props", this.props)
 		this.props.fetchCategories()
 	}
 
