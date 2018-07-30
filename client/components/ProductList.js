@@ -17,9 +17,8 @@ const ProductList = ({products}) => {
     
     return (
         <div>
-            <main role="main">
                 <div className='container'>
-                    <div className='row'>
+                    <div className='row mb-2'>
                     {
                         products.map((product) => (
                             <div key={product.id}>
@@ -28,8 +27,7 @@ const ProductList = ({products}) => {
                         ))
                     }
                     </div>
-                </div>                              
-            </main>        
+                </div>                                     
         </div>
     )
 }

@@ -10,6 +10,10 @@ a {
   margin: 5px;
 }
 
+.cart-notif {
+  margin: 5px
+}
+
 label {
   display: block;
 }
