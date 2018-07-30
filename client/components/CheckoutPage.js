@@ -21,10 +21,10 @@ class CheckoutPage extends Component {
 
     render(){
       const lineItems = this.props.cart.cart
-      console.log('just the cart', this.props.cart)
+      console.log('line items', lineItems)
       const products = this.props.products
       const user = this.props.user
-      console.log('line items in the order', lineItems)
+      const { handleSubmit, successPayment } = this.props
       return (
           <div className="contact-page">
             <div id="contactUsMap" className="big-map"></div>
@@ -67,7 +67,7 @@ class CheckoutPage extends Component {
                   <p className="description">Enter your details below! Your vacation is just a click away<br />
                   </p>
                     
-                  <form role="form" id="contact-form" method="post">
+                  <form onSubmit={e => handleSubmit(e, user.id, lineItems)} role="form" id="contact-form" method="post">
                     <div className="form-group label-floating">
                       <label className="control-label">Recipient Name</label>
                       <input type="text" name="recipientName" className="form-control" placeholder="Name"/>
@@ -84,6 +84,13 @@ class CheckoutPage extends Component {
                     <input type="text" name="recipientAddress" className="form-control" placeholder="Address"/>
                     </div>
                     <br/>
+
+                    <Checkout
+                    name={'Confirm purchase'}
+                    description={"This is only a test page, enter 4242 4242 4242 4242 for credit card"}
+                    amount={lineItems.map(lineItem => lineItem.price * lineItem.quantity).reduce((a,b) => a+b, 0)}
+                    successPayment={successPayment}
+                    />
                   
                   </form>
                 </div>
@@ -110,6 +117,7 @@ const mapDispatch = (dispatch) => {
                 recipientName, confirmationEmail, recipientAddress
             }
             // dispatch(makeNewOrder(userid, order)) we need the thunk for a creating a new order before we can invoke handleSubmit
+            // we used to clear cart here but now going to only do it at the stripe success callback
         },
         fetchCart(){
           dispatch(fetchCart())
