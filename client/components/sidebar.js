@@ -1,29 +1,25 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import { filterProducts, fetchProducts } from '../store/productReducer'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
+import { getFilteredProducts, fetchProducts } from '../store/productReducer'
 import { fetchCategories } from '../store/categoryReducer'
 
 class Sidebar extends Component {
 
 	constructor(){
 	 	super()
-	 	this.state = {
-	 		categoryName : ''
-	 	}
 	 	this.handleChange = this.handleChange.bind(this)
 	 }
 
 	componentDidMount(){
+		console.log("sidebar Props", this.props)
 		this.props.fetchCategories()
 	}
 
 	async handleChange(event){
 		event.persist()
-		await this.props.fetchProducts()
-		await this.setState({
-			categoryName: event.target.value
-		})
-		this.state.categoryName === 'All' ? this.props.fetchProducts() : this.props.filterProducts(this.state.categoryName)
+		await event.target.value === 'All' ? this.props.fetchProducts() : this.props.getFilteredProducts(event.target.value)
+		this.props.history.push(`/products/?category=${event.target.value}`)
 	}
 
 	render(){
@@ -45,7 +41,7 @@ class Sidebar extends Component {
 			        <option value='All'>All</option>
 			        {
 			          categories.map(category => (
-			            <option key={category.id} value={category.name}>{category.name}</option>
+			            <option key={category.id} value={category.id}>{category.name}</option>
 			          ))
 			        }
 			      </select>
@@ -54,18 +50,19 @@ class Sidebar extends Component {
 		}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
 		return {
-			categories: state.category
+			categories: state.category,
+			...ownProps
 		}
 }
 
 const mapDispatchToProps = dispatch => {
 		return {
 			fetchCategories: () => dispatch(fetchCategories()),
-			filterProducts: (categoryName) => dispatch(filterProducts(categoryName)),
+			filterProducts: (categoryName) => dispatch(getFilteredProducts(categoryName)),
 			fetchProducts: () => dispatch(fetchProducts())
 		}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Sidebar))

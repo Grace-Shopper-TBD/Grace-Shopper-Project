@@ -13,7 +13,6 @@ class Cart extends Component {
 	}
 
 	componentDidMount(){
-		this.props.loadCart()
 		this.props.setProducts()
 		this.props.fetchCart()
 	}
@@ -75,7 +74,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		fetchCart: () => dispatch(fetchCart()),
-		loadCart: () => dispatch(loadingCart()),
 		setProducts: () => dispatch(fetchProducts()),
 		changeQuantity: (productId, quantity) => dispatch(changeQuantity(productId, quantity))
 	}
