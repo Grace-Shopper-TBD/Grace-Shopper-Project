@@ -7,29 +7,33 @@ import {auth} from '../store'
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const {name, handleSubmit, displayName, error} = props
 
   return (
     <div>
-      <form onSubmit={handleSubmit} name={name}>
+      <form onSubmit={handleSubmit} name={name} className='form-signin'>
+      <div className='container'>
+        <i className="fa fa-globe-americas fa-cog"></i>
+      </div>
+      <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+        
         <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
+          <label htmlFor="email" className="sr-only">Email address</label>
+          <input name="email" type="email" id="inputEmail" className="form-control" placeholder="Email address" required autoFocus/>
         </div>
+
         <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
+          <label htmlFor="password" className="sr-only">Password</label>
+          <input name="password" type="password" id="inputPassword" className="form-control" placeholder="Password" required/>
         </div>
-        <div>
-          <button type="submit">{displayName}</button>
+        <div>          
+          <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
-      <a href="/auth/google">{displayName} with Google</a>
+      <div className="g-signin2" data-onsuccess="onSignIn">
+        <a href="/auth/google">{displayName} with Google</a>      
+      </div>
     </div>
   )
 }
@@ -44,7 +48,7 @@ const AuthForm = props => {
 const mapLogin = state => {
   return {
     name: 'login',
-    displayName: 'Login',
+    displayName: 'login',
     error: state.user.error
   }
 }
