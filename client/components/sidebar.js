@@ -18,7 +18,7 @@ class Sidebar extends Component {
 	async handleChange(event){
 		event.persist()
 		await event.target.value === 'All' ? this.props.fetchProducts() : this.props.getFilteredProducts(event.target.value)
-		this.props.history.push(`/products/?category=${event.target.value}`)
+		this.props.history.push(`/products?category=${event.target.value}`)
 	}
 
 	render(){
