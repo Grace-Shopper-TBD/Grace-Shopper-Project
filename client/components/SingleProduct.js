@@ -51,9 +51,9 @@ class SingleProduct extends Component {
 }
 
 const mapState = (state, {match}) => {
-    console.log('all users', state.user)
-    console.log('all products', state.product)
     return {
+
+        
         product: state.product.singleProduct,
         // user: state.user.find(user => user.id === state.product.singleProduct.reviews.userId)
     }
