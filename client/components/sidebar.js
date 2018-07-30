@@ -27,18 +27,17 @@ class Sidebar extends Component {
 	}
 
 	render(){
-		console.log(this.props)
 		const categories = this.props.categories.list
 		const { isLoading, gotError } = this.props.categories
-		
+
 		if (isLoading) {
 			return ( <h1>Loading...</h1> )
 		}
-		
+
 		if (gotError) {
 			return ( <h1>Oh no!</h1> )
 		}
-		
+
 		return (
 				<form>
 			      <label>Filter By Category</label>
@@ -56,7 +55,6 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = state => {
-		console.log(state)
 		return {
 			categories: state.category
 		}

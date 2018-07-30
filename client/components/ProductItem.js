@@ -32,6 +32,4 @@ const ProductItem = ({product}) => {
     )
 }
 
-// <Link to={`/products/${product.id}`}><h5>{product.title}</h5></Link>
-
 export default ProductItem
