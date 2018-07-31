@@ -44,9 +44,11 @@ const updateOrder = (order) => ({
 
 export const getAllOrders = () => async(dispatch) => {
     try {
+        dispatch(isLoading())
         const {data} = await axios.get(`/api/orders/`)
         dispatch(getOrders(data))
     } catch(err) {
+        dispatch(gotError())
         console.error(err)
     }
 }
@@ -54,8 +56,9 @@ export const getAllOrders = () => async(dispatch) => {
 export const updateOrderThunk = (order) => async(dispatch) => {
   try {
     const {data} = await axios.put(`/api/orders/${order.id}`, order)
-    //dispatch(updateOrder(data))
+    //dispatch(updateOrder(data)) Let's not discuss this
   } catch(err) {
+    dispatch(gotError())
     console.error(err)
   }
 }

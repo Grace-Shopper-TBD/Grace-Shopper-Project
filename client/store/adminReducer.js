@@ -4,6 +4,8 @@ import axios from 'axios'
 export const POPULATE_USERS = 'POPULATE_USERS'
 export const DELETE_USER = 'DELETE_USER'
 export const MAKE_ADMIN ='MAKE_ADMIN'
+export const IS_LOADING = 'IS_LOADING'
+export const GOT_ERROR = 'GOT_ERROR'
 
 //  INITIAL STATE
 const admin = {
@@ -28,12 +30,21 @@ const addUser = (user)=> ({
   user
 })
 
+const isLoading = ()=> ({
+  type: IS_LOADING
+})
+
+const gotError = () => ({
+  type:GOT_ERROR
+})
 // THUNK CREATORS
 export const fetchUsers = ()=>async dispatch => {
   try{
+    dispatch(isLoading())
     const {data} = await axios.get('/api/users')
     dispatch(popUsers(data))
   } catch (err) {
+    dispatch(gotError())
     console.error(err)
   }
 }
@@ -43,6 +54,7 @@ export const deleteUser = (id) => async dispatch => {
     await axios.delete(`/api/users/${id}`)
     dispatch(delUser(id))
   } catch(err) {
+    dispatch(gotError())
     console.error(err)
   }
 }
@@ -53,6 +65,7 @@ export const promoteUser = (id) => async dispatch => {
     dispatch(delUser(id))
     dispatch(addUser(data))
   } catch(err) {
+    dispatch(gotError())
     console.error(err)
   }
 }
@@ -68,6 +81,12 @@ export default function (state = admin, action) {
 
     case MAKE_ADMIN: {
       return {...state, users: [...state.users, action.user]}
+    }
+    case IS_LOADING: {
+      return {...state, isLoading:true}
+    }
+    case GOT_ERROR: {
+      return {...state, gotError:true}
     }
     default:
       return state
