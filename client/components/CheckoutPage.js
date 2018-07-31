@@ -24,8 +24,8 @@ class CheckoutPage extends Component {
       
       
       componentDidMount(){
-        this.props.fetchCart(),
-        this.props.setProducts(),
+        this.props.fetchCart()
+        this.props.setProducts()
         this.props.loadCart()
       }
 
@@ -34,10 +34,10 @@ class CheckoutPage extends Component {
           [evt.target.name]: evt.target.value
         })
       }
-
       
       handleSubmit(evt){
           evt.preventDefault()
+
           this.props.makeNewOrder(this.state)
       }
       
@@ -64,7 +64,7 @@ class CheckoutPage extends Component {
                         {
                           lineItems && lineItems.map((lineItem) => (
                             <div key={lineItem.productId} className="info info-horizontal icon icon-primary">
-                              <ProductInCart product={products.find(product => product.id === lineItem.productId)} lineItem={lineItem}/> 
+                              <ProductInCart product={products.find(product => product.id === lineItem.productId)} lineItem={lineItem} checkout={true}/> 
                             </div>
                           ))
                         }
