@@ -7,6 +7,10 @@ a {
   text-decoration: none;
 }
 
+ul {
+  list-style-type: none;
+}
+
 .btn-space {
   margin: 5px;
 }
@@ -22,7 +26,6 @@ label {
 
 nav a {
   display: inline-block;
-  /* margin: 1em; */
 }
 
 #navbar {

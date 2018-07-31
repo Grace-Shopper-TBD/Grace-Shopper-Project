@@ -64,18 +64,22 @@ export const fetchReviews = (productId) => async dispatch => {
 
 export const addReview = newReview => async dispatch => {
   try{
+    dispatch(isLoading())
     const { data } = await axios.post('/api/reviews', newReview)
     dispatch(gotNewReviewFromServer(data))
   } catch (error) {
+    dispatch(error())
     console.error(error)
   }
 }
 
 export const deleteReviewThunk = review => async dispatch => {
   try{
+    dispatch(isLoading())
     const {data} = await axios.delete(`/api/reviews/${review}`)
     dispatch(deleteReview(review))
   } catch (error) {
+    dispatch(error())
     console.error(error)
   }
 }
