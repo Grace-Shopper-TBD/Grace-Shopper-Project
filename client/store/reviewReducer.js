@@ -37,7 +37,7 @@ export const fetchReviews = (productId) => async dispatch => {
   try {
     const id = +productId
     const {data} = await axios.get('/api/reviews')
-    const productReviews = data.filter(review=>review.productId===id)
+    const productReviews = data.filter(review=>+review.productId===id)
     dispatch(setReviews(productReviews))
     return data
   } catch (err) {

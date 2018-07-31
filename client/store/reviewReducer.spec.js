@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import reducer, {fetchReviews, SET_REVIEWS} from './reviewReducer'
+import reducer, {fetchReviews, SET_REVIEWS,GOT_NEW_REVIEW_FROM_SERVER} from './reviewReducer'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import configureMockStore from 'redux-mock-store'
@@ -40,13 +40,12 @@ describe.only('thunk creators', () => {
     store.clearActions()
   })
   describe('FetchReviews', () => {
-    it('eventually dispatches the SET Reviews action', async () => {
-      const fakeReviews = ['working']
-      mockAxios.onGet('/api/reviews/').replyOnce(200, fakeReviews)
-      await store.dispatch(fetchReviews())
+    it('eventually dispatches the Set Reviews action', async () => {
+      mockAxios.onGet('/api/reviews').replyOnce(200, initialState.list)
+      await store.dispatch(fetchReviews("1"))
       const actions = store.getActions()
       expect(actions[0].type).to.be.equal(SET_REVIEWS)
-      expect(actions[0].reviewList).to.be.deep.equal(fakeReviews)
+      expect(actions[0].reviewList[0]).to.be.deep.equal(initialState.list[0])
     })
   })
 })
