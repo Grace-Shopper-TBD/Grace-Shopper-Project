@@ -8,7 +8,7 @@ import thunkMiddleware from 'redux-thunk'
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
 
-describe.only('thunk creators', () => {
+describe('thunk creators', () => {
   let store
   let mockAxios
 

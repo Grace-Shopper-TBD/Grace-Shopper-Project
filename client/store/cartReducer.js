@@ -9,7 +9,7 @@ const initialState = {
 }
 
 // Action types
-const GET_CART_ITEMS = 'GET_CART_ITEMS'
+export const GET_CART_ITEMS = 'GET_CART_ITEMS'
 const UPDATE_CART = 'UPDATE_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 const CART_ERROR = "CART_ERROR"

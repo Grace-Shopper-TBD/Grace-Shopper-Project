@@ -13,21 +13,35 @@ describe('User routes', () => {
   })
 
   describe('GET /api/users/', () => {
-    const codysEmail = 'cody@puppybook.com'
+    const userCredentials = {
+      email: 'cody@puppybook.com',
+      password: '1234'
+    }
+
+    const authenticatedUser = request.agent;
+    beforeEach(function(done){
+      authenticatedUser
+        .post('/auth/login')
+        .send(userCredentials)
+        .end(function(response){
+          expect(response.statusCode).to.equal(200);
+          expect('Location', '/home');
+          done();
+        });
+    });
 
     beforeEach(() => {
       return User.create({
-        email: codysEmail,
-        isAdmin: true
+        email: 'cody@puppybook.com',
       })
     })
 
-    // it('GET /api/users', async () => {
-    //   const res = await request(app)
-    //   .get('/api/users')
-    //   .expect(200)
-    //   .expect(res.body).to.be.an('array')
-    // })
+    it('GET /api/users', async () => {
+
+      await agent.get('/api/users')
+      .expect(200)
+      .expect(res.body).to.be.an('array')
+    })
   }) // end describe('GET /api/users')
   describe('POST /api/users/', () => {
     it('should create a User', async () => {
@@ -36,25 +50,25 @@ describe('User routes', () => {
   }) // end describe ('POST /api/users')
   describe('PUT /api/users/:userId', () => {
     let user;
-    // beforeEach(() => {
-    //   return User.create({
-    //     email: 'cody@email.com',
-    //     isAdmin: true
-    //   })
-    //     .then((createdUser) => {
-    //     user = createdUser;
-    //   });
-    // });
-  //   it('should update a User', () => {
-  //   return agent
-  //   .put(`/api/users/${user.id}`)
-  //   .send({email:'test@gmail.com'})
-  //   .expect(200)
-  //   .expect((res) => {
-  //     expect(res.body.email).to.equal('test@gmail.com')
-  //     })
-  //   })
-  // })// end describe ('PUT /api/users/:userId')
+    beforeEach(() => {
+      return User.create({
+        email: 'cody@email.com',
+        isAdmin: true
+      })
+        .then((createdUser) => {
+        user = createdUser;
+      });
+    });
+    it('should update a User', () => {
+    return agent
+    .put(`/api/users/${user.id}`)
+    .send({email:'test@gmail.com'})
+    .expect(200)
+    .expect((res) => {
+      expect(res.body.email).to.equal('test@gmail.com')
+      })
+    })
+  })// end describe ('PUT /api/users/:userId')
   describe('DELETE /api/users/:userId', () => {
     let user;
     beforeEach(() => {
@@ -65,15 +79,15 @@ describe('User routes', () => {
         user = createdUser;
       });
     });
-    // it('should remove user', () => {
-    //   let userId = user.id
-    //   return agent
-    //     .delete(`/api/users/${user.id}`)
-    //     .expect(204)
-    //     .expect( async () => {
-    //       const deletedUser = await User.findById(userId)
-    //       expect(deletedUser).to.be.an('undefined')
-    //     })
+    it('should remove user', () => {
+      let userId = user.id
+      return agent
+        .delete(`/api/users/${user.id}`)
+        .expect(204)
+        .expect( async () => {
+          const deletedUser = await User.findById(userId)
+          expect(deletedUser).to.be.an('undefined')
+        })
     })
   })// end describe ('DELETE /api/users/:userId')
 }) // end describe('User routes')

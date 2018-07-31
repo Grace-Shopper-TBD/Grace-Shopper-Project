@@ -9,7 +9,7 @@ const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
 
 
-describe.only('thunk creators', () => {
+describe('thunk creators', () => {
   let store
   let mockAxios
 
@@ -32,9 +32,8 @@ describe.only('thunk creators', () => {
       mockAxios.onGet('/api/users').replyOnce(200, fakeUsers)
       await store.dispatch(fetchUsers())
       const actions = store.getActions()
-      console.log(actions)
-      expect(actions[0].type).to.be.equal(POPULATE_USERS)
-      expect(actions[0].users).to.be.deep.equal(fakeUsers)
+      expect(actions[1].type).to.be.equal(POPULATE_USERS)
+      expect(actions[1].users).to.be.deep.equal(fakeUsers)
     })
   })
 

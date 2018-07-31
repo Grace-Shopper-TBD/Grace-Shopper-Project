@@ -36,7 +36,7 @@ describe('thunk creators', () => {
             recipientName: 'Patty',
             confirmationEmail: 'patty@pat.com',
             recipientAddress: '234 fiction road',
-            isCart: false   
+            isCart: false
             }
 
         ]
@@ -58,9 +58,10 @@ describe('thunk creators', () => {
           mockAxios.onGet('api/orders/cart').replyOnce(200, fakeOrders)
           await store.dispatch(fetchCart())
           const actions = store.getActions()
-          expect(actions[0].type).to.be.equal(GET_CART_ITEMS)
-          expect(actions[0].cartItems).to.be.deep.equal(fakeOrders)
+          console.log('ACTIONS!',actions[1].type)
+          expect(actions[1].type).to.be.equal(GET_CART_ITEMS)
+          expect(actions[1].cartItems).to.be.deep.equal(fakeOrders)
         })
       })
-    
+
 })
