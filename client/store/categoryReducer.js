@@ -31,12 +31,22 @@ const addCategory = cat => ({
   cat
 })
 
+const isLoading = ()=> ({
+  type: LOADING_CATEGORIES
+})
+
+const error = () => ({
+  type:LOADING_PROBLEM
+})
+
 // THUNK CREATORS
 export const fetchCategories = () => async dispatch =>{
   try{
+    dispatch(isLoading())
     const {data} = await axios.get('/api/categories')
     dispatch(setCategories(data))
   } catch (err) {
+    dispatch(error())
     console.error(err)
   }
 }
@@ -47,6 +57,7 @@ export const changeCategory = (cat) => async dispatch => {
     dispatch(deleteCategory(cat.id))
     dispatch(addCategory(cat))
   } catch(err) {
+    dispatch(error())
     console.error(err)
   }
 }
@@ -56,6 +67,7 @@ export const addCategoryToDatabase = (cat) => async dispatch => {
     const {data} = await axios.post('/api/categories', cat)
     dispatch(addCategory(data))
   } catch(err) {
+    dispatch(error())
     console.error(err)
   }
 }
@@ -65,6 +77,7 @@ export const deleteCategoryFromDatabase = (id) => async dispatch => {
     const {data} = await axios.delete(`/api/categories/${id}`)
     dispatch(deleteCategory(id))
   } catch(err) {
+    dispatch(error())
     console.error(err)
   }
 }
