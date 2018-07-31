@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Product, Order, LineItem, Review, User } = require('../db/models')
+const { Product, Order, LineItem, Review, User, } = require('../db/models')
 const authorize = require('./authorize')
 
 router.get('/', authorize, async (req, res, next) => {
@@ -61,8 +61,12 @@ router.get('/user/:userId', async (req, res, next) => {
 		if(req.user && req.user.id===+req.params.userId){
 		const orders = await Order.findAll({
 			where: {
-				userId: req.params.userId
-			}
+				userId: req.params.userId,
+				isCart: false
+			},
+			include: [{
+				model: Product
+			}]
 		})
 		if (!orders) {
 			const err = new Error('No Orders Found')
@@ -173,10 +177,11 @@ router.post('/checkout', async (req, res, next) => {
 					model: Product
 				}]
 			})
-			await order.update({
+			order = await order.update({
 				recipientName: req.body.recipientName,
 				recipientAddress: req.body.recipientAddress,
 				status: 'PROCESSING',
+				confirmationEmail: req.body.confirmationEmail,
 				isCart: false
 			})
 			req.session.cart = order.products.map(product => product.lineItem)
@@ -200,7 +205,10 @@ router.post('/checkout', async (req, res, next) => {
 		})
 
 		req.session.cart = null
-		res.json(order)
+		const lineItems = order.products.map(product => product.lineItem)
+		const orderToReturn = {...order.dataValues, products: lineItems}
+		res.status(200).json(orderToReturn)
+
 
 	} catch (err) {
 		next(err)
@@ -212,9 +220,6 @@ router.post('/checkout', async (req, res, next) => {
 router.put('/cart/:productId', async (req, res, next) => {
 	//assuming req.body is the new quantity
 	try {
-		console.log("req body!!!!!!!!", req.body)
-		console.log("old cart", req.session.cart)
-
 		const entryToUpdate = req.session.cart.find(entry => entry.productId === +req.params.productId)
 		entryToUpdate.quantity = +req.body.quantity
 		if (req.user) {
@@ -232,7 +237,6 @@ router.put('/cart/:productId', async (req, res, next) => {
 			}
 		}
 		req.session.cart = req.session.cart.filter(entry => entry.quantity > 0)
-		console.log("new cart", req.session.cart)
 		res.json(req.session.cart)
 
 	} catch (err) {
