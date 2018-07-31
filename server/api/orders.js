@@ -58,6 +58,7 @@ router.get('/cart', async (req, res, next) => {
 
 router.get('/user/:userId', async (req, res, next) => {
 	try {
+		if(req.user && req.user.id===+req.params.userId){
 		const orders = await Order.findAll({
 			where: {
 				userId: req.params.userId,
@@ -72,6 +73,12 @@ router.get('/user/:userId', async (req, res, next) => {
 			return next(err)
 		}
 		res.json(orders)
+		}
+		else{
+			const err=new Error('Not authorized!')
+			err.status = 401
+			return next(err)
+		}
 	} catch (err) {
 		next(err)
 	}
@@ -159,8 +166,9 @@ router.post('/', async (req, res, next) => {
 router.post('/checkout', async (req, res, next) => {
 	try {
 		//assuming req.body is an object with recipientName and recipientAddress (and possibly confirmation email)
+		let order
 		if (req.user) {
-			const order = await Order.findOne({
+			order = await Order.findOne({
 				where: {
 					userId: req.user.id,
 					isCart: true
@@ -172,12 +180,13 @@ router.post('/checkout', async (req, res, next) => {
 			await order.update({
 				recipientName: req.body.recipientName,
 				recipientAddress: req.body.recipientAddress,
-				status: 'PROCESSING'
+				status: 'PROCESSING',
+				isCart: false
 			})
 			req.session.cart = order.products.map(product => product.lineItem)
 		}
 		else {
-			const guestOrder = await Order.create({
+			order = await Order.create({
 				recipientName: req.body.recipientName,
 				recipientAddress: req.body.recipientAddress,
 				confirmationEmail: req.body.confirmationEmail,
@@ -195,7 +204,7 @@ router.post('/checkout', async (req, res, next) => {
 		})
 
 		req.session.cart = null
-		res.sendStatus(204)
+		res.status(204).json(order)
 
 	} catch (err) {
 		next(err)
