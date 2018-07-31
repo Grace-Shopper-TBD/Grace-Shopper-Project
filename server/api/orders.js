@@ -204,7 +204,7 @@ router.post('/checkout', async (req, res, next) => {
 		})
 
 		req.session.cart = null
-		res.status(204).json(order)
+		res.json(order)
 
 	} catch (err) {
 		next(err)
