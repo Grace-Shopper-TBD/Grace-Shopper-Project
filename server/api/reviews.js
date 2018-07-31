@@ -60,16 +60,20 @@ router.put('/:id', async (req,res,next) => {
 // DELETE /api/reviews/:id
 router.delete('/:id', async (req,res,next) => {
   try {
-    console.log('req.body', req.body)
-    // if(req.user && (req.user.id===+req.body.user.id)){
-      const deleteReview = await Review.destroy({
+    console.log('req.params', req.user.id, req.params)
+    if(req.user){
+      const findReview = await Review.findOne({
       where: {
-        id: req.params.id
+        id: req.params.id,
+        userId: req.user.id
       }
     })
-    res.sendStatus(204)
-    // }
-    // else res.sendStatus(401)
+    if(findReview) {
+      await findReview.destroy()
+      res.sendStatus(204)
+    }
+    else res.sendStatus(401)
+    }
 } catch (error) {
   next (error)
 }

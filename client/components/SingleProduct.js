@@ -21,16 +21,10 @@ class SingleProduct extends Component {
         await this.props.reviews(+this.props.match.params.id)
         this.props.history.push(`/products/${this.props.match.params.id}/addReview`)
     }
-
     async handleDelete (event) {
         event.preventDefault()
         const reviewId=event.target.value
-        const reviews=this.props.review.list;
-        const rev=reviews.filter(review=>+reviewId===+review.id)[0]
-        await this.props.deleteReview(rev)
-        await this.props.reviews(+this.props.match.params.id)
-        this.props.history.push(`/products/${this.props.product.id}`)
-
+        await this.props.deleteReview(reviewId)
     }
     render(){
         console.log("USER",this.props)

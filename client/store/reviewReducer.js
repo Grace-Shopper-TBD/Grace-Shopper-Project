@@ -7,6 +7,7 @@ export const SET_REVIEWS = 'SET_REVIEWS'
 const LOADING_REVIEWS = 'LOADING_REVIEWS'
 const LOADING_PROBLEM = 'LOADING_PROBLEM'
 const GOT_NEW_REVIEW_FROM_SERVER = 'GOT_NEW_REVIEW_FROM_SERVER'
+const DELETE_REVIEW  = 'DELETE_REVIEW'
 /**
  * INITIAL STATE
  */
@@ -32,6 +33,12 @@ export const gotNewReviewFromServer = newReviewAdded => ({
   type: GOT_NEW_REVIEW_FROM_SERVER,
   newReviewAdded
 })
+
+export const deleteReview = (reviewId) => ({
+  type: DELETE_REVIEW,
+  reviewId
+})
+
 
 /**
  * THUNK CREATORS
@@ -60,8 +67,8 @@ export const addReview = newReview => async dispatch => {
 
 export const deleteReviewThunk = review => async dispatch => {
   try{
-    console.log('ID!',review)
-    const { data } = await axios.delete(`/api/reviews/${review.id}`,review)
+    const {data} = await axios.delete(`/api/reviews/${review}`)
+    dispatch(deleteReview(review))
   } catch (error) {
     console.error(error)
   }
@@ -75,6 +82,8 @@ export default function(state = reviews, action) {
       return {...state, list: action.reviewList, isLoading: false, gotError: false}
     case GOT_NEW_REVIEW_FROM_SERVER:
       return {...state, list: state.list.concat(action.newReviewAdded), isLoading: false, gotError: false}
+    case DELETE_REVIEW:
+      return {...state,list: state.list.filter(review=>review.id!==+action.reviewId)}
     case LOADING_REVIEWS:
       return {...state, isLoading: true}
     case LOADING_PROBLEM:
