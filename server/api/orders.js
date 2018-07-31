@@ -58,6 +58,7 @@ router.get('/cart', async (req, res, next) => {
 
 router.get('/user/:userId', async (req, res, next) => {
 	try {
+		if(req.user && req.user.id===+req.params.userId){
 		const orders = await Order.findAll({
 			where: {
 				userId: req.params.userId
@@ -68,6 +69,12 @@ router.get('/user/:userId', async (req, res, next) => {
 			return next(err)
 		}
 		res.json(orders)
+		}
+		else{
+			const err=new Error('Not authorized!')
+			err.status = 401
+			return next(err)
+		}
 	} catch (err) {
 		next(err)
 	}
@@ -187,7 +194,7 @@ router.post('/checkout', async (req, res, next) => {
 		}
 
 		req.session.cart.forEach(entry => {
-			Product.findById(entry.productId).then(product => product.decrement('quantity', { by: 1 })).catch()	
+			Product.findById(entry.productId).then(product => product.decrement('quantity', { by: 1 })).catch()
 		})
 
 		req.session.cart = null
