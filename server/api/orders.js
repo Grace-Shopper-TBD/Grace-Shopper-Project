@@ -2,6 +2,12 @@ const router = require('express').Router()
 const { Product, Order, LineItem, Review, User, } = require('../db/models')
 const authorize = require('./authorize')
 
+const lineitem = (order)=>{
+			const lineItems = order.products.map(product => product.lineItem)
+			const orderToReturn = {...order.dataValues, products: lineItems}
+			return orderToReturn
+}
+
 router.get('/', authorize, async (req, res, next) => {
 	try {
 		const orders = await Order.findAll({
@@ -19,7 +25,8 @@ router.get('/', authorize, async (req, res, next) => {
 			err.status = 404
 			return next(err)
 		}
-		res.json(orders)
+		const ans = orders.map(lineitem)
+		res.json(ans)
 	} catch (err) {
 		next(err)
 	}
@@ -72,7 +79,8 @@ router.get('/user/:userId', async (req, res, next) => {
 			const err = new Error('No Orders Found')
 			return next(err)
 		}
-		res.json(orders)
+		const ans = orders.map(lineitem)
+		res.json(ans)
 		}
 		else{
 			const err=new Error('Not authorized!')
