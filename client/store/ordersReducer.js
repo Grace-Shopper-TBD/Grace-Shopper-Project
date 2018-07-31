@@ -8,6 +8,7 @@ const ORDER_LOADING = 'ORDER_LOADING'
 const GOT_ERROR = "GOT_ERROR"
 const GET_ORDERS = 'GET_ORDERS'
 const UPDATE_ORDER = 'UPDATE_ORDER'
+const CREATE_NEW_ORDER = 'CREATE_NEW_ORDER'
 /**
  * INITIAL STATE
  */
@@ -38,17 +39,22 @@ const updateOrder = (order) => ({
   order
 })
 
+const createNewOrder = order => ({ 
+  type: CREATE_NEW_ORDER, 
+  order 
+})
+
 /**
  * THUNK CREATORS
  */
 
 export const getAllOrders = () => async(dispatch) => {
     try {
-        dispatch(isLoading())
+        dispatch(loadingOrders())
         const {data} = await axios.get(`/api/orders/`)
         dispatch(getOrders(data))
     } catch(err) {
-        dispatch(gotError())
+        dispatch(orderError())
         console.error(err)
     }
 }
@@ -58,8 +64,34 @@ export const updateOrderThunk = (order) => async(dispatch) => {
     const {data} = await axios.put(`/api/orders/${order.id}`, order)
     //dispatch(updateOrder(data)) Let's not discuss this
   } catch(err) {
-    dispatch(gotError())
+    dispatch(orderError())
     console.error(err)
+  }
+}
+
+export const getUserOrders = (id) => async(dispatch) => {
+  try {
+    dispatch(loadingOrders())
+    const {data} = await axios.get(`/api/orders/user/${id}`)
+    dispatch(getOrders(data))
+  } catch(err){
+    dispatch(orderError())
+    console.error(err)
+  }
+}
+
+export const makeNewOrder = (order) => {
+  return async(dispatch) => {
+    try {
+      const res = await axios.post('/api/orders/checkout', order)
+      console.log('order in makeNewOrder', order)
+      const data = res.data
+      console.log('data in makeNewOrder', data)
+      console.log('res in makeNewOrder', res)
+      dispatch(createNewOrder(data))
+    } catch(err){
+      console.log('error in makeNewOrder reducer', err)
+    }
   }
 }
 
@@ -77,6 +109,11 @@ export default function(state = initialState, action) {
     case UPDATE_ORDER:
       let deletes = state.list.filter((thing)=> action.order.id !== thing.id)
       return {...state, list:[...deletes, action.order]}
+    case CREATE_NEW_ORDER:
+    //
+      const newState = state
+      newState.list.push(action.order)
+      return newState
     default:
       return state
   }

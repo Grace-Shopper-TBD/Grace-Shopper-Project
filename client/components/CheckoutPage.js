@@ -5,26 +5,50 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import {fetchCart, loadingCart} from '../store/cartReducer'
 import { fetchProducts } from '../store/productReducer'
-// import thunks for new order and clear cart
-// we also need to invoke handleSubmit within the form
+import {makeNewOrder} from '../store/ordersReducer'
 import Checkout from './Checkout';
 import ProductInCart from './ProductInCart'
 
 class CheckoutPage extends Component {
+  
+  constructor(){
+      super()
+      this.state = {
+          recipientName: '',
+          confirmationEmail: '',
+          recipientAddress: ''
+        }
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+      }
+      
+      
+      componentDidMount(){
+        this.props.fetchCart(),
+        this.props.setProducts(),
+        this.props.loadCart()
+      }
 
+      handleChange(evt){
+        this.setState({
+          [evt.target.name]: evt.target.value
+        })
+      }
 
-    componentDidMount(){
-      this.props.fetchCart(),
-      this.props.setProducts(),
-      this.props.loadCart()
-    }
-
-    render(){
+      
+      handleSubmit(evt){
+          evt.preventDefault()
+          console.log('makeNewOrder',this.props.makeNewOrder)
+          console.log('state',this.state)
+          this.props.makeNewOrder(this.state)
+      }
+      
+      render(){
       const lineItems = this.props.cart.cart
-      console.log('just the cart', this.props.cart)
+      console.log('line items', lineItems)
       const products = this.props.products
       const user = this.props.user
-      console.log('line items in the order', lineItems)
+      const { successPayment } = this.props
       return (
           <div className="contact-page">
             <div id="contactUsMap" className="big-map"></div>
@@ -67,23 +91,30 @@ class CheckoutPage extends Component {
                   <p className="description">Enter your details below! Your vacation is just a click away<br />
                   </p>
                     
-                  <form role="form" id="contact-form" method="post">
+                  <form onSubmit={this.handleSubmit} role="form" id="contact-form" method="post">
                     <div className="form-group label-floating">
                       <label className="control-label">Recipient Name</label>
-                      <input type="text" name="recipientName" className="form-control" placeholder="Name"/>
+                      <input type="text" name="recipientName" className="form-control" placeholder="Name" onChange={this.handleChange}/>
                     </div>
 
                     <div className="form-group label-floating">
                       <label className="control-label">Confirmation Email</label>
-                      <input type="email" name="confirmationEmail" className="form-control" placeholder="Email"/>
+                      <input type="email" name="confirmationEmail" className="form-control" placeholder="Email" onChange={this.handleChange}/>
                       </div>
                     <br/>
 
                     <div className="form-group label-floating">
                     <label className="control-label">Recipient Address</label>
-                    <input type="text" name="recipientAddress" className="form-control" placeholder="Address"/>
+                    <input type="text" name="recipientAddress" className="form-control" placeholder="Address" onChange={this.handleChange}/>
                     </div>
                     <br/>
+
+                    <Checkout
+                    name={'Confirm purchase'}
+                    description={"This is only a test page, enter 4242 4242 4242 4242 for credit card"}
+                    amount={lineItems.map(lineItem => lineItem.price * lineItem.quantity).reduce((a,b) => a+b, 0)}
+                    successPayment={successPayment}
+                    />
                   
                   </form>
                 </div>
@@ -99,17 +130,8 @@ class CheckoutPage extends Component {
 
 const mapDispatch = (dispatch) => {
     return {
-        handleSubmit(evt, userid, cart){
-            evt.preventDefault()
-            //submit cart data into the user's orders
-            let {recipientName, confirmationEmail, recipientAddress, recipientPhone, specialInstructions} = evt.target;
-            [recipientName, confirmationEmail, recipientAddress, recipientPhone, specialInstructions] = [recipientName, confirmationEmail, recipientAddress, recipientPhone, specialInstructions].map(x => x.value)
-            let order = {
-                status: 'CREATED', 
-                isCart: false,
-                recipientName, confirmationEmail, recipientAddress
-            }
-            // dispatch(makeNewOrder(userid, order)) we need the thunk for a creating a new order before we can invoke handleSubmit
+        makeNewOrder(order){
+          dispatch(makeNewOrder(order))
         },
         fetchCart(){
           dispatch(fetchCart())

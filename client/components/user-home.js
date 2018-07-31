@@ -17,6 +17,7 @@ export const UserHome = props => {
     <div>
       <h3>Welcome, {name}!</h3>
       {props.isAdmin && <AdminHome /> }
+      <Link to= '/orders'>Personal Orders</Link>
 
     </div>
   )

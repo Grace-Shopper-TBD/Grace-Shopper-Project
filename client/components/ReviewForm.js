@@ -6,8 +6,7 @@ class ReviewForm extends Component {
   constructor() {
     super()
     this.state ={
-      text: '',
-      productId: 0
+      text: ''
       }
     this.handleChange=this.handleChange.bind(this)
     this.handleSubmit=this.handleSubmit.bind(this)
@@ -15,18 +14,16 @@ class ReviewForm extends Component {
   handleChange(event){
     this.setState({
       [event.target.name]:event.target.value,
-      productId: +this.props.match.params.id
     })
   }
   async handleSubmit(event){
     event.preventDefault();
     const addNewReview=this.state;
-    console.log('HANDLE SUBMIT', addNewReview)
+    addNewReview.productId = +this.props.match.params.id
     await this.props.post(addNewReview)
     this.props.history.push(`/products/${this.state.productId}`)
   }
   render(){
-    const data = this.state
     return(
       <div>
       <p>Write a Review</p>
@@ -45,4 +42,4 @@ const mapDispatchToProps = dispatch => ({
   post: newReview => dispatch(addReview(newReview))
 })
 
-export default connect(null,mapDispatchToProps)(ReviewForm);
+export default connect(null,mapDispatchToProps)(ReviewForm)

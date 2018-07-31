@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import ProductItem from './ProductItem';
+import ProductInCart from './ProductInCart';
 import { fetchCart, loadingCart, changeQuantity } from '../store/cartReducer'
 import { fetchProducts } from '../store/productReducer'
 
@@ -12,6 +12,7 @@ class Cart extends Component {
 	}
 
 	componentDidMount(){
+		this.props.loadCart()
 		this.props.setProducts()
 		this.props.fetchCart()
 	}
@@ -45,14 +46,14 @@ class Cart extends Component {
 	            { lineItems.map(lineItem => 
 	            	(
 	            		<div key={lineItem.productId}>
-	            		<ProductItem product={products.find(product => product.id === lineItem.productId)} />
+	            		<ProductInCart product={products.find(product => product.id === lineItem.productId)} lineItem={lineItem} />
 	            		<form>
 					      <label>Quantity</label>
 					      <select name='quantity' onChange={(event) => this.handleChange(event, event.target.value, lineItem.productId)}>
 					        <option value={lineItem.quantity}>{lineItem.quantity}</option>
-					        {
+					        {/*{
 					          [...Array(products.find(product => product.id === lineItem.productId).quantity+1).keys()].map(num => <option key={num} value={num}>{num}</option>)
-					        }
+					        }*/}
 						  </select>						  
 						</form>
 	            		</div>
@@ -76,6 +77,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		fetchCart: () => dispatch(fetchCart()),
+		loadCart: () => dispatch(loadingCart()),
 		setProducts: () => dispatch(fetchProducts()),
 		changeQuantity: (productId, quantity) => dispatch(changeQuantity(productId, quantity))
 	}
