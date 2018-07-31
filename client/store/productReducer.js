@@ -28,9 +28,9 @@ const setProducts = (productList => ({
   productList
 }))
 
-export const filterProducts = (filter => ({
+export const filterProducts = (products => ({
   type: FILTER_PRODUCTS,
-  filter
+  products
 }))
 
 const deleteProduct = (id => ({
@@ -47,40 +47,51 @@ const addProduct =(product => ({
   type:ADD_PRODUCT,
   product
 }))
+
+const loadProduct = () => ({
+  type: LOADING_PRODUCTS
+})
+
+const gotError = () => ({
+  type: LOADING_PROBLEM
+})
 /**
  * THUNK CREATORS
  */
 
 export const fetchProducts = () => async dispatch => {
   try {
+    dispatch(loadProduct())
     const res = await axios.get('/api/products/')
     dispatch(setProducts(res.data))
   } catch (err) {
-    console.error(err)
+    dispatch(gotError())
   }
 }
 
 
 export const changeProduct = (prod, props) => async dispatch => {
   try{
+    dispatch(loadProduct())
     const res = await axios.put(`/api/products/${prod.id}`, prod)
     dispatch(deleteProduct(prod.id))
     dispatch(addProduct(res.data))
     props.history.push('/admin/products')
   }
   catch(err) {
-    console.error(err)
+    dispatch(gotError())
   }
 }
 
 export const getProduct = (productId) => {
   return async(dispatch) => {
     try{
+        dispatch(loadProduct())
         const response = await axios.get(`/api/products/${productId}`)
         const product = response.data
         dispatch(oneProduct(product))
       } catch(err){
-        console.error(err)
+        dispatch(gotError())
       }
   }
 }
@@ -88,12 +99,13 @@ export const getProduct = (productId) => {
 export const addNewProduct = (product, ownProps) => {
   return async(dispatch) => {
     try{
+        dispatch(loadProduct())
         const res = await axios.post('/api/products', product)
         const prod = res.data
         dispatch(addProduct(prod))
         ownProps.history.push('/admin/products')
       } catch (err){
-        console.error(err)
+        dispatch(gotError())
       }
   }
 }
@@ -101,12 +113,24 @@ export const addNewProduct = (product, ownProps) => {
 export const delProduct = (id) => {
   return async(dispatch)=>{
     try{
-         await axios.delete(`/api/products/${id}`)
-         dispatch(deleteProduct(id))
-        console.log("don't get mad")
+        dispatch(loadProduct())
+        await axios.delete(`/api/products/${id}`)
+        dispatch(deleteProduct(id))
       } catch(err){
-        console.error(err)
+        dispatch(gotError())
       }
+  }
+}
+
+export const getFilteredProducts = categoryId => {
+  return async (dispatch) => {
+    try {
+      dispatch(loadProduct())
+      const { data } = await axios.get(`/api/products?category=${categoryId}`)
+      dispatch(filterProducts(data))
+    } catch (err) {
+      dispatch(gotError())
+    }
   }
 }
 
@@ -121,15 +145,7 @@ export default function(state = products, action) {
       return {...state, singleProduct: action.product}
     }
     case FILTER_PRODUCTS:{
-      let newList = state.list.filter((product) => {
-        let cat = product.categories
-        for (let i =0; i< cat.length; i++){
-          if(cat[i].name === action.filter)
-            return true
-        }
-        return false
-        })
-      return {...state, list:newList}
+      return {...state, list: action.products}
     }
     case DELETE_PRODUCT: {
       return {...state, list: state.list.filter(prod=> prod.id!==action.id)}
