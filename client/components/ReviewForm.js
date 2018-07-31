@@ -29,7 +29,7 @@ class ReviewForm extends Component {
       <p>Write a Review</p>
       <form onSubmit={this.handleSubmit}>
           <label htmlFor='text'>
-            <input type='text' name='text' onChange={this.handleChange} value={this.state.text}/>
+            <input type='text' name='text' placeholder="Please add your review." className="p mb-3 font-weight-normal" onChange={this.handleChange} value={this.state.text}/>
           </label>
         </form>
         <button type='button' className='btn btn-info' onClick={this.handleSubmit}>Post Review</button>
