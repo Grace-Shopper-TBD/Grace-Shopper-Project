@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-
 /**
  * ACTION TYPES
  */
@@ -9,6 +8,7 @@ const GOT_ERROR = "GOT_ERROR"
 const GET_ORDERS = 'GET_ORDERS'
 const UPDATE_ORDER = 'UPDATE_ORDER'
 const CREATE_NEW_ORDER = 'CREATE_NEW_ORDER'
+const DISCOUNT = 'DISCOUNT'
 /**
  * INITIAL STATE
  */
@@ -42,6 +42,11 @@ const updateOrder = (order) => ({
 const createNewOrder = order => ({ 
   type: CREATE_NEW_ORDER, 
   order 
+})
+
+const newPrice = value => ({
+  type: DISCOUNT,
+  value
 })
 
 /**
@@ -84,16 +89,27 @@ export const makeNewOrder = (order) => {
   return async(dispatch) => {
     try {
       const res = await axios.post('/api/orders/checkout', order)
-      console.log('order in makeNewOrder', order)
       const data = res.data
-      console.log('data in makeNewOrder', data)
-      console.log('res in makeNewOrder', res)
+      console.log('data in mNO', data)
       dispatch(createNewOrder(data))
     } catch(err){
-      console.log('error in makeNewOrder reducer', err)
+      console.log('error in makeNewOrder thunk', err)
     }
   }
 }
+
+// somehow we could get the price of the everything by multiplying the lineItem
+//price by the quantity but how would we check from here if the input is BRUNO so 
+//we can put a conditional that might add a discount?
+// export const addDiscount = (price) => {
+//   return async(dispatch) => {
+//     try {
+      
+//     } catch(err){
+//       console.log('errpr in the addDiscount thunk', err)
+//     }
+//   }
+// }
 
 /**
  * REDUCER

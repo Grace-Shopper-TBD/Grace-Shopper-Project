@@ -12,40 +12,53 @@ import ProductInCart from './ProductInCart'
 class CheckoutPage extends Component {
   
   constructor(){
-      super()
-      this.state = {
-          recipientName: '',
-          confirmationEmail: '',
-          recipientAddress: ''
-        }
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-      }
-      
-      
-      componentDidMount(){
-        this.props.fetchCart(),
-        this.props.setProducts(),
-        this.props.loadCart()
-      }
+    super()
+    this.state = {
+      recipientName: '',
+      confirmationEmail: '',
+      recipientAddress: ''
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.discount = this.discount.bind(this)
+  }
+  
+  
+  componentDidMount(){
+    this.props.fetchCart(),
+    this.props.setProducts(),
+    this.props.loadCart()
+  }
 
-      handleChange(evt){
+  // discount(){
+  //    trying to figure out how to grap the input value going into the discount input 
+  //   console.log('the line items going into the contructor', this.props.cart.cart)
+  //   const lineItems = this.props.cart.cart
+  //   let finalPrice
+  //   if(input.value==='BRUNO'){
+  //     finalPrice = lineItems.map(lineItem => lineItem.price * lineItem.quantity * 0.8)
+  //   } else {
+  //     finalPrice = lineItems.map(lineItem => lineItem.price * lineItem.quantity)
+  //   }
+  //   console.log(finalPrice)
+  //   return finalPrice
+  // }
+  
+  handleChange(evt){
         this.setState({
           [evt.target.name]: evt.target.value
         })
+        console.log(evt.target.value)
       }
 
       
       handleSubmit(evt){
           evt.preventDefault()
-          console.log('makeNewOrder',this.props.makeNewOrder)
-          console.log('state',this.state)
           this.props.makeNewOrder(this.state)
       }
       
       render(){
       const lineItems = this.props.cart.cart
-      console.log('line items', lineItems)
       const products = this.props.products
       const user = this.props.user
       const { successPayment } = this.props
@@ -72,15 +85,7 @@ class CheckoutPage extends Component {
                           ))
                         }
                         
-                        <li className="list-group-item d-flex justify-content-between bg-light">
-                          <div className="text-success">
-                            <h6 className="my-0">Promo code</h6>
-                            <small>
-                            <input type="text" name="discount" className="form-control" placeholder="Discount"/>
-                            </small>
-                          </div>
-                          <span className="text-success">20% Off</span>
-                        </li>
+
 
                       </ul>
                   </div>                
@@ -90,8 +95,24 @@ class CheckoutPage extends Component {
                 <div className="col-md-6 col-md-offset-2">
                   <p className="description">Enter your details below! Your vacation is just a click away<br />
                   </p>
-                    
+
+                  {/*I put the discount input in a separate form so that when I hit the button for
+                   this form it can invoke just the discount function above*/}
+                    <form onSubmit={this.discount} role="form" id="contact-form" method="post">
+                      <div className="text-success">
+                        <h6 className="my-0">Promo code</h6>
+                        <small>
+                        <input type="text" name="discount" className="form-control" placeholder="Discount" onChange={this.handleChange}/>
+                        </small>
+                      </div>
+                      <span className="text-success">20% Off</span>
+                      <button type="button" className="btn btn-dark">Add Discount</button>
+                    </form>    
+
                   <form onSubmit={this.handleSubmit} role="form" id="contact-form" method="post">
+
+
+
                     <div className="form-group label-floating">
                       <label className="control-label">Recipient Name</label>
                       <input type="text" name="recipientName" className="form-control" placeholder="Name" onChange={this.handleChange}/>
@@ -144,7 +165,6 @@ const mapDispatch = (dispatch) => {
         },
         successPayment() {
             alert('Payment Successful');
-            dispatch(clearCart())
         }
       }
 }
