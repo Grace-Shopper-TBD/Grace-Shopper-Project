@@ -66,16 +66,17 @@ export const updateOrderThunk = (order) => async(dispatch) => {
   }
 }
 
-export const makeNewOrder = (userId, order) => dispatch =>
-    axios.post('/api/users/' + userId + '/orders', order)
-      .then(res => {
-        dispatch(createNewOrder(res.data))
-        return axios.post('/api/email/sendCheckoutMail', {
-          order,
-          to: order.confirmationEmail
-        })
-      })
-      .catch(err => console.err(err))
+export const makeNewOrder = (userId, order) => {
+  return async(dispatch) => {
+    try {
+      const res = await axios.post('/api/orders', order)
+      const data = res.data
+      dispatch(createNewOrder(data))
+    } catch(err){
+      console.log('error in makeNewOrder reducer', err)
+    }
+  }
+}
 
 /**
  * REDUCER

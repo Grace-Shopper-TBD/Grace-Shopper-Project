@@ -109,7 +109,6 @@ const mapDispatch = (dispatch) => {
     return {
         handleSubmit(evt, userid, lineItems){
             evt.preventDefault()
-            //submit cart data into the user's orders
             let {recipientName, confirmationEmail, recipientAddress} = evt.target;
             [recipientName, confirmationEmail, recipientAddress] = [recipientName, confirmationEmail, recipientAddress].map(x => x.value)
             let order = {
@@ -117,8 +116,7 @@ const mapDispatch = (dispatch) => {
                 isCart: false,
                 recipientName, confirmationEmail, recipientAddress
             }
-            dispatch(makeNewOrder(userid, order)) //we need the thunk for a creating a new order before we can invoke handleSubmit
-            // we used to clear cart here but now going to only do it at the stripe success callback
+            dispatch(makeNewOrder(userid, order)) 
         },
         fetchCart(){
           dispatch(fetchCart())
