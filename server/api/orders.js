@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Product, Order, LineItem, Review, User } = require('../db/models')
+const { Product, Order, LineItem, Review, User, } = require('../db/models')
 const authorize = require('./authorize')
 
 router.get('/', authorize, async (req, res, next) => {
@@ -61,8 +61,12 @@ router.get('/user/:userId', async (req, res, next) => {
 		if(req.user && req.user.id===+req.params.userId){
 		const orders = await Order.findAll({
 			where: {
-				userId: req.params.userId
-			}
+				userId: req.params.userId,
+				isCart: false
+			},
+			include: [{
+				model: Product
+			}]
 		})
 		if (!orders) {
 			const err = new Error('No Orders Found')
@@ -200,7 +204,7 @@ router.post('/checkout', async (req, res, next) => {
 		})
 
 		req.session.cart = null
-		res.status(204).json(order)
+		res.json(order)
 
 	} catch (err) {
 		next(err)
