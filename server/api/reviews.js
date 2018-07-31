@@ -50,7 +50,6 @@ router.post('/', async (req, res, next) => {
 // DELETE /api/reviews/:id
 router.delete('/:id', async (req,res,next) => {
   try {
-    console.log('req.params', req.user.id, req.params)
     if(req.user){
       const findReview = await Review.findOne({
       where: {
