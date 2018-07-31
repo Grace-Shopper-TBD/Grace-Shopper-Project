@@ -6,12 +6,18 @@ import { Link } from 'react-router-dom'
 import {fetchCart, loadingCart} from '../store/cartReducer'
 import { fetchProducts } from '../store/productReducer'
 import {makeNewOrder} from '../store/ordersReducer'
-// import thunks for new order and clear cart
-// we also need to invoke handleSubmit within the form
 import Checkout from './Checkout';
 import ProductInCart from './ProductInCart'
 
 class CheckoutPage extends Component {
+
+    // constructor(){
+    //   super()
+    //   this.state = {
+
+    //   }
+    //   this.checkDiscount = this.checkDiscount.bind(this)
+    // }
 
 
     componentDidMount(){
@@ -19,6 +25,12 @@ class CheckoutPage extends Component {
       this.props.setProducts(),
       this.props.loadCart()
     }
+
+    // async checkDiscount(event){
+    //   if(event.value=='BRUNO'){
+    //     console.log('you get the discount!')
+    //   }
+    // }
 
     render(){
       const lineItems = this.props.cart.cart
@@ -53,7 +65,7 @@ class CheckoutPage extends Component {
                           <div className="text-success">
                             <h6 className="my-0">Promo code</h6>
                             <small>
-                            <input type="text" name="discount" className="form-control" placeholder="Discount"/>
+                            <input type="text" name="discount" className="form-control" placeholder="Discount" onkeyup={this.checkDiscount}/>
                             </small>
                           </div>
                           <span className="text-success">20% Off</span>
