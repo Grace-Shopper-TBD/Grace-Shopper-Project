@@ -40,7 +40,7 @@ class CheckoutPage extends Component {
           evt.preventDefault()
           console.log('makeNewOrder',this.props.makeNewOrder)
           console.log('state',this.state)
-          this.props.makeNewOrder('',this.state)
+          this.props.makeNewOrder(this.state)
       }
       
       render(){

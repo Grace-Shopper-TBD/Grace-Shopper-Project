@@ -50,11 +50,11 @@ const createNewOrder = order => ({
 
 export const getAllOrders = () => async(dispatch) => {
     try {
-        dispatch(isLoading())
+        dispatch(loadingOrders())
         const {data} = await axios.get(`/api/orders/`)
         dispatch(getOrders(data))
     } catch(err) {
-        dispatch(gotError())
+        dispatch(orderError())
         console.error(err)
     }
 }
@@ -73,6 +73,7 @@ export const makeNewOrder = (order) => {
   return async(dispatch) => {
     try {
       const res = await axios.post('/api/orders/checkout', order)
+      console.log('order in makeNewOrder', order)
       const data = res.data
       console.log('data in makeNewOrder', data)
       console.log('res in makeNewOrder', res)
