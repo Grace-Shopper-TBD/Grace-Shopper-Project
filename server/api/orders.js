@@ -25,15 +25,6 @@ router.get('/', authorize, async (req, res, next) => {
 	}
 })
 
-router.post('/', async(req,res,next) => {
-	try {
-		const newOrder = await Product.create(req.body)
-		res.json(newOrder)
-	} catch(err){
-		next(err)
-	}
-})
-
 router.get('/cart', async (req, res, next) => {
 	try {
 		if (req.user) {

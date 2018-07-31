@@ -10,34 +10,45 @@ import Checkout from './Checkout';
 import ProductInCart from './ProductInCart'
 
 class CheckoutPage extends Component {
+  
+  constructor(){
+      super()
+      this.state = {
+          recipientName: '',
+          confirmationEmail: '',
+          recipientAddress: ''
+        }
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+      }
+      
+      
+      componentDidMount(){
+        this.props.fetchCart(),
+        this.props.setProducts(),
+        this.props.loadCart()
+      }
 
-    // constructor(){
-    //   super()
-    //   this.state = {
+      handleChange(evt){
+        this.setState({
+          [evt.target.name]: evt.target.value
+        })
+      }
 
-    //   }
-    //   this.checkDiscount = this.checkDiscount.bind(this)
-    // }
-
-
-    componentDidMount(){
-      this.props.fetchCart(),
-      this.props.setProducts(),
-      this.props.loadCart()
-    }
-
-    // async checkDiscount(event){
-    //   if(event.value=='BRUNO'){
-    //     console.log('you get the discount!')
-    //   }
-    // }
-
-    render(){
+      
+      handleSubmit(evt){
+          evt.preventDefault()
+          console.log('makeNewOrder',this.props.makeNewOrder)
+          console.log('state',this.state)
+          this.props.makeNewOrder('',this.state)
+      }
+      
+      render(){
       const lineItems = this.props.cart.cart
       console.log('line items', lineItems)
       const products = this.props.products
       const user = this.props.user
-      const { handleSubmit, successPayment } = this.props
+      const { successPayment } = this.props
       return (
           <div className="contact-page">
             <div id="contactUsMap" className="big-map"></div>
@@ -65,7 +76,7 @@ class CheckoutPage extends Component {
                           <div className="text-success">
                             <h6 className="my-0">Promo code</h6>
                             <small>
-                            <input type="text" name="discount" className="form-control" placeholder="Discount" onkeyup={this.checkDiscount}/>
+                            <input type="text" name="discount" className="form-control" placeholder="Discount"/>
                             </small>
                           </div>
                           <span className="text-success">20% Off</span>
@@ -80,21 +91,21 @@ class CheckoutPage extends Component {
                   <p className="description">Enter your details below! Your vacation is just a click away<br />
                   </p>
                     
-                  <form onSubmit={e => handleSubmit(e, user.id, lineItems)} role="form" id="contact-form" method="post">
+                  <form onSubmit={this.handleSubmit} role="form" id="contact-form" method="post">
                     <div className="form-group label-floating">
                       <label className="control-label">Recipient Name</label>
-                      <input type="text" name="recipientName" className="form-control" placeholder="Name"/>
+                      <input type="text" name="recipientName" className="form-control" placeholder="Name" onChange={this.handleChange}/>
                     </div>
 
                     <div className="form-group label-floating">
                       <label className="control-label">Confirmation Email</label>
-                      <input type="email" name="confirmationEmail" className="form-control" placeholder="Email"/>
+                      <input type="email" name="confirmationEmail" className="form-control" placeholder="Email" onChange={this.handleChange}/>
                       </div>
                     <br/>
 
                     <div className="form-group label-floating">
                     <label className="control-label">Recipient Address</label>
-                    <input type="text" name="recipientAddress" className="form-control" placeholder="Address"/>
+                    <input type="text" name="recipientAddress" className="form-control" placeholder="Address" onChange={this.handleChange}/>
                     </div>
                     <br/>
 
@@ -119,16 +130,8 @@ class CheckoutPage extends Component {
 
 const mapDispatch = (dispatch) => {
     return {
-        handleSubmit(evt, userid, lineItems){
-            evt.preventDefault()
-            let {recipientName, confirmationEmail, recipientAddress} = evt.target;
-            [recipientName, confirmationEmail, recipientAddress] = [recipientName, confirmationEmail, recipientAddress].map(x => x.value)
-            let order = {
-                status: 'CREATED', 
-                isCart: false,
-                recipientName, confirmationEmail, recipientAddress
-            }
-            dispatch(makeNewOrder(userid, order)) 
+        makeNewOrder(order){
+          dispatch(makeNewOrder(order))
         },
         fetchCart(){
           dispatch(fetchCart())

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import ProductItem from './ProductItem';
+import ProductInCart from './ProductInCart';
 import { fetchCart, loadingCart, changeQuantity } from '../store/cartReducer'
 import { fetchProducts } from '../store/productReducer'
 
@@ -46,7 +46,7 @@ class Cart extends Component {
 	            { lineItems.map(lineItem => 
 	            	(
 	            		<div key={lineItem.productId}>
-	            		<ProductItem product={products.find(product => product.id === lineItem.productId)} />
+	            		<ProductInCart product={products.find(product => product.id === lineItem.productId)} lineItem={lineItem} />
 	            		<form>
 					      <label>Quantity</label>
 					      <select name='quantity' onChange={(event) => this.handleChange(event, event.target.value, lineItem.productId)}>

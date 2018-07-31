@@ -66,11 +66,13 @@ export const updateOrderThunk = (order) => async(dispatch) => {
   }
 }
 
-export const makeNewOrder = (userId, order) => {
+export const makeNewOrder = (order) => {
   return async(dispatch) => {
     try {
-      const res = await axios.post('/api/orders', order)
+      const res = await axios.post('/api/orders/checkout', order)
       const data = res.data
+      console.log('data in makeNewOrder', data)
+      console.log('res in makeNewOrder', res)
       dispatch(createNewOrder(data))
     } catch(err){
       console.log('error in makeNewOrder reducer', err)
@@ -93,6 +95,7 @@ export default function(state = initialState, action) {
       let deletes = state.list.filter((thing)=> action.order.id !== thing.id)
       return {...state, list:[...deletes, action.order]}
     case CREATE_NEW_ORDER:
+    //
       const newState = state
       newState.list.push(action.order)
       return newState
