@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import store, {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
@@ -46,6 +46,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       <ul className= "nav navbar-nav navbar-right">
       <li>
         <Link  className="navbar-link" to='/orders/cart'><img src="http://icons.iconarchive.com/icons/iconsmind/outline/32/Shopping-Cart-icon.png" /></Link>
+        <span>{store.getState().cart.cart.length}</span>
         </li>
         </ul>
       </ul>

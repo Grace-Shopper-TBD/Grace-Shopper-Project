@@ -162,8 +162,9 @@ router.post('/', async (req, res, next) => {
 router.post('/checkout', async (req, res, next) => {
 	try {
 		//assuming req.body is an object with recipientName and recipientAddress (and possibly confirmation email)
+		let order
 		if (req.user) {
-			const order = await Order.findOne({
+			order = await Order.findOne({
 				where: {
 					userId: req.user.id,
 					isCart: true
@@ -175,12 +176,13 @@ router.post('/checkout', async (req, res, next) => {
 			await order.update({
 				recipientName: req.body.recipientName,
 				recipientAddress: req.body.recipientAddress,
-				status: 'PROCESSING'
+				status: 'PROCESSING',
+				isCart: false
 			})
 			req.session.cart = order.products.map(product => product.lineItem)
 		}
 		else {
-			const guestOrder = await Order.create({
+			order = await Order.create({
 				recipientName: req.body.recipientName,
 				recipientAddress: req.body.recipientAddress,
 				confirmationEmail: req.body.confirmationEmail,
@@ -198,7 +200,7 @@ router.post('/checkout', async (req, res, next) => {
 		})
 
 		req.session.cart = null
-		res.sendStatus(204)
+		res.status(204).json(order)
 
 	} catch (err) {
 		next(err)
