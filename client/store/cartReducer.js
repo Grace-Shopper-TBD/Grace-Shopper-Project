@@ -41,13 +41,15 @@ const remove = (productId) => ({
 
 //Thunks
 
-export const fetchCart = () => async dispatch => { 
+export const fetchCart = () => async dispatch => {
     try {
+        dispatch(loadingCart())
         const res = await axios.get('/api/orders/cart')
         dispatch(getCartItems(res.data))
     } catch(err) {
+        dispatch(gotError())
         console.log(err)
-    }  
+    }
 }
 
 export const addItemToCart = (cartItem) => async dispatch => {
@@ -97,7 +99,7 @@ export default function(state=initialState, action){
         case LOADING_CART: {
         	return {...state, isLoading: true }
         }
-        default: 
+        default:
             return state
     }
 }

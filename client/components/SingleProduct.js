@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { getProduct } from '../store';
+import { getProduct, fetchCart } from '../store';
 import { fetchReviews, deleteReviewThunk } from '../store/reviewReducer'
 import AddToCart from './AddToCartButton.js'
 
@@ -13,7 +13,6 @@ class SingleProduct extends Component {
     }
 
     componentDidMount(){
-        this.props.singleProduct(+this.props.match.params.id)
         this.props.reviews(+this.props.match.params.id)
     }
     async handleClick(event) {
@@ -27,7 +26,6 @@ class SingleProduct extends Component {
         await this.props.deleteReview(reviewId)
     }
     render(){
-        console.log("USER",this.props)
         if(Object.keys(this.props.product).length){
             const product = this.props.product
             const reviews = this.props.review.list
@@ -63,8 +61,9 @@ class SingleProduct extends Component {
 }
 
 const mapState = (state, {match}) => {
-    return {
-        product: state.product.singleProduct,
+    console.log('coming into mapstate',state.product)
+    return {        
+        product: state.product.list.find(product => product.id === Number(match.params.id)),
         review: state.review,
         user: state.user
     }
@@ -72,8 +71,8 @@ const mapState = (state, {match}) => {
 
 const mapDispatch = (dispatch, ownProps) => {
     return {
-        singleProduct: (id) => {
-            dispatch(getProduct(id))
+        getCart: () => {
+            dispatch(fetchCart())
         },
         reviews: (id) => {
             dispatch(fetchReviews(id))
