@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import ProductItem from './ProductItem';
+import { Sidebar } from './'
 
 //make sure to import any thunks here! We may add a mapDispatch later
 
@@ -17,6 +18,7 @@ const ProductList = ({products}) => {
 
     return (
         <div>
+            <Sidebar />
                 <div className='container'>
                     <div className='row mb-2'>
                     {
