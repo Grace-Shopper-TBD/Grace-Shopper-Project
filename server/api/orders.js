@@ -1,6 +1,14 @@
 const router = require('express').Router()
 const { Product, Order, LineItem, Review, User, } = require('../db/models')
 const authorize = require('./authorize')
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+const lineitem = (order)=>{
+			const lineItems = order.products.map(product => product.lineItem)
+			const orderToReturn = {...order.dataValues, products: lineItems}
+			return orderToReturn
+}
 
 router.get('/', authorize, async (req, res, next) => {
 	try {
@@ -19,7 +27,8 @@ router.get('/', authorize, async (req, res, next) => {
 			err.status = 404
 			return next(err)
 		}
-		res.json(orders)
+		const ans = orders.map(lineitem)
+		res.json(ans)
 	} catch (err) {
 		next(err)
 	}
@@ -72,7 +81,8 @@ router.get('/user/:userId', async (req, res, next) => {
 			const err = new Error('No Orders Found')
 			return next(err)
 		}
-		res.json(orders)
+		const ans = orders.map(lineitem)
+		res.json(ans)
 		}
 		else{
 			const err=new Error('Not authorized!')
@@ -163,9 +173,20 @@ router.post('/', async (req, res, next) => {
 	}
 })
 
+
 router.post('/checkout', async (req, res, next) => {
 	try {
 		//assuming req.body is an object with recipientName and recipientAddress (and possibly confirmation email)
+		
+		const msg = {
+		    to: req.body.confirmationEmail,
+		    from: 'orders@tbd.com',
+		    subject: 'Your Order Has Been Received',
+		    text: 'Thank you! Your order has been received and is being processed!',
+		    html: '<strong>Thank you! Your order has been received and is being processed!</strong>',
+		  }
+		sgMail.send(msg);
+
 		let order
 		if (req.user) {
 			order = await Order.findOne({

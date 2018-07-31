@@ -47,7 +47,7 @@ export const fetchCart = () => async dispatch => {
         const res = await axios.get('/api/orders/cart')
         dispatch(getCartItems(res.data))
     } catch(err) {
-        dispatch(gotError())
+        dispatch(cartError())
         console.log(err)
     }
 }

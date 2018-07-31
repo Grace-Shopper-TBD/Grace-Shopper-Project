@@ -9,18 +9,17 @@ router.get('/', async (req, res, next) => {
     if(Object.keys(req.query).length>0){
       let catId = req.query.category
       products = await Product.findAll({
-        includes:[{
+        include:[{
           model:Category,
-          attributes:['id']
-        }],
-        where:{
-          id:catId
-        }
+          attributes:['id'],
+          where:{
+          id:catId }
+        }]
       })
     }
     else{
         products = await Product.findAll({include: [{
-          model: Category
+          model: Category, attributes:['id']
         }]})
       }
     if (!products) {

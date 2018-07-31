@@ -11,7 +11,7 @@ const ProductItem = ({product}) => {
             <div >
             <div className="card mb-4 box-shadow">
             <div className="card-body">
-                <img src={product.photo} className="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"/>
+                <img src={product.photo} className="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap" height='600' width='600'/>
                         <div className='card-text'>
                             <p>{product.title}</p>
                             <p>${product.price}</p>

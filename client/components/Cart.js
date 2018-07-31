@@ -56,9 +56,9 @@ class Cart extends Component {
 					      <label>Quantity</label>
 					      <select name='quantity' onChange={(event) => this.handleChange(event, event.target.value, lineItem.productId)}>
 					        <option value={lineItem.quantity}>{lineItem.quantity}</option>
-					        {/*{
+					        {
 					          [...Array(products.find(product => product.id === lineItem.productId).quantity+1).keys()].map(num => <option key={num} value={num}>{num}</option>)
-					        }*/}
+					        }
 						  </select>						  
 						</form>
 	            		</div>
