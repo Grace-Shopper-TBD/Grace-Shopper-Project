@@ -38,14 +38,11 @@ class CheckoutPage extends Component {
       
       handleSubmit(evt){
           evt.preventDefault()
-          console.log('makeNewOrder',this.props.makeNewOrder)
-          console.log('state',this.state)
           this.props.makeNewOrder(this.state)
       }
       
       render(){
       const lineItems = this.props.cart.cart
-      console.log('line items', lineItems)
       const products = this.props.products
       const user = this.props.user
       const { successPayment } = this.props
@@ -144,7 +141,6 @@ const mapDispatch = (dispatch) => {
         },
         successPayment() {
             alert('Payment Successful');
-            dispatch(clearCart())
         }
       }
 }
