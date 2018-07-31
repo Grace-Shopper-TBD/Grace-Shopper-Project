@@ -141,7 +141,6 @@ const mapDispatch = (dispatch) => {
         },
         successPayment() {
             alert('Payment Successful');
-            dispatch(clearCart())
         }
       }
 }
