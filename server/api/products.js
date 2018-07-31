@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { Product, Category, Review } = require('../db/models')
 const authorize = require('./authorize')
+const Op = require('sequelize').Op
 
 router.get('/', async (req, res, next) => {
   try {
@@ -62,6 +63,7 @@ router.post('/',authorize, async (req, res, next) => {
     next(err)
   }
 })
+
 
 router.use('/:id',authorize, async (req, res, next) => {
   try {

@@ -2,12 +2,34 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import store, {logout} from '../store'
+import {logout} from '../store'
 import { fetchCart } from '../store/cartReducer'
+import { search, fetchProducts } from '../store/productReducer'
 
 class Navbar extends Component {
+    constructor(){
+      super()
+      this.state = {
+        query: ''
+      }
+      this.handleChange = this.handleChange.bind(this)
+      this.handleSubmit = this.handleSubmit.bind(this)
+    }
     componentDidMount(){
       this.props.fetchCart()
+    }
+
+    handleChange(evt){
+      evt.preventDefault()
+      this.setState({
+        query: evt.target.value
+      })
+      this.props.fetchProducts()
+    }
+
+    handleSubmit(event){
+      event.preventDefault()
+      this.props.search(this.state.query)
     }
 
     render(){
@@ -18,7 +40,13 @@ class Navbar extends Component {
           <nav id='navbar' className="navbar navbar-default navbar-fixed-top">
             <div className='container-fluid'>
             <div className='navbar-header'>
-            <a className='navbar-brand' href='/'>Totally Bomb Destinations (TBD)</a></div>
+            <a className='navbar-brand' href='/'>Totally Bomb Destinations</a></div>
+            <form className="navbar-form navbar-left" role="search" onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                  <input type="text" className="form-control" placeholder="Search" onChange={this.handleChange} />
+                </div>
+                <button type="submit" className="btn btn-default">Submit</button>
+            </form>
               <ul className="nav navbar-nav">
               <li className='active'>
               <Link className="navbar-link" to="/products">Trip Catalog</Link>
@@ -84,6 +112,12 @@ const mapDispatch = dispatch => {
     },
     fetchCart() {
       dispatch(fetchCart())
+    },
+    search(query) {
+      dispatch(search(query))
+    },
+    fetchProducts() {
+      dispatch(fetchProducts())
     }
   }
 }

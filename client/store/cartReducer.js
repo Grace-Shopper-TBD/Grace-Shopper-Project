@@ -91,7 +91,7 @@ export default function(state=initialState, action){
             return {...state, cart: action.cart, isLoading: false, gotError: false}
         }
         case REMOVE_FROM_CART: {
-            return {...state, cart: state.cart.filter(product => product.id !== action.productId), isLoading: false, gotError: false }
+            return {...state, cart: state.cart.filter(entry => entry.productId !== action.productId), isLoading: false, gotError: false }
         }
         case CART_ERROR: {
         	return {...state, gotError: true }
