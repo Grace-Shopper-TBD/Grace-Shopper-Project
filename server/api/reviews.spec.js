@@ -32,48 +32,5 @@ describe('Review routes', () => {
       .expect(201)
     })
   })
-  describe ('PUT /api/reviews/', () => {
-    let review;
-    beforeEach(()=> {
-      return Review.create({text:'I love Italy! It was a beautiful hotel and we ate lots of amazing pasta!'})
-     .then(createdReview => {
-      review=createdReview
-    })
-    .catch()
-   })
-    it('should update a review', () => {
-      return agent
-      .put(`/api/reviews/${review.id}`)
-      .send({text:'I hated Italy and I never want to go back!'})
-      .expect(200)
-      .expect(res => {
-        expect(res.body.text).to.equal('I hated Italy and I never want to go back!')
-      })
-    })
-  })
-  describe('DELETE /api/reviews/:reviewId', () => {
-    let review;
-    beforeEach(()=> {
-      return Review.create({text:'I love Italy! It was a beautiful hotel and we ate lots of amazing pasta!'})
-     .then(createdReview => {
-      review=createdReview
-    })
-    .catch()
-   })
-   it('should delete a review', () => {
-    // console.log('DELETE TEST',reviewId)
-    return agent
-    .delete(`/api/reviews/${review.id}`)
-    .expect(204)
-    .expect( async () => {
-      try{
-        const deletedReview = await Review.findById(review.id)
-        expect(deletedReview).to.be.an('undefined')
-      } catch (err){
-        console.error('Successfully deleted review')
-      }
-    })
-  })
-  })
 })
 

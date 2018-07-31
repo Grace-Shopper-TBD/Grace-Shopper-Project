@@ -17,8 +17,8 @@ router.use('/:userId', (req,res,next)=> {
 // GET /api/users
 router.get('/', async (req, res, next) => {
   try {
-
-    if(req.user.isAdmin){
+    console.log('REQ',req.user)
+    if(req.user && req.user.isAdmin){
       const users = await User.findAll({
         attributes: ['id', 'email', 'isAdmin']
       })

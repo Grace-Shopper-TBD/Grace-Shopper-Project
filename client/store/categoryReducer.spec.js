@@ -30,7 +30,6 @@ describe('thunk creators', () => {
       mockAxios.onGet('/api/categories').replyOnce(200, fakeCategories)
       await store.dispatch(fetchCategories())
       const actions = store.getActions()
-      console.log(actions)
       expect(actions[1].type).to.be.equal(SET_CATEGORIES)
       expect(actions[1].categoriesList).to.be.deep.equal(fakeCategories)
     })

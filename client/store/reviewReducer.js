@@ -25,9 +25,6 @@ export const setReviews = (reviewList => ({
   reviewList
 }))
 
-export const loadingReviews = () => ({
-	type: LOADING_REVIEWS
-})
 
 export const gotNewReviewFromServer = newReviewAdded => ({
   type: GOT_NEW_REVIEW_FROM_SERVER,
@@ -39,6 +36,13 @@ export const deleteReview = (reviewId) => ({
   reviewId
 })
 
+const isLoading = () => ({
+  type: LOADING_REVIEWS
+})
+
+const error = () => ({
+  type: LOADING_PROBLEM
+})
 
 /**
  * THUNK CREATORS
@@ -47,11 +51,13 @@ export const deleteReview = (reviewId) => ({
 export const fetchReviews = (productId) => async dispatch => {
   try {
     const id = +productId
+    dispatch(isLoading())
     const {data} = await axios.get('/api/reviews')
     const productReviews = data.filter(review=>+review.productId===id)
     dispatch(setReviews(productReviews))
     return data
   } catch (err) {
+    dispatch(error())
     console.error(err)
   }
 }
