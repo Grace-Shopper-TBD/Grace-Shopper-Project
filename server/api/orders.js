@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Product, Order, LineItem, Review, User } = require('../db/models')
+const { Product, Order, LineItem, Review, User, } = require('../db/models')
 const authorize = require('./authorize')
 
 router.get('/', authorize, async (req, res, next) => {
@@ -58,16 +58,27 @@ router.get('/cart', async (req, res, next) => {
 
 router.get('/user/:userId', async (req, res, next) => {
 	try {
+		if(req.user && req.user.id===+req.params.userId){
 		const orders = await Order.findAll({
 			where: {
-				userId: req.params.userId
-			}
+				userId: req.params.userId,
+				isCart: false
+			},
+			include: [{
+				model: Product
+			}]
 		})
 		if (!orders) {
 			const err = new Error('No Orders Found')
 			return next(err)
 		}
 		res.json(orders)
+		}
+		else{
+			const err=new Error('Not authorized!')
+			err.status = 401
+			return next(err)
+		}
 	} catch (err) {
 		next(err)
 	}
@@ -190,13 +201,14 @@ router.post('/checkout', async (req, res, next) => {
 		}
 
 		req.session.cart.forEach(entry => {
-			Product.findById(entry.productId).then(product => product.decrement('quantity', { by: 1 })).catch()	
+			Product.findById(entry.productId).then(product => product.decrement('quantity', { by: 1 })).catch()
 		})
 
 		req.session.cart = null
 		const lineItems = order.products.map(product => product.lineItem)
 		const orderToReturn = {...order.dataValues, products: lineItems}
 		res.status(200).json(orderToReturn)
+
 
 	} catch (err) {
 		next(err)
