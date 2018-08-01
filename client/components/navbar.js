@@ -65,7 +65,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       </div>
 )
 
-/**
+/*
  * CONTAINER
  */
 const mapState = state => {
