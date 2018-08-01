@@ -16,7 +16,8 @@ class CheckoutPage extends Component {
       this.state = {
           recipientName: '',
           confirmationEmail: '',
-          recipientAddress: ''
+          recipientAddress: '',
+          discount: '',
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -24,8 +25,8 @@ class CheckoutPage extends Component {
       
       
       componentDidMount(){
-        this.props.fetchCart(),
-        this.props.setProducts(),
+        this.props.fetchCart()
+        this.props.setProducts()
         this.props.loadCart()
       }
 
@@ -33,19 +34,25 @@ class CheckoutPage extends Component {
         this.setState({
           [evt.target.name]: evt.target.value
         })
-      }
+        console.log("STATEEEE", this.state)
 
+      }
       
       handleSubmit(evt){
           evt.preventDefault()
+
           this.props.makeNewOrder(this.state)
       }
       
       render(){
       const lineItems = this.props.cart.cart
+      console.log("subtotal!!", lineItems && lineItems.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0) * 0.8 )
+      console.log("subtotal222!!", lineItems && lineItems.map(lineItem => lineItem.price * lineItem.quantity).reduce((a,b) => a+b, 0))
       const products = this.props.products
       const user = this.props.user
       const { successPayment } = this.props
+  
+      const subtotal = parseInt(lineItems.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0), 10)
       return (
           <div className="contact-page">
             <div id="contactUsMap" className="big-map"></div>
@@ -64,16 +71,21 @@ class CheckoutPage extends Component {
                         {
                           lineItems && lineItems.map((lineItem) => (
                             <div key={lineItem.productId} className="info info-horizontal icon icon-primary">
-                              <ProductInCart product={products.find(product => product.id === lineItem.productId)} lineItem={lineItem}/> 
+                              <ProductInCart product={products.find(product => product.id === lineItem.productId)} lineItem={lineItem} checkout={true}/> 
                             </div>
                           ))
                         }
-                        
+                        <li className="list-group-item d-flex justify-content-between bg-light">
+                          <div className="text-success">
+                            <h6 className="my-0">Subtotal</h6>
+                          </div>
+                          <span className="text-success">${subtotal}.00</span>
+                        </li>
                         <li className="list-group-item d-flex justify-content-between bg-light">
                           <div className="text-success">
                             <h6 className="my-0">Promo code</h6>
                             <small>
-                            <input type="text" name="discount" className="form-control" placeholder="Discount"/>
+                            <input type="text" name="discount" className="form-control" placeholder="Discount" onChange={this.handleChange} />
                             </small>
                           </div>
                           <span className="text-success">20% Off</span>
@@ -109,7 +121,8 @@ class CheckoutPage extends Component {
                     <Checkout
                     name={'Confirm purchase'}
                     description={"This is only a test page, enter 4242 4242 4242 4242 for credit card"}
-                    amount={lineItems.map(lineItem => lineItem.price * lineItem.quantity).reduce((a,b) => a+b, 0)}
+                    amount={ this.state.discount.toUpperCase()==='BRUNO' ? lineItems.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0) * 0.8  
+                    : lineItems.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0)}
                     successPayment={successPayment}
                     />
                   

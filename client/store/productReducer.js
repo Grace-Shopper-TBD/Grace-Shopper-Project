@@ -10,6 +10,7 @@ const LOADING_PRODUCTS = 'LOADING_PRODUCTS'
 const LOADING_PROBLEM = 'LOADING_PROBLEM'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
+const SEARCH_PRODUCTS = 'SEARCH_PRODUCTS'
 /**
  * INITIAL STATE
  */
@@ -54,6 +55,11 @@ const loadProduct = () => ({
 
 const gotError = () => ({
   type: LOADING_PROBLEM
+})
+
+export const search = (query) => ({
+  type: SEARCH_PRODUCTS,
+  query: query.toLowerCase()
 })
 /**
  * THUNK CREATORS
@@ -134,6 +140,7 @@ export const getFilteredProducts = categoryId => {
   }
 }
 
+
 /**
  * REDUCER
  */
@@ -152,6 +159,9 @@ export default function(state = products, action) {
     }
     case ADD_PRODUCT: {
       return {...state, list:[...state.list, action.product]}
+    }
+    case SEARCH_PRODUCTS: {
+      return {...state, list: state.list.filter(product => product.title.toLowerCase().includes(action.query) || product.description.toLowerCase().includes(action.query))}
     }
     case LOADING_PRODUCTS:
       return {...state, isLoading: true}

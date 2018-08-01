@@ -34,6 +34,7 @@ class Sidebar extends Component {
 		}
 
 		return (
+				<div id="filter">
 				<form>
 			      <label>Filter By Category</label>
 			      <select name='categoryName' onChange={this.handleChange} >
@@ -45,6 +46,7 @@ class Sidebar extends Component {
 			        }
 			      </select>
 				</form>
+				</div>
 			)
 		}
 }
