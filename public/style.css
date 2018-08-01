@@ -25,16 +25,16 @@ nav a {
   /* margin: 1em; */
 }
 
-#navbar {
-  background-color: turquoise;
-  }
+.navbar-nav { 
+  flex-direction: row;
+}
 
 .footer{
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: turquoise;
+    background-color: #82c9b8;
     height: 26px;
     text-align: center;
     z-index: 100;

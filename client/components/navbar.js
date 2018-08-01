@@ -6,60 +6,62 @@ import store, {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <nav id='navbar' className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a className='navbar-brand' href='/'>Totally Bomb Destinations (TBD)</a>
-      <div className='container-fluid'>
-      <div className='navbar-header'>
-      </div>
-
+    <nav id='navbar' className="navbar navbar-expand-md navbar-light fixed-top" style={{'backgroundColor': '#82c9b8'}}>
+      <a className='navbar-brand' href='/'>TBD</a>
       <div className="collapse navbar-collapse" id="navbarsExampleDefault">
-          <ul className="navbar-nav mr-auto">
-          <li className='nav-item'>
-              <Link className="nav-link" to="/products">Trip Catalog</Link>
-          </li>
-          </ul>
+            {/*The code below is not very DRY but when the navbar item Trip Catalog is not included in each condition
+              the navbar items stack on top of each other
+            */}
+            {isLoggedIn ? (
+              <span>
+              {/* The navbar will show these links after you log in */}
+                <ul className="navbar-nav mr-auto">
 
-          
-          </div>
-          <ul className= "nav navbar-nav navbar-right">
-        {isLoggedIn ? (
-          <span>
-            {/* The navbar will show these links after you log in */}
-            <ul>
+                  <li className='nav-item'>
+                    <Link className="nav-link" to="/products">Trip Catalog</Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/user">Home</Link>
+                  </li>
+                  
+                  <li className="nav-item">
+                    <a className="nav-link" href="#" onClick={handleClick}>Logout</a>
+                  </li>
+                </ul>
+              </span>
+              
+          ) : (
+            <span>
+            {/* The navbar will show these links before you log in */}
+              <ul className="navbar-nav mr-auto">
+                  <li className='nav-item'>
+                    <Link className="nav-link" to="/products">Trip Catalog</Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/login">Login</Link>
+                  </li>
+                  
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/signup">Sign Up</Link>
+                  </li>
+              </ul>
+            </span>
+          )}
+        </div>         
+
+      <ul className= "navbar-nav mr-auto">
+        
+          <ul className= "navbar-nav mr-auto">
             <li>
-            <Link className="navbar-link" to="/user">Home</Link>
-            </li>
-            <li>
-            <a className="navbar-link" href="#" onClick={handleClick}>
-              Logout
-            </a>
-            </li>
-            </ul>
-          </span>
-          
-      ) : (
-        <span>
-          {/* The navbar will show these links before you log in */}
-          <ul className= "nav navbar-nav navbar-right">
-          <li>
-          <Link className="navbar-link" to="/login">Login</Link>
-          </li>
-          <li>
-          <Link className="navbar-link" to="/signup">Sign Up</Link>
-          </li>
+              <Link  className="navbar-link" to='/orders/cart'><img src="http://icons.iconarchive.com/icons/iconsmind/outline/32/Shopping-Cart-icon.png" /></Link>
+              <span>       </span>
+              <span>{store.getState().cart.cart.length}</span>
+              </li>
           </ul>
-        </span>
-      )}
-      <ul className= "nav navbar-nav navbar-right">
-      <li>
-        <Link  className="navbar-link" to='/orders/cart'><img src="http://icons.iconarchive.com/icons/iconsmind/outline/32/Shopping-Cart-icon.png" /></Link>
-        <span>{store.getState().cart.cart.length}</span>
-        </li>
-        </ul>
       </ul>
-      </div>
       </nav>
-      <hr />
       </div>
 )
 
