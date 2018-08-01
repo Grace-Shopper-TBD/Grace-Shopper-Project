@@ -67,8 +67,6 @@ class SingleProduct extends Component {
 }
 
 const mapState = (state, {match}) => {
-    console.log('coming into mapstate',state.product)
-
     return {
         product: state.product.list.find(product => product.id === Number(match.params.id)),
         review: state.review,

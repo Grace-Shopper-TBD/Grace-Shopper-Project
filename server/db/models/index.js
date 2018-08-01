@@ -34,13 +34,6 @@ Review.belongsTo(User)
 Review.belongsTo(Product, { onDelete: 'cascade' })
 Product.hasMany(Review)
 
-
-
-
-
- Review.belongsTo(Product)
- Product.hasMany(Review)
-
 module.exports = {
   User,
   Product,
