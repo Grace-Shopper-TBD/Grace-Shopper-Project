@@ -96,7 +96,7 @@ class Navbar extends Component {
 }
 
 
-/**
+/*
  * CONTAINER
  */
 const mapState = state => {
