@@ -22,7 +22,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
                   </li>
 
                   <li className="nav-item">
-                    <Link className="nav-link" to="/user">Home</Link>
+                    <Link className="nav-link" to="/home">Home</Link>
                   </li>
                   
                   <li className="nav-item">

@@ -5,12 +5,12 @@ import {Link} from 'react-router-dom'
 
 const AdminHompage = (props) => {
   return (
-          <div>
-            <h1>Administrative Tasks</h1>
-            <Link to='/admin/users'>Users</Link>
-            <Link to='/admin/products'>Products</Link>
-            <Link to = '/admin/categories'>Categories</Link>
-            <Link to='/admin/orders'>Orders</Link>
+          <div className="list-group col-2">
+            <p className="list-group-item list-group-item-action active">Administrative Tasks</p>
+            <Link to='/admin/users' className="list-group-item list-group-item-action">Users</Link>
+            <Link to='/admin/products' className="list-group-item list-group-item-action">Products</Link>
+            <Link to = '/admin/categories' className="list-group-item list-group-item-action">Categories</Link>
+            <Link to='/admin/orders' className="list-group-item list-group-item-action">Orders</Link>
           </div>
           )
 }
