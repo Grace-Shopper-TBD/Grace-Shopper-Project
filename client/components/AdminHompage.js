@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 
 const AdminHompage = (props) => {
   return (
-          <div className="list-group col-2">
+          <div className="list-group">
             <p className="list-group-item list-group-item-action active">Administrative Tasks</p>
             <Link to='/admin/users' className="list-group-item list-group-item-action">Users</Link>
             <Link to='/admin/products' className="list-group-item list-group-item-action">Products</Link>
