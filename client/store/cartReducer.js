@@ -9,7 +9,7 @@ const initialState = {
 }
 
 // Action types
-const GET_CART_ITEMS = 'GET_CART_ITEMS'
+export const GET_CART_ITEMS = 'GET_CART_ITEMS'
 const UPDATE_CART = 'UPDATE_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 const CART_ERROR = "CART_ERROR"
@@ -47,7 +47,7 @@ export const fetchCart = () => async dispatch => {
         const res = await axios.get('/api/orders/cart')
         dispatch(getCartItems(res.data))
     } catch(err) {
-        dispatch(gotError())
+        dispatch(cartError())
         console.log(err)
     }
 }
@@ -91,7 +91,7 @@ export default function(state=initialState, action){
             return {...state, cart: action.cart, isLoading: false, gotError: false}
         }
         case REMOVE_FROM_CART: {
-            return {...state, cart: state.cart.filter(product => product.id !== action.productId), isLoading: false, gotError: false }
+            return {...state, cart: state.cart.filter(entry => entry.productId !== action.productId), isLoading: false, gotError: false }
         }
         case CART_ERROR: {
         	return {...state, gotError: true }

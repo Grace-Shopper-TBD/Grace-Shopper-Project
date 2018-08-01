@@ -46,16 +46,6 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-// PUT /api/reviews/:id
-router.put('/:id', async (req,res,next) => {
-  try {
-    const findReview = await Review.findById(req.params.id)
-    const updatedReview = await findReview.update(req.body)
-    res.status(200).json(updatedReview)
-  } catch (error) {
-    next (error)
-  }
-})
 
 // DELETE /api/reviews/:id
 router.delete('/:id', async (req,res,next) => {

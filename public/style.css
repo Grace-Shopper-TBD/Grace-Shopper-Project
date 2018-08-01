@@ -7,6 +7,10 @@ a {
   text-decoration: none;
 }
 
+ul {
+  list-style-type: none;
+}
+
 .btn-space {
   margin: 5px;
 }
@@ -22,11 +26,18 @@ label {
 
 nav a {
   display: inline-block;
-  /* margin: 1em; */
 }
 
 .navbar-nav { 
   flex-direction: row;
+}
+
+#filter {
+  display:  flex;
+  justify-content: flex-start;
+  padding:  5px;
+  margin-right: 20px;
+  padding-top: 0px;
 }
 
 .footer{
