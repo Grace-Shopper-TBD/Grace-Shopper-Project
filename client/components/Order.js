@@ -30,7 +30,7 @@ class Order extends Component {
 
               <h5>{order.recipientName}</h5>
               <h5>{order.recipientAddress}</h5>
-              {order.products.map((prod)=><LineItem item={prod} key={prod.id} />)}
+              {order.products.map((prod)=><LineItem item={prod} key={prod.productId} />)}
               {this.props.admin && order.status !== 'CANCELLED' && order.status !== 'COMPLETED' && (
                 <div>
                   <button type='button' value= 'CANCELLED' onClick = {this.handleClick}>CANCEL</button>

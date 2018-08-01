@@ -34,16 +34,59 @@ async function seed() {
     title: 'Hawaii',
     description: 'Lets get some sun!',
     price: 2000,
-    quantity: 2,
-    availability: 'Available'
+    quantity: 15,
+    availability: 'Available',
+    photo: 'http://allomamantoutvabien.com/wp-content/uploads/2017/03/Hawaii-oahu-tortues-770x578.jpg'
   }),
     Product.create({
     title: 'Italy',
     description: 'Lets eat some pasta!',
     price: 1500,
-    quantity: 2,
-    availability: 'Available'
-  })
+    quantity: 12,
+    availability: 'Available',
+    photo:'http://www.domondonart.com/wp-content/uploads/2016/06/VeniceItaly-restaurant-600x600.jpg'
+  }),
+    Product.create({
+      title: 'Disneyland',
+      description: 'the Happiest Place on Earth',
+      price: 2500,
+      quantity: 15,
+      availability: 'Available',
+      photo: 'https://secure.cdn1.wdpromedia.com/resize/mwImage/1/900/360/75/dam/wdpro-assets/dlr/parks-and-tickets/destinations/disneyland-park/disneyland-00-full.jpg?1530195031483'
+  }),
+    Product.create({
+    title: 'Sydney',
+    description: 'P.Sherman 42 Wallaby Way',
+    price:2300,
+    quantity: 14,
+    availability: 'Available',
+    photo: 'http://sf.co.ua/12/12/wallpaper-2485627.jpg'
+  }),
+    Product.create({
+      title: 'Tokyo',
+      description: 'Trains that come on time!',
+      price: 1400,
+      quantity: 15,
+      availability: 'Available',
+      photo: 'https://cdn.cnn.com/cnnnext/dam/assets/170606110126-tokyo-skyline.jpg'
+    }),
+    Product.create({
+      title: 'Paris',
+      description: 'Where anyone can cook (even the rats)',
+      price: 1600,
+      quantity: 17,
+      availability: 'Available',
+      photo: 'http://cdn4.dlp-media.com/resize/mwImage/1/630/354/75/wdpromedia.disney.go.com/media/wdpro-dlp-assets/prod/en-gb/system/images/n017729_2050jan01_ratatouille-laventure-completement-toquee_16-9.jpg'
+    }),
+    Product.create({
+      title: 'Iceland',
+      description: 'There’s two reasons to go to Iceland: the Aurora Borealis, and Riley Blue. One is a natural phenomenon so beautiful it will blow your mind; and the other is just some pretty light in the sky.',
+      price: 2100,
+      quantity:23,
+      availability: 'Available',
+      photo: 'https://www.truenorth.is/wp-content/uploads/2017/08/SENSE8-PHOTO3-1266x613.png'
+    })
+
 ])
 const categories = await Promise.all([
   Category.create({
@@ -51,12 +94,20 @@ const categories = await Promise.all([
 }),
   Category.create({
   name: 'Family Vacation',
-})
-// console.log('categories',categories)
+}),
+  Category.create({
+    name: 'Action'
+  }),
+  Category.create({
+    name: 'Beaches'
+  }),
+  Category.create({
+    name: 'Instagram Worthy'
+  })
+
 ])
 const orders = await Promise.all([
   Order.create({
-    userId:1,
     status: 'PROCESSING',
     recipientName: 'Cody',
     confirmationEmail: 'cody@email.com',
@@ -106,7 +157,20 @@ const reviews = await Promise.all([
 
 await Promise.all([
   products[0].addCategory(categories[0]),
-  products[1].addCategory(categories[1])
+  products[1].addCategory(categories[1]),
+  products[0].addCategory(categories[3]),
+  products[0].addCategory(categories[4]),
+  products[1].addCategory(categories[3]),
+  products[1].addCategory(categories[4]),
+  products[2].addCategory(categories[1]),
+  products[2].addCategory(categories[4]),
+  products[2].addCategory(categories[2]),
+  products[2].addCategory(categories[3]),
+  products[3].addCategory(categories[3]),
+  products[4].addCategory(categories[0]),
+  products[4].addCategory(categories[4]),
+  products[5].addCategory(categories[3]),
+  products[5].addCategory(categories[4])
 ])
 
 await Promise.all([
@@ -117,6 +181,21 @@ await Promise.all([
 await Promise.all([
   reviews[0].setProduct(products[0]),
   reviews[1].setProduct(products[1])
+])
+
+await Promise.all([
+  orders[0].addProduct(products[0]),
+  orders[1].addProduct(products[2]),
+  orders[0].addProduct(products[3]),
+  orders[2].addProduct(products[4]),
+  orders[3].addProduct(products[5])
+])
+
+await Promise.all([
+  orders[0].setUser(users[3]),
+  orders[1].setUser(users[2]),
+  orders[2].setUser(users[4]),
+  orders[3].setUser(users[5])
 ])
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
