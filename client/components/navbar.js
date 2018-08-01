@@ -6,30 +6,37 @@ import store, {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <nav id='navbar' className="navbar navbar-default navbar-fixed-top">
+    <nav id='navbar' className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a className='navbar-brand' href='/'>Totally Bomb Destinations (TBD)</a>
       <div className='container-fluid'>
       <div className='navbar-header'>
-      <a className='navbar-brand' href='/'>Totally Bomb Destinations (TBD)</a></div>
-        <ul className="nav navbar-nav">
-        <li className='active'>
-        <Link className="navbar-link" to="/products">Trip Catalog</Link>
-        </li>
-        </ul>
-        <ul className= "nav navbar-nav navbar-right">
-      {isLoggedIn ? (
-        <span>
-          {/* The navbar will show these links after you log in */}
-          <ul>
-          <li>
-          <Link className="navbar-link" to="/user">Home</Link>
-          </li>
-          <li>
-          <a className="navbar-link" href="#" onClick={handleClick}>
-            Logout
-          </a>
+      </div>
+
+      <div className="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul className="navbar-nav mr-auto">
+          <li className='nav-item'>
+              <Link className="nav-link" to="/products">Trip Catalog</Link>
           </li>
           </ul>
-        </span>
+
+          
+          </div>
+          <ul className= "nav navbar-nav navbar-right">
+        {isLoggedIn ? (
+          <span>
+            {/* The navbar will show these links after you log in */}
+            <ul>
+            <li>
+            <Link className="navbar-link" to="/user">Home</Link>
+            </li>
+            <li>
+            <a className="navbar-link" href="#" onClick={handleClick}>
+              Logout
+            </a>
+            </li>
+            </ul>
+          </span>
+          
       ) : (
         <span>
           {/* The navbar will show these links before you log in */}
