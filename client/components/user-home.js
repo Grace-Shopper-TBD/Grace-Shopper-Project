@@ -14,11 +14,12 @@ export const UserHome = props => {
 
 
   return (
-    <div>
+    <div class="d-flex">
+    <div className="list-inline mx-auto justify-content-center">
       <h3>Welcome, {name}!</h3>
       {props.isAdmin && <AdminHome /> }
-      <Link to= '/orders'>Personal Orders</Link>
-
+      <Link to= '/orders' className="list-group-item list-group-item-action">Personal Orders</Link>
+    </div>    
     </div>
   )
 }

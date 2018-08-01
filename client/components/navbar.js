@@ -7,7 +7,7 @@ import store, {logout} from '../store'
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <nav id='navbar' className="navbar navbar-expand-md navbar-light fixed-top" style={{'backgroundColor': '#82c9b8'}}>
-      <a className='navbar-brand' href='/'>TBD</a>
+      <a className='navbar-brand' href='/home'>TBD</a>
       <div className="collapse navbar-collapse" id="navbarsExampleDefault">
             {/*The code below is not very DRY but when the navbar item Trip Catalog is not included in each condition
               the navbar items stack on top of each other
@@ -22,7 +22,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
                   </li>
 
                   <li className="nav-item">
-                    <Link className="nav-link" to="/user">Home</Link>
+                    <Link className="nav-link" to="/home">Home</Link>
                   </li>
                   
                   <li className="nav-item">
