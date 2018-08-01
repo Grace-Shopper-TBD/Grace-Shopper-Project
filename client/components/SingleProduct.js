@@ -30,27 +30,33 @@ class SingleProduct extends Component {
             const product = this.props.product
             const reviews = this.props.review.list
             return(
-                <div key={product.id}>
+                <div key={product.id} className="card mb-4 box-shadow">
+                <div className="card-body">
+                    <img src={product.photo} className="card-img-top" width="800px" alt="Card image cap"/>
+                    <div className='card-text'>
+                    
                     <h1>{product.title}</h1>
-                    <img src={product.photo}/>
-                    <p>{product.price}</p>
-                    <p>{product.description}</p>
-                    <p>{product.availability}</p>
-                    <AddToCart product={product} />
-                    <div>
-                        <h3>Reviews For {product.title}</h3>
-                        {
-                            reviews.map((review) => (
-                                <div key={review.id}>
-                                    <p>{review.text}</p>
-                                    {(!review.user) ? <p>Submitted By: Anonymous </p>: <p>Submitted By: {review.user.name}</p>}
-                                    {((!!Object.keys(this.props.user) && review.user) && (this.props.user.id === review.user.id)) ? <button type='button' className='btn btn-danger' value={review.id} onClick={this.handleDelete}>Remove Review</button> : ''}
-                                </div>
-                            ))
-                        }
-                        <button type='submit' className="btn btn-info" onClick={this.handleClick}>Add Review</button>
+                        <p>{product.price}</p>
+                        <p>{product.description}</p>
+                        <p>{product.availability}</p>
+                        <AddToCart product={product} />
+                    
+                    </div>
+                        <div>
+                            <h3>Reviews For {product.title}</h3>
+                            {
+                                reviews.map((review) => (
+                                    <div key={review.id}>
+                                        <p>{review.text}</p>
+                                        {(!review.user) ? <p>Submitted By: Anonymous </p>: <p>Submitted By: {review.user.name}</p>}
+                                        {((!!Object.keys(this.props.user) && review.user) && (this.props.user.id === review.user.id)) ? <button type='button' className='btn btn-danger' value={review.id} onClick={this.handleDelete}>Remove Review</button> : ''}
+                                    </div>
+                                ))
+                            }
+                            <button type='submit' className="btn btn-info" onClick={this.handleClick}>Add Review</button>
                     </div>
                 </div>
+            </div>
         )
         } else {
             return (
