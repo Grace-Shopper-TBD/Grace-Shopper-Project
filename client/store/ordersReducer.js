@@ -8,7 +8,6 @@ const GOT_ERROR = "GOT_ERROR"
 const GET_ORDERS = 'GET_ORDERS'
 const UPDATE_ORDER = 'UPDATE_ORDER'
 const CREATE_NEW_ORDER = 'CREATE_NEW_ORDER'
-const DISCOUNT = 'DISCOUNT'
 /**
  * INITIAL STATE
  */
@@ -42,11 +41,6 @@ const updateOrder = (order) => ({
 const createNewOrder = order => ({ 
   type: CREATE_NEW_ORDER, 
   order 
-})
-
-const newPrice = value => ({
-  type: DISCOUNT,
-  value
 })
 
 /**
@@ -97,19 +91,6 @@ export const makeNewOrder = (order) => {
     }
   }
 }
-
-// somehow we could get the price of the everything by multiplying the lineItem
-//price by the quantity but how would we check from here if the input is BRUNO so 
-//we can put a conditional that might add a discount?
-// export const addDiscount = (price) => {
-//   return async(dispatch) => {
-//     try {
-      
-//     } catch(err){
-//       console.log('errpr in the addDiscount thunk', err)
-//     }
-//   }
-// }
 
 /**
  * REDUCER
